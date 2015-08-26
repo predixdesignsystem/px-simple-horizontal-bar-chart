@@ -1,0 +1,129 @@
+
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
+    See https://github.sw.ge.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+
+
+<!--
+Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+
+##### Usage
+
+    <px-simple-bar-chart counter-value="1">Hi</px-simple-bar-chart>
+
+@element px-simple-bar-chart
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-simple-bar-chart">
+    <script type="text/javascript" src="../d3/d3.js"></script>
+    <style>
+        .bar {
+          fill: steelblue;
+        }
+        .bar:hover {
+          fill: brown;
+        }
+        .axis {
+          font: 10px sans-serif;
+        }
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        .x.axis path {
+          display: none;
+        }
+    </style>
+    <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
+    <template>
+        <svg class="px-simple-bar-chart-svg"></svg>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'px-simple-bar-chart',
+
+        /**
+         * Properties block, expose attribute values to the DOM via 'reflect'
+         *
+         * @property properties
+         * @type Object
+         */
+        properties: {
+            chartData: {
+                type: Object,
+                observer: 'drawChartDebounced',
+                value: [ 10, 20, 30, 40, 50, 60, 70 ]
+            },
+            width: {
+                type: Number,
+                observer: 'drawChartDebounced',
+                value: 283
+            },
+            height: {
+                type: Number,
+                observer: 'drawChartDebounced',
+                value: 150
+            }
+        },
+
+        // Fired on attached event
+        attached: function() {
+            this.drawChartDebounced();
+        },
+
+        drawChartDebounced: function() {
+            this.debounce('drawChart', function() {
+                this.drawChart();
+            }, 100);
+        },
+
+        drawChart: function() {
+            if(this.chartData) {
+                this.attachSVG();
+                this.setSizes();
+                this.setScales();
+            } else {
+                var that = this;
+                var timeout = setTimeout(function(){
+                    that.drawChart();
+                }, 100);
+            }
+        },
+
+        attachSVG: function() {
+            // select the svg element
+            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"))
+                .attr("width", this.width)
+                .attr("height", this.height);
+            // Remove previous child elements
+            this.svg.text("");
+        },
+
+        setSizes: function() {
+            this.gapWidth = this.width / 15;
+            this.barWidth = this.width / this.chartData.length;
+        },
+
+        setScales: function() {
+            this.xScale = d3.scale.ordinal().rangeRoundBands([0, this.width]);
+            this.yScale = d3.scale.linear().range([this.height, 0]);
+        }
+
+
+
+
+
+
+    });
+</script>
