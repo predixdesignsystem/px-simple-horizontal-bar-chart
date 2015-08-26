@@ -93,6 +93,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 this.attachSVG();
                 this.setSizes();
                 this.setScales();
+                this.drawBars();
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -112,18 +113,27 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setSizes: function() {
             this.gapWidth = this.width / 15;
-            this.barWidth = this.width / this.chartData.length;
+            this.barWidth = (this.width / this.chartData.length) - this.gapWidth;
         },
 
         setScales: function() {
             this.xScale = d3.scale.ordinal().rangeRoundBands([0, this.width]);
             this.yScale = d3.scale.linear().range([this.height, 0]);
+        },
+
+        drawBars: function() {
+            for(i=0;i<this.chartData.length;i++) {
+                var x = (this.barWidth * i) + (this.gapWidth * i);
+                var y = this.height - this.chartData[i];
+                this.svg
+                    .append("rect")
+                    .attr("class", "bar")
+                    .attr("x", x)
+                    .attr("width", this.barWidth)
+                    .attr("y", y)
+                    .attr("height", this.chartData[i]);
+            }
         }
-
-
-
-
-
 
     });
 </script>
