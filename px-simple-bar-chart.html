@@ -1,4 +1,3 @@
-
 <!--
     Relative paths assume component is being run from inside an app or another component, where dependencies are flat
     siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
@@ -24,7 +23,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     <script type="text/javascript" src="../d3/d3.js"></script>
     <style>
         .bar {
-          fill: steelblue;
+          fill: #4aa3df;
         }
         .bar:hover {
           fill: brown;
@@ -40,6 +39,10 @@ Element providing solution to no problem in particular. As a simple, increments 
         }
         .x.axis path {
           display: none;
+        }
+        .px-simple-bar-chart-svg {
+            background: white;
+            margin: 10px;
         }
     </style>
     <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
@@ -113,25 +116,32 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setSizes: function() {
             this.gapWidth = this.width / 15;
-            this.barWidth = (this.width / this.chartData.length) - this.gapWidth;
+            this.barWidth = ((this.width + this.gapWidth) / this.chartData.length) - this.gapWidth;
         },
 
         setScales: function() {
-            this.xScale = d3.scale.ordinal().rangeRoundBands([0, this.width]);
-            this.yScale = d3.scale.linear().range([this.height, 0]);
+            // no xscale necessary
+            var max = d3.max(this.chartData, function(d) { return d; });
+            console.log('max scale: ', max);
+            this.yScale = d3.scale
+                .linear()
+                .domain([0, max])
+                .range([0, this.height]);
         },
 
         drawBars: function() {
             for(i=0;i<this.chartData.length;i++) {
                 var x = (this.barWidth * i) + (this.gapWidth * i);
-                var y = this.height - this.chartData[i];
+                var barHeight = this.yScale(this.chartData[i]);
+                var y = this.height - barHeight;
                 this.svg
                     .append("rect")
                     .attr("class", "bar")
                     .attr("x", x)
                     .attr("width", this.barWidth)
                     .attr("y", y)
-                    .attr("height", this.chartData[i]);
+                    .attr("fill", "#4aa3df")
+                    .attr("height", barHeight);
             }
         }
 
