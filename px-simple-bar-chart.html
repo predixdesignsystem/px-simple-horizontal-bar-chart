@@ -123,7 +123,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         getLegendHeight: function() {
             var acc = this.chartData.every(function(c,i,a) {
                 // find out if any of the stacks have multiple values
-                return (typeof c === 'object');
+                return (typeof c === 'object' && c.length > 1);
             });
             console.log(acc);
             return 20;
@@ -188,16 +188,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                             .attr("height", barHeight);
                     };
                 } else {
-                    var barHeight = this.yScale(this.chartData[i]);
-                    y -= barHeight;
-                    this.svg
-                        .append("rect")
-                        .attr("class", "bar")
-                        .attr("x", x)
-                        .attr("width", this.barWidth)
-                        .attr("y", y)
-                        .attr("fill", colors[0])
-                        .attr("height", barHeight);
+                    console.log('malformed data');
                 }
             };
         }
