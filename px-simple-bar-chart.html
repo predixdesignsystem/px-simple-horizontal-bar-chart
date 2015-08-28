@@ -96,7 +96,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 this.attachSVG();
                 this.setSizes();
                 this.setScales();
-                //this.drawBars();
+                this.drawBars();
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -117,39 +117,88 @@ Element providing solution to no problem in particular. As a simple, increments 
         setSizes: function() {
             this.gapWidth = this.width / 15;
             this.barWidth = ((this.width + this.gapWidth) / this.chartData.length) - this.gapWidth;
+            this.legendHeight = this.getLegendHeight();
+        },
+
+        getLegendHeight: function() {
+            var acc = this.chartData.every(function(c,i,a) {
+                // find out if any of the stacks have multiple values
+                return (typeof c === 'object');
+            });
+            console.log(acc);
+            return 20;
+        },
+
+        getMax: function() {
+            var heights = [];
+            var stacks = this.chartData.map(function(c, i){
+                heights[i] = 0;
+                // check if value is an array
+                if(typeof c === 'object') {
+                    c.map(function(value, j) {
+                        heights[i] = value + parseInt(heights[i]);
+                    });
+                } else {
+                    heights[i] = c;
+                }
+            });
+            var max = d3.max(heights, function(d) {
+                return d;
+            });
+            return max;
         },
 
         setScales: function() {
             // no xscale necessary
-            this.chartData.map(function(d) {
-                d.map(function(t) {
-                    console.log(t);
-                })
-            });
-            var max = d3.max(this.chartData, function(d) {
-                return d3.max(d, function(e) {
-                    return d;
-                });
-            });
             this.yScale = d3.scale
                 .linear()
-                .domain([0, max])
-                .range([0, this.height]);
+                .domain([0, this.getMax()])
+                .range([0, this.height - this.legendHeight]);
         },
 
         drawBars: function() {
+            var colors = [
+                "#4aa3df",
+                "#336699",
+                "#ffba00",
+                "#ff00f6",
+                "#ff0066",
+                "#00ffa2",
+                "#8400ff",
+                "orange",
+                "green",
+                "blue",
+                "red"
+            ];
             for(i=0;i<this.chartData.length;i++) {
                 var x = (this.barWidth * i) + (this.gapWidth * i);
-                var barHeight = this.yScale(this.chartData[i]);
-                var y = this.height - barHeight;
-                this.svg
-                    .append("rect")
-                    .attr("class", "bar")
-                    .attr("x", x)
-                    .attr("width", this.barWidth)
-                    .attr("y", y)
-                    .attr("fill", "#4aa3df")
-                    .attr("height", barHeight);
+                // stack the bars
+                var y = this.height;
+                if(typeof this.chartData[i] === 'object') {
+                    for(j=0;j<this.chartData[i].length;j++) {
+                        var barHeight = this.yScale(this.chartData[i][j]);
+                        y -= barHeight;
+                        this.svg
+                            .append("rect")
+                            .attr("class", "bar")
+                            .attr("x", x)
+                            .attr("width", this.barWidth)
+                            .attr("y", y)
+                            .attr("fill", colors[j])
+                            .attr("height", barHeight);
+                    };
+                } else {
+                    var barHeight = this.yScale(this.chartData[i]);
+                    y -= barHeight;
+                    this.svg
+                        .append("rect")
+                        .attr("class", "bar")
+                        .attr("x", x)
+                        .attr("width", this.barWidth)
+                        .attr("y", y)
+                        .attr("fill", colors[0])
+                        .attr("height", barHeight);
+                }
             };
         }
 
