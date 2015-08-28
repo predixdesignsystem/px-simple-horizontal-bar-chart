@@ -96,7 +96,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 this.attachSVG();
                 this.setSizes();
                 this.setScales();
-                this.drawBars();
+                //this.drawBars();
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -121,8 +121,16 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setScales: function() {
             // no xscale necessary
-            var max = d3.max(this.chartData, function(d) { return d; });
-            console.log('max scale: ', max);
+            this.chartData.map(function(d) {
+                d.map(function(t) {
+                    console.log(t);
+                })
+            });
+            var max = d3.max(this.chartData, function(d) {
+                return d3.max(d, function(e) {
+                    return d;
+                });
+            });
             this.yScale = d3.scale
                 .linear()
                 .domain([0, max])
@@ -142,7 +150,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("y", y)
                     .attr("fill", "#4aa3df")
                     .attr("height", barHeight);
-            }
+            };
         }
 
     });
