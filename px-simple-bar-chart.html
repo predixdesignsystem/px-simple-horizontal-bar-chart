@@ -180,7 +180,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
             for(i=0;i<this.chartData.length;i++) {
                 // stack the bars
-                var x = (this.barWidth * i) + (this.gapWidth * i);
+                var x = this.getX(i);
                 var y = this.chartHeight + this.legendHeight;
                 for(j=0;j<this.chartData[i].length;j++) {
                     var barHeight = this.yScale(this.chartData[i][j]);
@@ -189,6 +189,10 @@ Element providing solution to no problem in particular. As a simple, increments 
                 };
             };
 
+        },
+
+        getX: function(index) {
+            return (this.barWidth * index) + (this.gapWidth * index);
         }
 
     });
