@@ -117,35 +117,31 @@ Element providing solution to no problem in particular. As a simple, increments 
         setSizes: function() {
             this.gapWidth = this.width / 15;
             this.barWidth = ((this.width + this.gapWidth) / this.chartData.length) - this.gapWidth;
-            this.legendHeight = this.getLegendHeight();
+            this.legendHeight = this.requireLegend() ? 0 : 30;
+            this.chartHeight = this.height - this.legendHeight;
         },
 
-        getLegendHeight: function() {
-            var acc = this.chartData.every(function(c,i,a) {
-                // find out if any of the stacks have multiple values
-                return (typeof c === 'object' && c.length > 1);
+        requireLegend: function() {
+            // legend is required if any of the
+            return this.chartData.every(function(e) {
+                return e.length === 1;
             });
-            console.log(acc);
-            return 20;
+        },
+
+        reduceToMax: function(ar) {
+            return d3.max(ar);
         },
 
         getMax: function() {
-            var heights = [];
-            var stacks = this.chartData.map(function(c, i){
-                heights[i] = 0;
-                // check if value is an array
-                if(typeof c === 'object') {
-                    c.map(function(value, j) {
-                        heights[i] = value + parseInt(heights[i]);
-                    });
-                } else {
-                    heights[i] = c;
-                }
+            var arr = [];
+            this.chartData.forEach(function(c,i){
+                arr.push(
+                    c.reduce(function(p,e,i,a){
+                        return p + e;
+                    })
+                );
             });
-            var max = d3.max(heights, function(d) {
-                return d;
-            });
-            return max;
+            return d3.max(arr);
         },
 
         setScales: function() {
@@ -153,7 +149,7 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.yScale = d3.scale
                 .linear()
                 .domain([0, this.getMax()])
-                .range([0, this.height - this.legendHeight]);
+                .range([0, this.chartHeight]);
         },
 
         drawBars: function() {
@@ -173,23 +169,19 @@ Element providing solution to no problem in particular. As a simple, increments 
             for(i=0;i<this.chartData.length;i++) {
                 var x = (this.barWidth * i) + (this.gapWidth * i);
                 // stack the bars
-                var y = this.height;
-                if(typeof this.chartData[i] === 'object') {
-                    for(j=0;j<this.chartData[i].length;j++) {
-                        var barHeight = this.yScale(this.chartData[i][j]);
-                        y -= barHeight;
-                        this.svg
-                            .append("rect")
-                            .attr("class", "bar")
-                            .attr("x", x)
-                            .attr("width", this.barWidth)
-                            .attr("y", y)
-                            .attr("fill", colors[j])
-                            .attr("height", barHeight);
-                    };
-                } else {
-                    console.log('malformed data');
-                }
+                var y = this.chartHeight + this.legendHeight;
+                for(j=0;j<this.chartData[i].length;j++) {
+                    var barHeight = this.yScale(this.chartData[i][j]);
+                    y -= barHeight;
+                    this.svg
+                        .append("rect")
+                        .attr("class", "bar")
+                        .attr("x", x)
+                        .attr("width", this.barWidth)
+                        .attr("y", y)
+                        .attr("fill", colors[j])
+                        .attr("height", barHeight);
+                };
             };
         }
 

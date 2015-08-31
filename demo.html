@@ -3,6 +3,8 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>px-simple-bar-chart Demo</title>
         <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
@@ -18,8 +20,18 @@
 
     <body>
 
-        <px-simple-bar-chart chart-data="[[11,22,33,44,11,44,11],[33,44,11,22],[51,11,22,69]]">&hearts;</px-simple-bar-chart>
-        <px-simple-bar-chart chart-data="[[10,20,30]]">&hearts;</px-simple-bar-chart>
+        <px-simple-bar-chart chart-data="[
+            [11,22,33,44,11,44,11],
+            [33,44,11,22,12,44,21],
+            [51,11,22,69,14,16,51]
+        ]">&hearts;</px-simple-bar-chart>
+        <px-simple-bar-chart chart-data="[
+            [11],
+            [33],
+            [51]
+        ]">&hearts;</px-simple-bar-chart>
+        <!--
+        <px-simple-bar-chart chart-data="[[10],[20],[30]]">&hearts;</px-simple-bar-chart>
         <px-simple-bar-chart chart-data="[[10,20,30,40]]">&hearts;</px-simple-bar-chart>
         <px-simple-bar-chart chart-data="[[10,20,30,40,50]]">&hearts;</px-simple-bar-chart>
         <px-simple-bar-chart chart-data="[[10,20,30,40,50,60]]">&hearts;</px-simple-bar-chart>
@@ -28,6 +40,6 @@
         <px-simple-bar-chart chart-data="[[10,20,30,40,50,60,70,80,90]]">&hearts;</px-simple-bar-chart>
         <px-simple-bar-chart chart-data="[[10,20,30,40,50,60,70,80,90,100]]">&hearts;</px-simple-bar-chart>
         <px-simple-bar-chart chart-data="[[10,20,30,40,50,60,70,80,90,100,110]]">&hearts;</px-simple-bar-chart>
-
+        -->
     </body>
 </html>
