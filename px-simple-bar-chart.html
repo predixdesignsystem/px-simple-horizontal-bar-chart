@@ -152,6 +152,17 @@ Element providing solution to no problem in particular. As a simple, increments 
                 .range([0, this.chartHeight]);
         },
 
+        drawBar: function(x,y,width,height,color) {
+            this.svg
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", color);
+        },
+
         drawBars: function() {
             var colors = [
                 "#4aa3df",
@@ -166,23 +177,18 @@ Element providing solution to no problem in particular. As a simple, increments 
                 "blue",
                 "red"
             ];
+
             for(i=0;i<this.chartData.length;i++) {
-                var x = (this.barWidth * i) + (this.gapWidth * i);
                 // stack the bars
+                var x = (this.barWidth * i) + (this.gapWidth * i);
                 var y = this.chartHeight + this.legendHeight;
                 for(j=0;j<this.chartData[i].length;j++) {
                     var barHeight = this.yScale(this.chartData[i][j]);
                     y -= barHeight;
-                    this.svg
-                        .append("rect")
-                        .attr("class", "bar")
-                        .attr("x", x)
-                        .attr("width", this.barWidth)
-                        .attr("y", y)
-                        .attr("fill", colors[j])
-                        .attr("height", barHeight);
+                    this.drawBar(x, y, this.barWidth, barHeight, colors[j]);
                 };
             };
+
         }
 
     });
