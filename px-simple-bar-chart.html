@@ -116,8 +116,11 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setSizes: function() {
             this.gapWidth = this.width / 15;
-            var numCols = this.chartData[0].length;
-            this.barWidth = ((this.width + this.gapWidth) / numCols) - this.gapWidth;
+            this.numCols = this.chartData.reduce(function(prev, current) {
+                return prev.length < current.length ? current : prev;
+            }).length;
+            this.numCols = this.chartData[0].length
+            this.barWidth = ((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
             this.legendHeight = this.requireLegend() ? 0 : 30;
             this.chartHeight = this.height - this.legendHeight;
         },
@@ -129,15 +132,11 @@ Element providing solution to no problem in particular. As a simple, increments 
             });
         },
 
-        reduceToMax: function(ar) {
-            return d3.max(ar);
-        },
-
         getMax: function() {
             var arr = [];
-            this.chartData.forEach(function(c,i){
+            this.chartData.forEach(function(c){
                 arr.push(
-                    c.reduce(function(p,e,i,a){
+                    c.reduce(function(p,e){
                         return p + e;
                     })
                 );
