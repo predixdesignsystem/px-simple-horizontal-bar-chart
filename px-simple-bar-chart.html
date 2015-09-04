@@ -44,6 +44,10 @@ Element providing solution to no problem in particular. As a simple, increments 
             background: white;
             margin: 10px;
         }
+        .legend-text {
+            font-family: sans-serif;
+            color: #000000;
+        }
     </style>
     <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
     <template>
@@ -97,6 +101,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 this.setSizes();
                 this.setScales();
                 this.drawBars();
+                if(this.requireLegend()) { this.drawLegend(); };
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -124,13 +129,13 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.gapWidth = Math.round(this.width / 15);
             this.numCols = this.getLongestSeries().length;
             this.barWidth = Math.round((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
-            this.legendHeight = this.requireLegend() ? 0 : 50;
+            this.legendHeight = this.requireLegend() ? 50 : 0;
             this.chartHeight = this.height - this.legendHeight;
         },
 
         requireLegend: function() {
             // legend is required if any of the
-            return this.chartData.every(function(e) {
+            return !this.chartData.every(function(e) {
                 return e.length === 1;
             });
         },
@@ -166,21 +171,44 @@ Element providing solution to no problem in particular. As a simple, increments 
                 .attr("fill", color);
         },
 
-        drawBars: function() {
-            var colors = [
-                "#4aa3df",
-                "#336699",
-                "#ffba00",
-                "#ff00f6",
-                "#ff0066",
-                "#00ffa2",
-                "#8400ff",
-                "orange",
-                "green",
-                "blue",
-                "red"
-            ];
+        drawLegend: function() {
+            var that = this;
+            this.chartData.forEach(function(series, i) {
+                that.svg
+                    .append("rect")
+                    .attr("class", "legend-box")
+                    .attr("x", i * 60)
+                    .attr("y", 0)
+                    .attr("width", 12)
+                    .attr("height", 12)
+                    .attr("fill", that.colors[i]);
+                that.svg
+                    .append("text")
+                    .attr("class", "legend-text")
+                    .attr("x", i * 60 + 17)
+                    .attr("y", 12)
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "16px")
+                    .attr("fill", "#000000")
+                    .text(i);
+            });
+        },
 
+        colors: [
+            "#4aa3df",
+            "#336699",
+            "#ffba00",
+            "#ff00f6",
+            "#ff0066",
+            "#00ffa2",
+            "#8400ff",
+            "orange",
+            "green",
+            "blue",
+            "red"
+        ],
+
+        drawBars: function() {
             var offsets = []; // accumulate y for each value stack
             var that = this;
             this.chartData.forEach(function(series, i) {
@@ -190,7 +218,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     offsets[j] = i===0 ? 0 + barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
                     var x = (that.barWidth + that.gapWidth) * j;
-                    that.drawBar(x, y, that.barWidth, barHeight, colors[i]);
+                    that.drawBar(x, y, that.barWidth, barHeight, that.colors[i]);
                 });
             });
 
