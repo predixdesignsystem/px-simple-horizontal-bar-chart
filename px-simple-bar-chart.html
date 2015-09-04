@@ -116,7 +116,8 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setSizes: function() {
             this.gapWidth = this.width / 15;
-            this.barWidth = ((this.width + this.gapWidth) / this.chartData.length) - this.gapWidth;
+            var numCols = this.chartData[0].length;
+            this.barWidth = ((this.width + this.gapWidth) / numCols) - this.gapWidth;
             this.legendHeight = this.requireLegend() ? 0 : 30;
             this.chartHeight = this.height - this.legendHeight;
         },
@@ -178,22 +179,19 @@ Element providing solution to no problem in particular. As a simple, increments 
                 "red"
             ];
 
-            for(i=0;i<this.chartData.length;i++) {
-                // stack the bars
-                var x = this.getX(i);
-                var y = this.chartHeight + this.legendHeight;
-                for(j=0;j<this.chartData[i].length;j++) {
-                    var barHeight = this.yScale(this.chartData[i][j]);
-                    y -= barHeight;
-                    this.drawBar(x, y, this.barWidth, barHeight, colors[j]);
-                };
-            };
+            var offsets = []; // accumulate y for each value stack
+            var that = this;
+            this.chartData.forEach(function(series, i) {
+                series.forEach(function(value, j) {
+                    // for each series draw a bar representing each value
+                    var barHeight = Math.round(that.yScale(value));
+                    offsets[j] = i===0 ? 0 + barHeight : offsets[j] + barHeight;
+                    var y = that.height - offsets[j];
+                    var x = (that.barWidth + that.gapWidth) * j;
+                    that.drawBar(x, y, that.barWidth, barHeight, colors[i]);
+                });
+            });
 
-        },
-
-        getX: function(index) {
-            return (this.barWidth * index) + (this.gapWidth * index);
         }
-
     });
 </script>
