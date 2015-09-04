@@ -114,14 +114,17 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.svg.text("");
         },
 
-        setSizes: function() {
-            this.gapWidth = this.width / 15;
-            this.numCols = this.chartData.reduce(function(prev, current) {
+        getLongestSeries: function() {
+            return this.chartData.reduce(function(prev, current) {
                 return prev.length < current.length ? current : prev;
-            }).length;
-            this.numCols = this.chartData[0].length
-            this.barWidth = ((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
-            this.legendHeight = this.requireLegend() ? 0 : 30;
+            });
+        },
+
+        setSizes: function() {
+            this.gapWidth = Math.round(this.width / 15);
+            this.numCols = this.getLongestSeries().length;
+            this.barWidth = Math.round((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
+            this.legendHeight = this.requireLegend() ? 0 : 50;
             this.chartHeight = this.height - this.legendHeight;
         },
 
