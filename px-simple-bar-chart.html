@@ -24,21 +24,7 @@ Element providing solution to no problem in particular. As a simple, increments 
     <style>
         .bar {
           fill: #4aa3df;
-        }
-        .bar:hover {
-          fill: brown;
-        }
-        .axis {
-          font: 10px sans-serif;
-        }
-        .axis path,
-        .axis line {
-          fill: none;
-          stroke: #000;
           shape-rendering: crispEdges;
-        }
-        .x.axis path {
-          display: none;
         }
         .px-simple-bar-chart-svg {
             background: white;
@@ -70,7 +56,7 @@ Element providing solution to no problem in particular. As a simple, increments 
             chartData: {
                 type: Object,
                 observer: 'drawChartDebounced',
-                value: [ 10, 20, 30, 40, 50, 60, 70 ]
+                value: [ [10, 20], [30, 40], [50, 60], [70] ]
             },
             width: {
                 type: Number,
@@ -126,10 +112,10 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         setSizes: function() {
-            this.gapWidth = Math.round(this.width / 15);
+            this.gapWidth = Math.floor(this.width / 15);
             this.numCols = this.getLongestSeries().length;
-            this.barWidth = Math.round((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
-            this.legendHeight = this.requireLegend() ? 50 : 0;
+            this.barWidth = Math.floor((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
+            this.legendHeight = this.requireLegend() ? 40 : 0;
             this.chartHeight = this.height - this.legendHeight;
         },
 
@@ -142,22 +128,22 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         getMax: function() {
             var arr = [];
-            this.chartData.forEach(function(c){
-                arr.push(
-                    c.reduce(function(p,e){
-                        return p + e;
-                    })
-                );
+            this.chartData.forEach(function(series, i) {
+                series.forEach(function(value, j) {
+                    arr[j] = i===0 ? 0 : arr[j] += value;
+                });
             });
             return d3.max(arr);
         },
 
         setScales: function() {
+            console.log('max value: ', this.getMax())
             // no xscale necessary
             this.yScale = d3.scale
                 .linear()
                 .domain([0, this.getMax()])
                 .range([0, this.chartHeight]);
+            console.log("maximum height: ", this.yScale(this.getMax()));
         },
 
         drawBar: function(x,y,width,height,color) {
@@ -178,7 +164,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .append("rect")
                     .attr("class", "legend-box")
                     .attr("x", i * 60)
-                    .attr("y", 0)
+                    .attr("y", 8)
                     .attr("width", 12)
                     .attr("height", 12)
                     .attr("fill", that.colors[i]);
@@ -186,7 +172,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .append("text")
                     .attr("class", "legend-text")
                     .attr("x", i * 60 + 17)
-                    .attr("y", 12)
+                    .attr("y", 20)
                     .attr("font-family", "sans-serif")
                     .attr("font-size", "16px")
                     .attr("fill", "#000000")
@@ -214,14 +200,24 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.chartData.forEach(function(series, i) {
                 series.forEach(function(value, j) {
                     // for each series draw a bar representing each value
-                    var barHeight = Math.round(that.yScale(value));
+                    var barHeight = Math.floor(that.yScale(value));
                     offsets[j] = i===0 ? 0 + barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
                     var x = (that.barWidth + that.gapWidth) * j;
                     that.drawBar(x, y, that.barWidth, barHeight, that.colors[i]);
                 });
+                console.log('series: ', series);
+                console.log('seriesHeight: ', that.getSeriesHeight(series));
             });
+            console.log("offsets: ", offsets);
+        },
 
+        getSeriesHeight: function(series) {
+            var seriesTotal = series.reduce(function(p,c) {
+                return p + c;
+            });
+            console.log('series total:', seriesTotal);
+            return this.yScale(seriesTotal);
         }
     });
 </script>
