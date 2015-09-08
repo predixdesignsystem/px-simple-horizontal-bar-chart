@@ -175,7 +175,13 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("font-family", "sans-serif")
                     .attr("font-size", "16px")
                     .attr("fill", "#000000")
-                    .text(i);
+                    .text(that.getSeriesTotal(series));
+            });
+        },
+
+        getSeriesTotal: function(series) {
+            return series.reduce(function(p,c) {
+                return p + c;
             });
         },
 
@@ -200,17 +206,8 @@ Element providing solution to no problem in particular. As a simple, increments 
                     that.drawBar(x, y, that.barWidth, barHeight, that.colors[i]);
                 });
                 console.log('series: ', series);
-                console.log('seriesHeight: ', that.getSeriesHeight(series));
             });
             console.log("offsets: ", offsets);
-        },
-
-        getSeriesHeight: function(series) {
-            var seriesTotal = series.reduce(function(p,c) {
-                return p + c;
-            });
-            console.log('series total:', seriesTotal);
-            return this.yScale(seriesTotal);
         }
     });
 </script>
