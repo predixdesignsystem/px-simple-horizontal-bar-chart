@@ -121,18 +121,17 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         requireLegend: function() {
             // legend is required if any of the
-            return !this.chartData.every(function(e) {
-                return e.length === 1;
-            });
+            return this.chartData.length > 1;
         },
 
         getMax: function() {
             var arr = [];
             this.chartData.forEach(function(series, i) {
                 series.forEach(function(value, j) {
-                    arr[j] = i===0 ? 0 : arr[j] += value;
+                    arr[j] = i===0 ? 0 + value : arr[j] += value;
                 });
             });
+            console.log('get max arr: ', arr);
             return d3.max(arr);
         },
 
@@ -181,17 +180,11 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         colors: [
-            "#4aa3df",
-            "#336699",
-            "#ffba00",
-            "#ff00f6",
-            "#ff0066",
-            "#00ffa2",
-            "#8400ff",
-            "orange",
-            "green",
-            "blue",
-            "red"
+            "#5DA5DA",
+            "#DECF3F",
+            "#FAA43A",
+            "#F15854",
+            "#CB2027",
         ],
 
         drawBars: function() {
