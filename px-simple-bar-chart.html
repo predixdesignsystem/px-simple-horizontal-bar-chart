@@ -152,25 +152,36 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         drawLegend: function() {
             var that = this;
+            // track X position as legend is drawn across the top of the chart
+            var cumulativeX = 0;
+            var cumulativeY = 5;
             this.chartData.forEach(function(series, i) {
-
-                that.calculateTextWidth(that.getSeriesTotal(series));
-
+                var squareSize = 10;
+                var marginA = 5;
+                var marginB = 15;
+                var seriesTotal = that.getSeriesTotal(series);
+                var textWidth = that.calculateTextWidth(seriesTotal);
+                var fullWidth = squareSize + marginA + textWidth + marginB;
+                var endPosition = fullWidth + cumulativeX;
+                if(endPosition >= that.width) {
+                    cumulativeY += 20;
+                    cumulativeX = 0;
+                };
                 that.svg
                     .append("rect")
                     .attr("class", "legend-box")
-                    .attr("x", i * 60)
-                    .attr("y", 8)
-                    .attr("width", 10)
-                    .attr("height", 10)
+                    .attr("x", cumulativeX)
+                    .attr("y", cumulativeY)
+                    .attr("width", squareSize)
+                    .attr("height", squareSize)
                     .attr("fill", that.colors[i]);
                 that.svg
                     .append("text")
                     .attr("class", "legend-text")
-                    .attr("x", i * 60 + 16)
-                    .attr("y", 17)
-                    .attr("font-size", "12px")
-                    .text(that.getSeriesTotal(series));
+                    .attr("x", cumulativeX += squareSize + marginA)
+                    .attr("y", cumulativeY + 9)
+                    .text(seriesTotal);
+                cumulativeX += textWidth + 8;
             });
 
         },
@@ -182,11 +193,9 @@ Element providing solution to no problem in particular. As a simple, increments 
                 .attr("x", 0)
                 .attr("y", 0)
                 .text(text);
-
             var width = textNode.node().getComputedTextLength();
-
-
-
+            textNode.remove();
+            return Math.ceil(width);
         },
 
         getSeriesTotal: function(series) {
