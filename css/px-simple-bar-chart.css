@@ -63,7 +63,6 @@ THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PRE
 Predix branding rules go in px-simple-bar-chart-predix.scss, not in this file.
 */
 .bar {
-  fill: #4aa3df;
   shape-rendering: crispEdges; }
 
 .px-simple-bar-chart-svg {
@@ -72,4 +71,5 @@ Predix branding rules go in px-simple-bar-chart-predix.scss, not in this file.
 
 .legend-text {
   font-family: sans-serif;
-  color: #000000; }
+  color: #000000;
+  font-size: 12px; }

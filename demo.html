@@ -71,7 +71,7 @@
                       min="1"
                       max="20">
                     </px-slider>
-                    <input type="text" id="values-input" value="{{values}}" />
+                    <input type="hidden" id="values-input" value="{{values}}" />
                 </div>
                 <div class="control">
                     <label>Series (y):</label>
@@ -102,7 +102,7 @@
                       class="listen-for-change"
                       value="{{max}}"
                       min="100"
-                      max="1000">
+                      max="10000">
                     </px-slider>
                     <input type="hidden" id="max-value-input" value="{{max}}" />
                 </div>
@@ -126,7 +126,6 @@
 
             // The dom-change event signifies when the template has stamped its DOM.
             template.addEventListener('dom-change', function() {
-                console.log('// auto-binding template is ready.');
                 var sliders = document.getElementsByClassName('listen-for-change');
                 for(i=0;i<sliders.length;i++) {
                     sliders[i].addEventListener('value-changed', function (e) {
@@ -149,11 +148,9 @@
                 return Math.random() * (max - min) + min;
             };
 
-
-
             var generateNewData = function(numSeries, numValues) {
-                var minValueInput = document.getElementById("values-slider");
-                var maxValueInput = document.getElementById("series-slider");
+                var minValueInput = document.getElementById("min-slider");
+                var maxValueInput = document.getElementById("max-slider");
                 var min = parseInt(minValueInput.value);
                 var max = parseInt(maxValueInput.value);
                 var arr = [];
@@ -162,7 +159,7 @@
                     for(j=0;j<numValues;j++) {
                         arr[i][j] = parseInt(generateRandomNumber(min, max));
                     }
-                }
+                };
                 return arr;
             };
 

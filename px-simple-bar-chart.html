@@ -39,9 +39,6 @@ Element providing solution to no problem in particular. As a simple, increments 
          * @type Object
          */
         properties: {
-            /**
-            TODO: Add comments for doc generation
-            **/
             chartData: {
                 type: Object,
                 observer: 'drawChartDebounced',
@@ -77,6 +74,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 this.setScales();
                 this.drawBars();
                 if(this.requireLegend()) { this.drawLegend(); };
+                this.addStyleScope();
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -103,9 +101,14 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         getLongestSeries: function() {
-            return this.chartData.reduce(function(prev, current) {
-                return prev.length < current.length ? current : prev;
-            });
+            try {
+                return this.chartData.reduce(function(prev, current) {
+                    return prev.length < current.length ? current : prev;
+                });
+            } catch(err) {
+                console.log('the error is:', err);
+                return 0;
+            }
         },
 
         requireLegend: function() {
@@ -150,24 +153,40 @@ Element providing solution to no problem in particular. As a simple, increments 
         drawLegend: function() {
             var that = this;
             this.chartData.forEach(function(series, i) {
+
+                that.calculateTextWidth(that.getSeriesTotal(series));
+
                 that.svg
                     .append("rect")
                     .attr("class", "legend-box")
                     .attr("x", i * 60)
                     .attr("y", 8)
-                    .attr("width", 12)
-                    .attr("height", 12)
+                    .attr("width", 10)
+                    .attr("height", 10)
                     .attr("fill", that.colors[i]);
                 that.svg
                     .append("text")
                     .attr("class", "legend-text")
-                    .attr("x", i * 60 + 17)
-                    .attr("y", 20)
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "16px")
-                    .attr("fill", "#000000")
+                    .attr("x", i * 60 + 16)
+                    .attr("y", 17)
+                    .attr("font-size", "12px")
                     .text(that.getSeriesTotal(series));
             });
+
+        },
+
+        calculateTextWidth: function(text) {
+            var textNode = this.svg
+                .append("text")
+                .attr("class", "legend-text")
+                .attr("x", 0)
+                .attr("y", 0)
+                .text(text);
+
+            var width = textNode.node().getComputedTextLength();
+
+
+
         },
 
         getSeriesTotal: function(series) {
@@ -184,6 +203,15 @@ Element providing solution to no problem in particular. As a simple, increments 
             "#CB2027",
         ],
 
+        addStyleScope: function() {
+            // polymer does not apply the local style-scope classes to svg child nodes
+            // so we need to add .px-simple-line-chart-svg here
+            if(this.svg[0] && this.svg[0][0]) {
+                d3.selectAll(this.svg[0][0].childNodes)
+                    .classed(this.is, true);
+            };
+        },
+
         drawBars: function() {
             var offsets = []; // accumulate y for each value stack
             var that = this;
@@ -199,5 +227,6 @@ Element providing solution to no problem in particular. As a simple, increments 
                 });
             });
         }
+
     });
 </script>
