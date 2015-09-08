@@ -10,23 +10,164 @@
         <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
         <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
         <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="../px-slider/px-slider.html"/>
         <link rel="import" href="px-simple-bar-chart.html"/>
         <style>
             body, html {
                 background: #eeeeee;
+                font-family: sans-serif;
+            }
+            div#demo-controls {
+                background: #ffffff;
+                margin: 15px;
+                padding: 5px;
+                border: 1px solid #cccccc;
+                width: 400px;
+                display: block;
+                float: right;
+            }
+            .control {
+                margin: 5px;
+                clear: both;
+            }
+            .control label {
+                float: left;
+                margin: 7px;
+            }
+            #demo-controls h3 {
+                margin: 10px;
             }
         </style>
     </head>
 
     <body>
 
-        <px-simple-bar-chart chart-data="[
-            [11,25,13,10],
-            [11,22,13,12],
-            [31,12,13,15],
-            [41,12,13,15],
-            [21,42,13,15]
-        ]">&hearts;</px-simple-bar-chart>
+        <template id="just-for-demo" is="dom-bind">
+
+            <div id="demo-controls">
+                <h3>Modify the demonstration chart:</h3>
+                <div class="control">
+                    <label>Width:</label>
+                    <px-slider
+                      value="{{width}}"
+                      min="100"
+                      max="600">
+                    </px-slider>
+                </div>
+                <div class="control">
+                    <label>Height:</label>
+                    <px-slider
+                      value="{{height}}"
+                      min="100"
+                      max="500">
+                    </px-slider>
+                </div>
+                <div class="control">
+                    <label>Values (x):</label>
+                    <px-slider
+                      id="values-slider"
+                      class="listen-for-change"
+                      value="{{values}}"
+                      min="1"
+                      max="20">
+                    </px-slider>
+                    <input type="text" id="values-input" value="{{values}}" />
+                </div>
+                <div class="control">
+                    <label>Series (y):</label>
+                    <px-slider
+                      id="series-slider"
+                      class="listen-for-change"
+                      value="{{series}}"
+                      min="1"
+                      max="20">
+                    </px-slider>
+                    <input type="hidden" id="series-input" value="{{series}}" />
+                </div>
+                <div class="control">
+                    <label>Min Value:</label>
+                    <px-slider
+                      id="min-slider"
+                      class="listen-for-change"
+                      value="{{min}}"
+                      min="10"
+                      max="100">
+                    </px-slider>
+                    <input type="hidden" id="min-value-input" value="{{min}}" />
+                </div>
+                <div class="control">
+                    <label>Max Value:</label>
+                    <px-slider
+                      id="max-slider"
+                      class="listen-for-change"
+                      value="{{max}}"
+                      min="100"
+                      max="1000">
+                    </px-slider>
+                    <input type="hidden" id="max-value-input" value="{{max}}" />
+                </div>
+            </div>
+
+            <px-simple-bar-chart
+                id="demo-chart"
+                chart-data="[
+                    [11,33,123,123,123],
+                    [11,123,123,123,123,123,123]
+                ]"
+                width="{{width}}"
+                height="{{height}}"
+            >&hearts;</px-simple-bar-chart>
+
+        </template>
+
+        <script>
+
+            var template = document.querySelector('#just-for-demo');
+
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                console.log('// auto-binding template is ready.');
+                var sliders = document.getElementsByClassName('listen-for-change');
+                for(i=0;i<sliders.length;i++) {
+                    sliders[i].addEventListener('value-changed', function (e) {
+                        handleChange();
+                    });
+                };
+            });
+
+            var handleChange = function() {
+                var valuesInput = document.getElementById("values-slider");
+                var seriesInput = document.getElementById("series-slider");
+                var numSeries = parseInt(seriesInput.value);
+                var numValues = parseInt(valuesInput.value);
+                var newData = generateNewData(numSeries, numValues);
+                var chart = document.getElementById("demo-chart");
+                chart.setAttribute("chart-data", JSON.stringify(newData));
+            };
+
+            function generateRandomNumber(min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+
+
+            var generateNewData = function(numSeries, numValues) {
+                var minValueInput = document.getElementById("values-slider");
+                var maxValueInput = document.getElementById("series-slider");
+                var min = parseInt(minValueInput.value);
+                var max = parseInt(maxValueInput.value);
+                var arr = [];
+                for(i=0;i<numSeries;i++) {
+                    arr[i] = [];
+                    for(j=0;j<numValues;j++) {
+                        arr[i][j] = parseInt(generateRandomNumber(min, max));
+                    }
+                }
+                return arr;
+            };
+
+
+        </script>
 
     </body>
 </html>
