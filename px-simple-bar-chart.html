@@ -96,7 +96,8 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.gapWidth = Math.floor(this.width / 15);
             this.numCols = this.getLongestSeries().length;
             this.barWidth = Math.floor((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
-            this.legendHeight = this.requireLegend() ? 40 : 0;
+            this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
+            console.log(this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
         },
 
@@ -150,24 +151,30 @@ Element providing solution to no problem in particular. As a simple, increments 
                 .attr("fill", color);
         },
 
-        drawLegend: function() {
+        getLegendHeight: function() {
+            return this.drawLegend(true);
+        },
+
+        drawLegend: function(dryRun) {
+            // dry run is meant to only calculate necessary height of legend
             var that = this;
             // track X position as legend is drawn across the top of the chart
             var cumulativeX = 0;
             var cumulativeY = 5;
+            var dryRun = dryRun || false;
             this.chartData.forEach(function(series, i) {
                 var squareSize = 10;
                 var marginA = 5;
                 var marginB = 15;
                 var seriesTotal = that.getSeriesTotal(series);
                 var textWidth = that.calculateTextWidth(seriesTotal);
-                var fullWidth = squareSize + marginA + textWidth + marginB;
+                var fullWidth = squareSize + marginA + textWidth + marginA;
                 var endPosition = fullWidth + cumulativeX;
                 if(endPosition >= that.width) {
                     cumulativeY += 20;
                     cumulativeX = 0;
                 };
-                that.svg
+                var rectNode = that.svg
                     .append("rect")
                     .attr("class", "legend-box")
                     .attr("x", cumulativeX)
@@ -175,14 +182,21 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("width", squareSize)
                     .attr("height", squareSize)
                     .attr("fill", that.colors[i]);
-                that.svg
+                var textNode = that.svg
                     .append("text")
                     .attr("class", "legend-text")
                     .attr("x", cumulativeX += squareSize + marginA)
                     .attr("y", cumulativeY + 9)
                     .text(seriesTotal);
-                cumulativeX += textWidth + 8;
+                cumulativeX += textWidth + marginA;
+                if(dryRun) {
+                    rectNode.remove();
+                    textNode.remove();
+                }
             });
+            if(dryRun) {
+                return cumulativeY;
+            }
 
         },
 
