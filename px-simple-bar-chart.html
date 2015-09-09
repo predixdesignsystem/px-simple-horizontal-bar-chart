@@ -85,21 +85,28 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         attachSVG: function() {
             // select the svg element
-            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"))
-                .attr("width", this.width)
-                .attr("height", this.height);
+            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"));
             // Remove previous child elements
             this.svg.text("");
         },
 
         setSizes: function() {
             this.gridColumns = (this.getLongestSeries().length * 2 ) - 1;
-            this.gridWidth = (this.width / this.gridColumns);
-            this.chartWidth = this.width - (this.width % this.gridColumns);
-            console.log('width: ',this.width, 'chartWidth: ', this.chartWidth);
+            this.gridWidth = Math.round(this.width / this.gridColumns);
+            this.chartWidth = this.gridWidth * this.gridColumns;
+            this.widthRemainder = (this.width % this.gridWidth);
+            console.log('remainder', this.widthRemainder);
+            // this.chartWidth = this.width - this.widthRemainder;
+            console.log('width: ',this.width, 'gridwidth: ', this.gridWidth);
             this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
             console.log('legend height: ', this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
+
+            // expand SVG to accomodate columns
+            this.svg
+                .attr("width", this.chartWidth)
+                .attr("height", this.height);
+
         },
 
         getLongestSeries: function() {
@@ -161,7 +168,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 var textWidth = that.calculateTextWidth(seriesTotal);
                 var fullWidth = squareSize + marginA + textWidth + marginA;
                 var endPosition = fullWidth + cumulativeX;
-                if(endPosition >= that.width) {
+                if(endPosition >= that.chartWidth) {
                     cumulativeY += 20;
                     cumulativeX = 0;
                 };
@@ -232,7 +239,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     var isFirst = (typeof offsets[j]).toString() === 'undefined';
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
-                    var x = (that.gridWidth + that.gridWidth) * j;
+                    var x = (that.gridWidth*2) * j;
                     that.drawBar(x, y, that.gridWidth, barHeight, that.colors[i]);
                 });
             });
