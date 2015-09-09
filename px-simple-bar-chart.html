@@ -179,7 +179,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("y", cumulativeY)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
-                    .attr("class", "bar-color-"+that.colors[i]);
+                    .attr("class", "bar-color-"+i);
                 var textNode = that.svg
                     .append("text")
                     .attr("class", "legend-text")
@@ -216,10 +216,6 @@ Element providing solution to no problem in particular. As a simple, increments 
             });
         },
 
-        colors: [
-            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"
-        ],
-
         addStyleScope: function() {
             // polymer does not apply the local style-scope classes to svg child nodes
             // so we need to add .px-simple-line-chart-svg here
@@ -240,7 +236,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
                     var x = (that.gridWidth*2) * j;
-                    that.drawBar(x, y, that.gridWidth, barHeight, that.colors[i]);
+                    that.drawBar(x, y, that.gridWidth, barHeight, i);
                 });
             });
         },

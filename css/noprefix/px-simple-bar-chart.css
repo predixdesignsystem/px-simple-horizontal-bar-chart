@@ -74,17 +74,29 @@ Predix branding rules go in px-simple-bar-chart-predix.scss, not in this file.
   color: #000000;
   font-size: 12px; }
 
-.bar-color-a {
-  fill: #5DA5DA; }
+.bar-color-0 {
+  fill: #5da5da; }
 
-.bar-color-b {
-  fill: #DECF3F; }
+.bar-color-1 {
+  fill: #faa43a; }
 
-.bar-color-c {
-  fill: #FAA43A; }
+.bar-color-2 {
+  fill: #60bd68; }
 
-.bar-color-d {
-  fill: #F15854; }
+.bar-color-3 {
+  fill: #f17cb0; }
 
-.bar-color-e {
-  fill: #CB2027; }
+.bar-color-4 {
+  fill: #b2912f; }
+
+.bar-color-5 {
+  fill: #b276b2; }
+
+.bar-color-6 {
+  fill: #decf3f; }
+
+.bar-color-7 {
+  fill: #f15854; }
+
+.bar-color-8 {
+  fill: #4d4d4d; }
