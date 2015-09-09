@@ -94,8 +94,9 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         setSizes: function() {
             this.gridColumns = (this.getLongestSeries().length * 2 ) - 1;
-            this.gridWidth = this.width / this.gridColumns;
+            this.gridWidth = (this.width / this.gridColumns);
             this.chartWidth = this.width - (this.width % this.gridColumns);
+            console.log('width: ',this.width, 'chartWidth: ', this.chartWidth);
             this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
             console.log('legend height: ', this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
@@ -140,17 +141,6 @@ Element providing solution to no problem in particular. As a simple, increments 
                 .range([0, this.chartHeight]);
         },
 
-        drawBar: function(x,y,width,height,color) {
-            this.svg
-                .append("rect")
-                .attr("class", "bar")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("width", width)
-                .attr("height", height)
-                .attr("fill", color);
-        },
-
         getLegendHeight: function() {
             return this.drawLegend(true);
         },
@@ -182,7 +172,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("y", cumulativeY)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
-                    .attr("fill", that.colors[i]);
+                    .attr("class", "bar-color-"+that.colors[i]);
                 var textNode = that.svg
                     .append("text")
                     .attr("class", "legend-text")
@@ -220,11 +210,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         colors: [
-            "#5DA5DA",
-            "#DECF3F",
-            "#FAA43A",
-            "#F15854",
-            "#CB2027",
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"
         ],
 
         addStyleScope: function() {
@@ -250,6 +236,17 @@ Element providing solution to no problem in particular. As a simple, increments 
                     that.drawBar(x, y, that.gridWidth, barHeight, that.colors[i]);
                 });
             });
+        },
+
+        drawBar: function(x,y,width,height,color) {
+            this.svg
+                .append("rect")
+                .attr("class", "bar")
+                .attr("class", "bar-color-"+color)
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", width)
+                .attr("height", height);
         }
 
     });
