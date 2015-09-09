@@ -63,26 +63,26 @@
                     </px-slider>
                 </div>
                 <div class="control">
-                    <label>Values (x):</label>
-                    <px-slider
-                      id="values-slider"
-                      class="listen-for-change"
-                      value="{{values}}"
-                      min="1"
-                      max="20">
-                    </px-slider>
-                    <input type="hidden" id="values-input" value="{{values}}" />
-                </div>
-                <div class="control">
-                    <label>Series (y):</label>
+                    <label># Series:</label>
                     <px-slider
                       id="series-slider"
                       class="listen-for-change"
                       value="{{series}}"
                       min="1"
-                      max="20">
+                      max="10">
                     </px-slider>
                     <input type="hidden" id="series-input" value="{{series}}" />
+                </div>
+                <div class="control">
+                    <label># Values per series:</label>
+                    <px-slider
+                      id="values-slider"
+                      class="listen-for-change"
+                      value="{{values}}"
+                      min="1"
+                      max="150">
+                    </px-slider>
+                    <input type="hidden" id="values-input" value="{{values}}" />
                 </div>
                 <div class="control">
                     <label>Min Value:</label>
@@ -129,6 +129,13 @@
 
             // The dom-change event signifies when the template has stamped its DOM.
             template.addEventListener('dom-change', function() {
+                this.max = 50000;
+                this.min = 50;
+                this.values = 14;
+                this.series = 5;
+                this.width = 283;
+                this.height = 150;
+                handleChange();
                 var sliders = document.getElementsByClassName('listen-for-change');
                 for(i=0;i<sliders.length;i++) {
                     sliders[i].addEventListener('value-changed', function (e) {
