@@ -93,11 +93,11 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         setSizes: function() {
-            this.gapWidth = Math.floor(this.width / 15);
-            this.numCols = this.getLongestSeries().length;
-            this.barWidth = Math.floor((this.width + this.gapWidth) / this.numCols) - this.gapWidth;
+            this.gridColumns = (this.getLongestSeries().length * 2 ) - 1;
+            this.gridWidth = this.width / this.gridColumns;
+            this.chartWidth = this.width - (this.width % this.gridColumns);
             this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
-            console.log(this.legendHeight);
+            console.log('legend height: ', this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
         },
 
@@ -156,6 +156,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         drawLegend: function(dryRun) {
+            // TODO: Clean up this method, it is a bit unruly.
             // dry run is meant to only calculate necessary height of legend
             var that = this;
             // track X position as legend is drawn across the top of the chart
@@ -245,8 +246,8 @@ Element providing solution to no problem in particular. As a simple, increments 
                     var isFirst = (typeof offsets[j]).toString() === 'undefined';
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
-                    var x = (that.barWidth + that.gapWidth) * j;
-                    that.drawBar(x, y, that.barWidth, barHeight, that.colors[i]);
+                    var x = (that.gridWidth + that.gridWidth) * j;
+                    that.drawBar(x, y, that.gridWidth, barHeight, that.colors[i]);
                 });
             });
         }
