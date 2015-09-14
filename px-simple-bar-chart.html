@@ -50,6 +50,11 @@ Element providing solution to no problem in particular. As a simple, increments 
                 type: Array,
                 observer: 'drawChartDebounced',
                 value: []
+            },
+            colors: {
+                type: Array,
+                observer: 'drawChartDebounced',
+                value: ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d']
             }
         },
 
@@ -167,6 +172,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                 var textWidth = that.calculateTextWidth(labelText);
                 var fullWidth = squareSize + margin + textWidth;
                 var endPosition = fullWidth + cumulativeX;
+                var color = that.colors.length > i ? that.colors[i] : false;
                 if(endPosition >= that.chartWidth) {
                     cumulativeY += 20;
                     cumulativeX = 0;
@@ -178,7 +184,7 @@ Element providing solution to no problem in particular. As a simple, increments 
                     .attr("y", cumulativeY)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
-                    .attr("class", "bar-color-"+i);
+                    .attr("fill", color);
                 var textNode = that.svg
                     .append("text")
                     .attr("class", "legend-text")
@@ -228,6 +234,7 @@ Element providing solution to no problem in particular. As a simple, increments 
             var offsets = []; // accumulate y for each value stack
             var that = this;
             this.chartData.forEach(function(series, i) {
+                var color = that.colors.length > i ? that.colors[i] : false;
                 series.forEach(function(value, j) {
                     // for each series draw a bar representing each value
                     var barHeight = Math.floor(that.yScale(value));
@@ -235,20 +242,20 @@ Element providing solution to no problem in particular. As a simple, increments 
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
                     var y = that.height - offsets[j];
                     var x = (that.gridWidth*2) * j;
-                    that.drawBar(x, y, that.gridWidth, barHeight, i);
+                    that.drawBar(x, y, that.gridWidth, barHeight, i, color);
                 });
             });
         },
 
-        drawBar: function(x,y,width,height,color) {
+        drawBar: function(x, y, width, height, i, color) {
             this.svg
                 .append("rect")
                 .attr("class", "bar")
-                .attr("class", "bar-color-"+color)
                 .attr("x", x)
                 .attr("y", y)
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("fill", color);
         }
 
     });

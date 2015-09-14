@@ -120,6 +120,7 @@
                 width="{{width}}"
                 height="{{height}}"
                 legend-labels="{{labels}}"
+                colors="{{colors}}"
             >&hearts;</px-simple-bar-chart>
 
         </template>
@@ -137,6 +138,7 @@
                 this.width = 283;
                 this.height = 150;
                 this.labels = ['Test Label A', 'Label B', 'Label C', 'Label D', 'Label E'];
+                this.colors = ['#029bde', '#99399b', '#e23838', '#f88303', '#ffb901', '#5dbc3e'];
                 handleChange();
                 var sliders = document.getElementsByClassName('listen-for-change');
                 for(i=0;i<sliders.length;i++) {
