@@ -45,6 +45,11 @@ Element providing solution to no problem in particular. As a simple, increments 
                 type: Number,
                 observer: 'drawChartDebounced',
                 value: 150
+            },
+            legendLabels: {
+                type: Array,
+                observer: 'drawChartDebounced',
+                value: []
             }
         },
 
@@ -56,7 +61,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         drawChartDebounced: function() {
             this.debounce('drawChart', function() {
                 this.drawChart();
-            }, 10);
+            }, 300);
         },
 
         drawChart: function() {
@@ -93,12 +98,10 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
             console.log('legend height: ', this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
-
             // expand SVG to accomodate columns
             this.svg
                 .attr("width", this.chartWidth)
                 .attr("height", this.height);
-
         },
 
         getLongestSeries: function() {
@@ -154,11 +157,15 @@ Element providing solution to no problem in particular. As a simple, increments 
             var dryRun = dryRun || false;
             this.chartData.forEach(function(series, i) {
                 var squareSize = 10;
-                var marginA = 5;
-                var marginB = 15;
+                var margin = 5;
                 var seriesTotal = that.getSeriesTotal(series);
-                var textWidth = that.calculateTextWidth(seriesTotal);
-                var fullWidth = squareSize + marginA + textWidth + marginA;
+                if(that.legendLabels.length > i) {
+                    var labelText = that.legendLabels[i];
+                } else {
+                    var labelText = seriesTotal;
+                };
+                var textWidth = that.calculateTextWidth(labelText);
+                var fullWidth = squareSize + margin + textWidth;
                 var endPosition = fullWidth + cumulativeX;
                 if(endPosition >= that.chartWidth) {
                     cumulativeY += 20;
@@ -175,10 +182,10 @@ Element providing solution to no problem in particular. As a simple, increments 
                 var textNode = that.svg
                     .append("text")
                     .attr("class", "legend-text")
-                    .attr("x", cumulativeX += squareSize + marginA)
+                    .attr("x", cumulativeX += squareSize + margin)
                     .attr("y", cumulativeY + 9)
-                    .text(seriesTotal);
-                cumulativeX += textWidth + marginA;
+                    .text(labelText);
+                cumulativeX += textWidth;
                 if(dryRun) {
                     rectNode.remove();
                     textNode.remove();
