@@ -24,6 +24,10 @@ common/abstract rules go in px-simple-bar-chart-sketch.scss, not in this file.
 
 @import 'px-simple-bar-chart-sketch.scss';
 
+.bar-chart-bottom-line {
+    stroke: $gray9;
+}
+
 .bar-color-0 {
     fill: $dv-basic-blue;
 }

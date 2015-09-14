@@ -74,6 +74,9 @@ Predix branding rules go in px-simple-bar-chart-predix.scss, not in this file.
   color: #000000;
   font-size: 12px; }
 
+.bar-chart-bottom-line {
+  stroke: #3b3b3f; }
+
 .bar-color-0 {
   fill: #5da5da; }
 

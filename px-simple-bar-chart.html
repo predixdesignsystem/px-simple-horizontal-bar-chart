@@ -97,11 +97,7 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.gridWidth = Math.round(this.width / this.gridColumns);
             this.chartWidth = this.gridWidth * this.gridColumns;
             this.widthRemainder = (this.width % this.gridWidth);
-            console.log('remainder', this.widthRemainder);
-            // this.chartWidth = this.width - this.widthRemainder;
-            console.log('width: ',this.width, 'gridwidth: ', this.gridWidth);
             this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
-            console.log('legend height: ', this.legendHeight);
             this.chartHeight = this.height - this.legendHeight;
             // expand SVG to accomodate columns
             this.svg
@@ -240,11 +236,18 @@ Element providing solution to no problem in particular. As a simple, increments 
                     var barHeight = Math.floor(that.yScale(value));
                     var isFirst = (typeof offsets[j]).toString() === 'undefined';
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
-                    var y = that.height - offsets[j];
+                    var y = that.height - offsets[j] - 1;
                     var x = (that.gridWidth*2) * j;
                     that.drawBar(x, y, that.gridWidth, barHeight, i, color);
                 });
             });
+            this.svg
+                .append("line")
+                .attr("class","bar-chart-bottom-line")
+                .attr("x1", 0)
+                .attr("y1", this.height)
+                .attr("x2", this.chartWidth)
+                .attr("y2", this.height);
         },
 
         drawBar: function(x, y, width, height, i, color) {
