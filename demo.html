@@ -301,7 +301,7 @@
 
             function generateRandomChartData() {
                 var chartData = [];
-                var length = randomValue(1,10);
+                var length = randomValue(1,16);
                 var min = randomValue(1,100);
                 var max = randomValue(min,1000);
                 for(i=0;i<length;i++) {
@@ -311,8 +311,8 @@
             };
 
             function generateChartConfig() {
-                var width = generateConfigValue(100,450,'');
-                var height = generateConfigValue(100,300,'');
+                var width = generateConfigValue(250,450,'');
+                var height = generateConfigValue(200,300,'');
                 var colorsA = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
                     '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
                 var colorsB = ["#029bde", "#99399b", "#e23838", "#f88303",
@@ -329,7 +329,27 @@
                     "#FF8C94"];
                 var colors = generateConfigValueFromSet([colorsA, colorsB,
                     colorsC, colorsD, colorsE, colorsF, colorsG]);
-                var legendLabels = ['A','B','C','D','E','F','G','H','I'];
+
+                var legendLabelsA = ['A','B','C','D','E','F','G','H','I','J',
+                    'K','L','M','N','O','P','Q','R'];
+                var legendLabelsB = ['Alpha','Beta','Charlie','Delta','Echo',
+                    'Fanta','Gamma','Hotel','India','Jakarta','King','Left',
+                    'Master','Never','Over','Produce','Question','Recourse'];
+                var legendLabelsC = ['1','2','3','4','5','6','7','8','9','10',
+                    '11','12','13','14','15','16','17','18','19','20','21'];
+                var legendLabelsD = ['Lorem','ipsum','dolor','sit','amet',
+                    'consectetur','adipiscing','elit','praesent', 'sed','purus',
+                    'non','est','posuere', 'dapibus', 'ut', 'at', 'purus',
+                    'suspendisse'];
+                var legendLabelsE = ['Proin convallis','Ante non','Augue semper'
+                    ,'Ut rutrum','Metus feugiat','Nullam at felis',
+                    'Donec quis tincidunt','Vestibulum ut augue ligula',
+                    'Integer in odio'];
+                var legendLabels = generateConfigValueFromSet([legendLabelsA,
+                    legendLabelsB, legendLabelsC, legendLabelsD, legendLabelsE,
+                    '','',''
+                ]);
+
                 var d = false;
                 var d = 'This Simple Line Chart is ';
                 if(width) {
