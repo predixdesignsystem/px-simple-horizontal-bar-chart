@@ -287,7 +287,7 @@
             };
 
             function generateConfigValueFromSet(set) {
-                return set[randomValue(0,set.length)];
+                return set[randomValue(0,set.length-1)];
             };
 
             function generateRandomSeries(length, min, max) {
@@ -313,8 +313,22 @@
             function generateChartConfig() {
                 var width = generateConfigValue(100,450,'');
                 var height = generateConfigValue(100,300,'');
-                var colors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
+                var colorsA = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
                     '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+                var colorsB = ["#029bde", "#99399b", "#e23838", "#f88303",
+                    "#ffb901", "#5dbc3e"];
+                var colorsC = ["#EA3556", "#64938D", "#EDE5E2", "#ED146F",
+                    "#EDDE45", "#9BF0E9"];
+                var colorsD = ["#3E7B7C", "#7EA593", "#7EA593", "#DBB793",
+                    "#EE8568", "#957673", "#CC5E4F"];
+                var colorsE = ["#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630",
+                    "#FA6900"];
+                var colorsF = ["#FF4E50", "#FC913A", "#F9D423", "#EDE574",
+                    "#E1F5C4"];
+                var colorsG = ["#A8E6CE", "#DCEDC2", "#FFD3B5", "#FFAAA6",
+                    "#FF8C94"];
+                var colors = generateConfigValueFromSet([colorsA, colorsB,
+                    colorsC, colorsD, colorsE, colorsF, colorsG]);
                 var legendLabels = ['A','B','C','D','E','F','G','H','I'];
                 var d = false;
                 var d = 'This Simple Line Chart is ';
