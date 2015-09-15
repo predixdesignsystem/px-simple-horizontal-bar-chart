@@ -16,6 +16,11 @@
             body, html {
                 background: #fff;
                 font-family: sans-serif;
+
+                    padding: 1%;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                    line-height: 20px;
             }
             div#demo-controls {
                 background: #ffffff;
@@ -36,6 +41,24 @@
             }
             #demo-controls h3 {
                 margin: 10px;
+            }
+            .example {
+                float: left;
+                margin-right: 15px;
+            }
+            .config {
+                float: left;
+            }
+            .description {
+                float: left;
+                width: 300px;
+                margin-right: 20px;
+            }
+            hr {
+                height: 1px;
+                border: 0;
+                background: #cccccc;
+                margin: 30px 0;
             }
         </style>
     </head>
@@ -119,9 +142,63 @@
                 ]"
                 width="{{width}}"
                 height="{{height}}"
-                legend-labels="{{labels}}"
-                colors="{{colors}}"
+                legend-labels='["A", "B B", "C C C", "D D D D", "E E E E E", "F F F F F F", "W W W W W W W W", ". . . . . . . . ." ]'
+                colors='["#029bde", "#99399b", "#e23838", "#f88303", "#ffb901", "#5dbc3e"]'
             >&hearts;</px-simple-bar-chart>
+
+
+
+
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>101 Randomly Generated Examples:</h3>
+            <br clear="both"/>
+
+            <template is="dom-repeat" items="{{examples}}">
+                <div class="description">
+                    <strong>Description</strong>
+                    <br />
+                    <i>{{item.description}}</i>
+                </div>
+                <div class="example">
+                    <strong>Example chart</strong>
+                    <br/>
+                    <px-simple-bar-chart
+                        id="{{item.id}}"
+                        class="example-chart"
+                        chart-data="{{item.chartData}}"
+                        width="{{item.width}}"
+                        height="{{item.height}}"
+                        legend-labels="{{item.legendLabels}}"
+                        colors="{{item.colors}}"
+                    >&hearts;</px-simple-bar-chart>
+                </div>
+                <div class="config">
+                    <strong>Element Configuration</strong>
+                    <br/>
+                    &lt;px-simple-bar-chart
+                    <br />
+                    <template is="dom-if" if="{{item.width}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;width='<span>{{item.width}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.height}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;height='<span>{{item.height}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.legendLabels}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;legend-labels='<span>{{item.legendLabelsText}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.colors}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;colors='<span>{{item.colorsText}}</span>'
+                        <br/>
+                    </template>
+                    &gt;&lt;px-simple-bar-chart&gt;
+                </div>
+                <br clear="both" />
+                <hr />
+            </template>
 
         </template>
 
@@ -137,8 +214,6 @@
                 this.series = 5;
                 this.width = 283;
                 this.height = 150;
-                this.labels = ['A', 'B B', 'C C C', 'D D D D', 'E E E E E', 'F F F F F F', 'W W W W W W W W', '. . . . . . . . .' ];
-                this.colors = ['#029bde', '#99399b', '#e23838', '#f88303', '#ffb901', '#5dbc3e'];
                 handleChange();
                 var sliders = document.getElementsByClassName('listen-for-change');
                 for(i=0;i<sliders.length;i++) {
@@ -177,8 +252,114 @@
                 return arr;
             };
 
+            var examples = [];
+
+            function fiftyFifty() {
+                return Math.random() * 100 > 50;
+            };
+
+            function isInt(n){
+                return Number(n) === n && n % 1 === 0;
+            };
+
+            function isFloat(n){
+                return n === Number(n) && n % 1 !== 0;
+            };
+
+            function randomFloat(min,max) {
+                return (Math.random()*(max-min)+min).toFixed(2);
+            };
+
+            function randomInt(min,max) {
+                return Math.floor(Math.random()*(max-min+1)+min);
+            };
+
+            function randomValue(min,max) {
+                if(isFloat(min) || isFloat(max)) {
+                    return randomFloat(min,max);
+                } else {
+                    return randomInt(min,max);
+                }
+            };
+
+            function generateConfigValue(min, max, defaultValue) {
+                return fiftyFifty() ? defaultValue : randomValue(min,max);
+            };
+
+            function generateConfigValueFromSet(set) {
+                return set[randomValue(0,set.length)];
+            };
+
+            function generateRandomSeries(length, min, max) {
+                var arr = [];
+                var i;
+                for(i=0;i<=length;i++) {
+                    arr.push(randomValue(min, max));
+                };
+                return arr;
+            };
+
+            function generateRandomChartData() {
+                var chartData = [];
+                var length = randomValue(1,10);
+                var min = randomValue(1,100);
+                var max = randomValue(min,1000);
+                for(i=0;i<length;i++) {
+                    chartData.push(generateRandomSeries(10, min, max));
+                }
+                return chartData;
+            };
+
+            function generateChartConfig() {
+                var width = generateConfigValue(100,450,'');
+                var height = generateConfigValue(100,300,'');
+                var colors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
+                    '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+                var legendLabels = ['A','B','C','D','E','F','G','H','I'];
+                var d = false;
+                var d = 'This Simple Line Chart is ';
+                if(width) {
+                    d += width + ' pixels wide';
+                    if(height) {
+                        d += ' and ' + height + ' pixels high. ';
+                    } else {
+                        d += '.';
+                    };
+                } else if(!width && height) {
+                    d += height + ' pixels high. ';
+                } else if(!width && !height){
+                    d += ' configured with the following setup. '
+                };
+                var colorsText = '["' + colors.toString().split(',').join('", "') + '"]';
+                var legendLabelsText = '["' + legendLabels.toString().split(',').join('", "') + '"]';
+
+                var chartData = generateRandomChartData();
+                var config = {
+                    description: d ? d : 'This is the default configuration of <px-simple-line-chart>.',
+                    width: width,
+                    height: height,
+                    chartData: chartData,
+                    legendLabels: legendLabels,
+                    id: 'hello',
+                    colors: colors,
+                    colorsText: colorsText,
+                    legendLabelsText: legendLabelsText
+                };
+                return config;
+            };
+
+            var template = document.querySelector('#just-for-demo');
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                var i;
+                for(i=0;i<100;i++) {
+                    examples.push(generateChartConfig());
+                };
+                this.examples = examples;
+            });
 
         </script>
+
 
     </body>
 </html>
