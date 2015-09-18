@@ -131,26 +131,11 @@
             </div>
 
             <px-simple-bar-chart
-                width="150"
-                id="duded"
-                height="100"
-                chart-data="[[1, 2, 3],[1, 2, 3],[1, 2, 3]]"></px-simple-bar-chart>
-
-            <!--
-            <px-simple-bar-chart
-                width="150"
-                id="dude"
-                height="100"
-                chart-data="
-                [[1, 2, 3],[1, 2, 3],[1, 2, 3]]"></px-simple-bar-chart>
-
-            <px-simple-bar-chart
                 id="demo-chart"
                 chart-data="[]"
                 width="{{width}}"
                 height="{{height}}"
             >&hearts;</px-simple-bar-chart>
-            -->
 
 
             <br clear="both" /><br /><br />
@@ -392,7 +377,7 @@
             // The dom-change event signifies when the template has stamped its DOM.
             template.addEventListener('dom-change', function() {
                 var i;
-                for(i=0;i<0;i++) {
+                for(i=0;i<100;i++) {
                     examples.push(generateChartConfig());
                 };
                 this.examples = examples;
