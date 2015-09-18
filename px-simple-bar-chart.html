@@ -222,29 +222,31 @@ A simple bar chart that visualizes series data.
         drawLegend: function(dryRun) {
             // TODO: Clean up this method, it is a bit unruly.
             // dry run is meant to only calculate necessary height of legend
-            var that = this;
             // track X position as legend is drawn across the top of the chart
             var cumulativeX = 0;
             var cumulativeY = 5;
             var dryRun = dryRun || false;
-            this.chartData.forEach(function(series, i) {
+            var dataLength = this.chartData.length;
+            var i;
+            for(i=dataLength-1;i>=0;i--) {
+                var series = this.chartData[i];
                 var squareSize = 10;
                 var margin = 5;
-                var seriesTotal = that.getSeriesTotal(series);
-                if(that.legendLabels.length > i) {
-                    var labelText = that.legendLabels[i];
+                var seriesTotal = this.getSeriesTotal(series);
+                if(this.legendLabels.length > i) {
+                    var labelText = this.legendLabels[i];
                 } else {
                     var labelText = seriesTotal;
                 };
-                var textWidth = that.calculateTextWidth(labelText);
+                var textWidth = this.calculateTextWidth(labelText);
                 var fullWidth = squareSize + margin + textWidth;
                 var endPosition = fullWidth + cumulativeX;
-                var color = that.getColor(i);
-                if(endPosition >= that.chartWidth) {
+                var color = this.getColor(i);
+                if(endPosition >= this.chartWidth) {
                     cumulativeY += 20;
                     cumulativeX = 0;
                 };
-                var rectNode = that.svg
+                var rectNode = this.svg
                     .append("rect")
                     .attr("class", "legend-box")
                     .attr("x", cumulativeX)
@@ -252,7 +254,7 @@ A simple bar chart that visualizes series data.
                     .attr("width", squareSize)
                     .attr("height", squareSize)
                     .attr("fill", color);
-                var textNode = that.svg
+                var textNode = this.svg
                     .append("text")
                     .attr("class", "legend-text")
                     .attr("x", cumulativeX += squareSize + margin)
@@ -263,7 +265,7 @@ A simple bar chart that visualizes series data.
                     rectNode.remove();
                     textNode.remove();
                 }
-            });
+            };
             if(dryRun) {
                 return cumulativeY;
             }
