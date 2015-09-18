@@ -84,6 +84,7 @@ module.exports = function (grunt) {
                 open: '<%= depserveOpenUrl %>'
             }
         },
+
         webdriver: {
             options: {
                 specFiles: ['test/*spec.js']
@@ -92,6 +93,7 @@ module.exports = function (grunt) {
                 webdrivers: ['chrome']
             }
         },
+
         concurrent: {
             devmode: {
                 tasks: ['watch', 'depserve'],
@@ -100,6 +102,7 @@ module.exports = function (grunt) {
                 }
             }
         }
+
     });
 
     grunt.loadNpmTasks('grunt-sass');

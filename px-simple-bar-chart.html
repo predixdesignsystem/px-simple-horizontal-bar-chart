@@ -1,10 +1,13 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <!--
-Element providing solution to no problem in particular. As a simple, increments a counter when clicked.
+A simple bar chart that visualizes series data.
 
 ##### Usage
 
-    <px-simple-bar-chart width="283" height="150"></px-simple-bar-chart>
+    <px-simple-bar-chart chart-data="[[1,2,3]]"></px-simple-bar-chart>
+
+    <px-simple-bar-chart chart-data="[[1,2,3],[1,2,3],[1,2,3]]">
+    </px-simple-bar-chart>
 
 @element px-simple-bar-chart
 @blurb Predix Experience Simple Bar Chart
@@ -23,8 +26,16 @@ Element providing solution to no problem in particular. As a simple, increments 
 
     var defaultWidth = 283;
     var defaultHeight = 150;
-    var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
-        '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+    var defaultColors = [
+        '#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f', '#b276b2',
+        '#decf3f', '#f15854', '#4d4d4d'];
+    var defaultChartData = [
+        [10020,7067,38637,16768,30326,39947,19388],
+        [23130,44660,33249,37361,10534,21310,7169],
+        [35026,5590,579,11844,7412,20533,39119],
+        [14143,19257,49999,41541,1953,9695,30172],
+        [45566,40825,20263,28778,39128,45208,28079]
+    ];
 
 
     Polymer({
@@ -39,9 +50,11 @@ Element providing solution to no problem in particular. As a simple, increments 
          */
         properties: {
             chartData: {
-                type: Object,
-                observer: 'drawChartDebounced',
-                value: []
+                type: Array,
+                observer: 'chartDataChanged',
+                value: function() {
+                    return [];
+                }
             },
             width: {
                 type: Number,
@@ -71,6 +84,11 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         // Fired on attached event
         attached: function() {
+            this.drawChartDebounced();
+        },
+
+        chartDataChanged: function(a) {
+            console.log(a);
             this.drawChartDebounced();
         },
 
@@ -110,7 +128,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         drawChart: function() {
-            if(this.chartData) {
+            if(this.chartData && this.chartData.length > 0) {
                 this.reconcileValues();
                 this.attachSVG();
                 this.setSizes();
@@ -128,7 +146,7 @@ Element providing solution to no problem in particular. As a simple, increments 
 
         attachSVG: function() {
             // select the svg element
-            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"));
+            this.svg = d3.select(this.$$('.px-simple-bar-chart-svg'));
             // Remove previous child elements
             this.svg.text("");
         },
@@ -137,8 +155,12 @@ Element providing solution to no problem in particular. As a simple, increments 
             this.gridColumns = (this.getLongestSeries().length * 2 ) - 1;
             this.gridWidth = Math.round(this.widthValue / this.gridColumns);
             this.chartWidth = this.gridWidth * this.gridColumns;
-            this.widthRemainder = (this.widthValue % this.gridWidth);
-            this.legendHeight = this.requireLegend() ? this.getLegendHeight() + 25 : 0;
+            this.widthRemainder = this.widthValue % this.gridWidth;
+            if(this.requireLegend()) {
+                this.legendHeight = this.getLegendHeight() + 25;
+            } else {
+                this.legendHeight = 0;
+            }
             this.chartHeight = this.heightValue - this.legendHeight;
             // expand SVG to accomodate columns
             this.svg
@@ -268,7 +290,7 @@ Element providing solution to no problem in particular. As a simple, increments 
         },
 
         addStyleScope: function() {
-            // polymer does not apply the local style-scope classes to svg child nodes
+            // polymer doesn't apply style-scope classes to svg child nodes
             // so we need to add .px-simple-line-chart-svg here
             if(this.svg[0] && this.svg[0][0]) {
                 d3.selectAll(this.svg[0][0].childNodes)
@@ -284,7 +306,8 @@ Element providing solution to no problem in particular. As a simple, increments 
                 series.forEach(function(value, j) {
                     // for each series draw a bar representing each value
                     var barHeight = Math.floor(that.yScale(value));
-                    var isFirst = (typeof offsets[j]).toString() === 'undefined';
+                    var typeofElement = typeof offsets[j];
+                    var isFirst = typeofElement.toString() === 'undefined';
                     offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
                     var y = that.heightValue - offsets[j] - 1;
                     var x = (that.gridWidth*2) * j;
