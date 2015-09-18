@@ -16,11 +16,10 @@
             body, html {
                 background: #fff;
                 font-family: sans-serif;
-
-                    padding: 1%;
-                    font-family: sans-serif;
-                    font-size: 14px;
-                    line-height: 20px;
+                padding: 1%;
+                font-family: sans-serif;
+                font-size: 14px;
+                line-height: 22px;
             }
             div#demo-controls {
                 background: #ffffff;
@@ -132,21 +131,26 @@
             </div>
 
             <px-simple-bar-chart
+                width="150"
+                id="duded"
+                height="100"
+                chart-data="[[1, 2, 3],[1, 2, 3],[1, 2, 3]]"></px-simple-bar-chart>
+
+            <!--
+            <px-simple-bar-chart
+                width="150"
+                id="dude"
+                height="100"
+                chart-data="
+                [[1, 2, 3],[1, 2, 3],[1, 2, 3]]"></px-simple-bar-chart>
+
+            <px-simple-bar-chart
                 id="demo-chart"
-                chart-data="[
-                    [1,2,3,4,5,6,7,8,9,10,11,12,14],
-                    [1,2,3,4,5,6,7,8,9,10,11,12,15],
-                    [1,2,3,4,5,6],
-                    [1,2,3,4,5,6],
-                    [1,2,3,4,5,6]
-                ]"
+                chart-data="[]"
                 width="{{width}}"
                 height="{{height}}"
-                legend-labels='["A", "B B", "C C C", "D D D D", "E E E E E", "F F F F F F", "W W W W W W W W", ". . . . . . . . ." ]'
-                colors='["#029bde", "#99399b", "#e23838", "#f88303", "#ffb901", "#5dbc3e"]'
             >&hearts;</px-simple-bar-chart>
-
-
+            -->
 
 
             <br clear="both" /><br /><br />
@@ -230,7 +234,9 @@
                 var numValues = parseInt(valuesInput.value);
                 var newData = generateNewData(numSeries, numValues);
                 var chart = document.getElementById("demo-chart");
-                chart.setAttribute("chart-data", JSON.stringify(newData));
+                if(chart) {
+                    chart.setAttribute("chart-data", JSON.stringify(newData));
+                };
             };
 
             function generateRandomNumber(min, max) {
@@ -386,7 +392,7 @@
             // The dom-change event signifies when the template has stamped its DOM.
             template.addEventListener('dom-change', function() {
                 var i;
-                for(i=0;i<100;i++) {
+                for(i=0;i<0;i++) {
                     examples.push(generateChartConfig());
                 };
                 this.examples = examples;
