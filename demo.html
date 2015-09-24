@@ -1,0 +1,390 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>px-simple-bar-chart Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="../px-slider/px-slider.html"/>
+        <link rel="import" href="px-simple-bar-chart.html"/>
+        <style>
+            body, html {
+                background: #fff;
+                font-family: sans-serif;
+                padding: 1%;
+                font-family: sans-serif;
+                font-size: 14px;
+                line-height: 22px;
+            }
+            div#demo-controls {
+                background: #ffffff;
+                margin: 15px;
+                padding: 5px;
+                border: 1px solid #cccccc;
+                width: 400px;
+                display: block;
+                float: right;
+            }
+            .control {
+                margin: 5px;
+                clear: both;
+            }
+            .control label {
+                float: left;
+                margin: 7px;
+            }
+            #demo-controls h3 {
+                margin: 10px;
+            }
+            .example {
+                float: left;
+                margin-right: 15px;
+            }
+            .config {
+                float: left;
+            }
+            .description {
+                float: left;
+                width: 300px;
+                margin-right: 20px;
+            }
+            hr {
+                height: 1px;
+                border: 0;
+                background: #cccccc;
+                margin: 30px 0;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <template id="just-for-demo" is="dom-bind">
+
+            <div id="demo-controls">
+                <h3>Modify the demonstration chart:</h3>
+                <div class="control">
+                    <label>Width:</label>
+                    <px-slider
+                      value="{{width}}"
+                      min="100"
+                      max="600">
+                    </px-slider>
+                </div>
+                <div class="control">
+                    <label>Height:</label>
+                    <px-slider
+                      value="{{height}}"
+                      min="100"
+                      max="500">
+                    </px-slider>
+                </div>
+                <div class="control">
+                    <label># Series:</label>
+                    <px-slider
+                      id="series-slider"
+                      class="listen-for-change"
+                      value="{{series}}"
+                      min="1"
+                      max="10">
+                    </px-slider>
+                    <input type="hidden" id="series-input" value="{{series}}" />
+                </div>
+                <div class="control">
+                    <label># Values per series:</label>
+                    <px-slider
+                      id="values-slider"
+                      class="listen-for-change"
+                      value="{{values}}"
+                      min="1"
+                      max="150">
+                    </px-slider>
+                    <input type="hidden" id="values-input" value="{{values}}" />
+                </div>
+                <div class="control">
+                    <label>Min Value:</label>
+                    <px-slider
+                      id="min-slider"
+                      class="listen-for-change"
+                      value="{{min}}"
+                      min="10"
+                      max="100">
+                    </px-slider>
+                    <input type="hidden" id="min-value-input" value="{{min}}" />
+                </div>
+                <div class="control">
+                    <label>Max Value:</label>
+                    <px-slider
+                      id="max-slider"
+                      class="listen-for-change"
+                      value="{{max}}"
+                      min="100"
+                      max="100000">
+                    </px-slider>
+                    <input type="hidden" id="max-value-input" value="{{max}}" />
+                </div>
+            </div>
+
+            <px-simple-bar-chart
+                id="demo-chart"
+                chart-data="[]"
+                width="{{width}}"
+                height="{{height}}"
+            >&hearts;</px-simple-bar-chart>
+
+
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>101 Randomly Generated Examples:</h3>
+            <br clear="both"/>
+
+            <template is="dom-repeat" items="{{examples}}">
+                <div class="description">
+                    <strong>Description</strong>
+                    <br />
+                    <i>{{item.description}}</i>
+                </div>
+                <div class="example">
+                    <strong>Example chart</strong>
+                    <br/>
+                    <px-simple-bar-chart
+                        id="{{item.id}}"
+                        class="example-chart"
+                        chart-data="{{item.chartData}}"
+                        width="{{item.width}}"
+                        height="{{item.height}}"
+                        legend-labels="{{item.legendLabels}}"
+                        colors="{{item.colors}}"
+                    >&hearts;</px-simple-bar-chart>
+                </div>
+                <div class="config">
+                    <strong>Element Configuration</strong>
+                    <br/>
+                    &lt;px-simple-bar-chart
+                    <br />
+                    <template is="dom-if" if="{{item.width}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;width='<span>{{item.width}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.height}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;height='<span>{{item.height}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.legendLabels}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;legend-labels='<span>{{item.legendLabelsText}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.colors}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;colors='<span>{{item.colorsText}}</span>'
+                        <br/>
+                    </template>
+                    &gt;&lt;px-simple-bar-chart&gt;
+                </div>
+                <br clear="both" />
+                <hr />
+            </template>
+
+        </template>
+
+        <script>
+
+            var template = document.querySelector('#just-for-demo');
+
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                this.max = 50000;
+                this.min = 50;
+                this.values = 7;
+                this.series = 5;
+                this.width = 283;
+                this.height = 150;
+                handleChange();
+                var sliders = document.getElementsByClassName('listen-for-change');
+                for(i=0;i<sliders.length;i++) {
+                    sliders[i].addEventListener('value-changed', function (e) {
+                        handleChange();
+                    });
+                };
+            });
+
+            var handleChange = function() {
+                var valuesInput = document.getElementById("values-slider");
+                var seriesInput = document.getElementById("series-slider");
+                var numSeries = parseInt(seriesInput.value);
+                var numValues = parseInt(valuesInput.value);
+                var newData = generateNewData(numSeries, numValues);
+                var chart = document.getElementById("demo-chart");
+                if(chart) {
+                    chart.setAttribute("chart-data", JSON.stringify(newData));
+                };
+            };
+
+            function generateRandomNumber(min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+            var generateNewData = function(numSeries, numValues) {
+                var minValueInput = document.getElementById("min-slider");
+                var maxValueInput = document.getElementById("max-slider");
+                var min = parseInt(minValueInput.value);
+                var max = parseInt(maxValueInput.value);
+                var arr = [];
+                for(i=0;i<numSeries;i++) {
+                    arr[i] = [];
+                    for(j=0;j<numValues;j++) {
+                        arr[i][j] = parseInt(generateRandomNumber(min, max));
+                    }
+                };
+                return arr;
+            };
+
+            var examples = [];
+
+            function fiftyFifty() {
+                return Math.random() * 100 > 50;
+            };
+
+            function isInt(n){
+                return Number(n) === n && n % 1 === 0;
+            };
+
+            function isFloat(n){
+                return n === Number(n) && n % 1 !== 0;
+            };
+
+            function randomFloat(min,max) {
+                return (Math.random()*(max-min)+min).toFixed(2);
+            };
+
+            function randomInt(min,max) {
+                return Math.floor(Math.random()*(max-min+1)+min);
+            };
+
+            function randomValue(min,max) {
+                if(isFloat(min) || isFloat(max)) {
+                    return randomFloat(min,max);
+                } else {
+                    return randomInt(min,max);
+                }
+            };
+
+            function generateConfigValue(min, max, defaultValue) {
+                return fiftyFifty() ? defaultValue : randomValue(min,max);
+            };
+
+            function generateConfigValueFromSet(set) {
+                return set[randomValue(0,set.length-1)];
+            };
+
+            function generateRandomSeries(length, min, max) {
+                var arr = [];
+                var i;
+                for(i=0;i<=length;i++) {
+                    arr.push(randomValue(min, max));
+                };
+                return arr;
+            };
+
+            function generateRandomChartData() {
+                var chartData = [];
+                var length = randomValue(1,16);
+                var min = randomValue(1,100);
+                var max = randomValue(min,1000);
+                for(i=0;i<length;i++) {
+                    chartData.push(generateRandomSeries(10, min, max));
+                }
+                return chartData;
+            };
+
+            function generateChartConfig() {
+                var width = generateConfigValue(250,450,'');
+                var height = generateConfigValue(200,300,'');
+                var colorsA = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
+                    '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+                var colorsB = ["#029bde", "#99399b", "#e23838", "#f88303",
+                    "#ffb901", "#5dbc3e"];
+                var colorsC = ["#EA3556", "#64938D", "#EDE5E2", "#ED146F",
+                    "#EDDE45", "#9BF0E9"];
+                var colorsD = ["#3E7B7C", "#7EA593", "#7EA593", "#DBB793",
+                    "#EE8568", "#957673", "#CC5E4F"];
+                var colorsE = ["#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630",
+                    "#FA6900"];
+                var colorsF = ["#FF4E50", "#FC913A", "#F9D423", "#EDE574",
+                    "#E1F5C4"];
+                var colorsG = ["#A8E6CE", "#DCEDC2", "#FFD3B5", "#FFAAA6",
+                    "#FF8C94"];
+                var colors = generateConfigValueFromSet([colorsA, colorsB,
+                    colorsC, colorsD, colorsE, colorsF, colorsG]);
+
+                var legendLabelsA = ['A','B','C','D','E','F','G','H','I','J',
+                    'K','L','M','N','O','P','Q','R'];
+                var legendLabelsB = ['Alpha','Beta','Charlie','Delta','Echo',
+                    'Fanta','Gamma','Hotel','India','Jakarta','King','Left',
+                    'Master','Never','Over','Produce','Question','Recourse'];
+                var legendLabelsC = ['1','2','3','4','5','6','7','8','9','10',
+                    '11','12','13','14','15','16','17','18','19','20','21'];
+                var legendLabelsD = ['Lorem','ipsum','dolor','sit','amet',
+                    'consectetur','adipiscing','elit','praesent', 'sed','purus',
+                    'non','est','posuere', 'dapibus', 'ut', 'at', 'purus',
+                    'suspendisse'];
+                var legendLabelsE = ['Proin convallis','Ante non','Augue semper'
+                    ,'Ut rutrum','Metus feugiat','Nullam at felis',
+                    'Donec quis tincidunt','Vestibulum ut augue ligula',
+                    'Integer in odio'];
+                var legendLabels = generateConfigValueFromSet([legendLabelsA,
+                    legendLabelsB, legendLabelsC, legendLabelsD, legendLabelsE,
+                    '','',''
+                ]);
+
+                var d = false;
+                var d = 'This Simple Line Chart is ';
+                if(width) {
+                    d += width + ' pixels wide';
+                    if(height) {
+                        d += ' and ' + height + ' pixels high. ';
+                    } else {
+                        d += '.';
+                    };
+                } else if(!width && height) {
+                    d += height + ' pixels high. ';
+                } else if(!width && !height){
+                    d += ' configured with the following setup. '
+                };
+                var colorsText = '["' + colors.toString().split(',').join('", "') + '"]';
+                var legendLabelsText = '["' + legendLabels.toString().split(',').join('", "') + '"]';
+
+                var chartData = generateRandomChartData();
+                var config = {
+                    description: d ? d : 'This is the default configuration of <px-simple-line-chart>.',
+                    width: width,
+                    height: height,
+                    chartData: chartData,
+                    legendLabels: legendLabels,
+                    id: 'hello',
+                    colors: colors,
+                    colorsText: colorsText,
+                    legendLabelsText: legendLabelsText
+                };
+                return config;
+            };
+
+            var template = document.querySelector('#just-for-demo');
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                var i;
+                for(i=0;i<100;i++) {
+                    examples.push(generateChartConfig());
+                };
+                this.examples = examples;
+            });
+
+        </script>
+
+
+    </body>
+</html>

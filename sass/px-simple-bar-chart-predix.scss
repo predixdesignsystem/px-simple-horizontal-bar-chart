@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+
+//
+// Sass for the Predix notion of the px-simple-bar-chart component
+//
+// @author
+//
+
+/*
+THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
+common/abstract rules go in px-simple-bar-chart-sketch.scss, not in this file.
+*/
+
+// Settings
+@import "px-colors-design/_settings.colors.scss";
+
+@import 'px-simple-bar-chart-sketch.scss';
+
+.bar-chart-bottom-line {
+    stroke: $gray9;
+}
+
+.bar-color-0 {
+    fill: $dv-basic-blue;
+}
+.bar-color-1 {
+    fill: $dv-basic-orange;
+}
+.bar-color-2 {
+    fill: $dv-basic-green;
+}
+.bar-color-3 {
+    fill: $dv-basic-pink;
+}
+.bar-color-4 {
+    fill: $dv-basic-brown;
+}
+.bar-color-5 {
+    fill: $dv-basic-purple;
+}
+.bar-color-6 {
+    fill: $dv-basic-yellow;
+}
+.bar-color-7 {
+    fill: $dv-basic-red;
+}
+.bar-color-8 {
+    fill: $dv-basic-gray;
+}

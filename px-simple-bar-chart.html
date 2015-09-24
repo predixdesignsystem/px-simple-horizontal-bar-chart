@@ -1,0 +1,339 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<!--
+A simple bar chart that visualizes series data.
+
+##### Usage
+
+    <px-simple-bar-chart chart-data="[[1,2,3]]"></px-simple-bar-chart>
+
+    <px-simple-bar-chart chart-data="[[1,2,3],[1,2,3],[1,2,3]]">
+    </px-simple-bar-chart>
+
+@element px-simple-bar-chart
+@blurb Predix Experience Simple Bar Chart
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-simple-bar-chart">
+    <script type="text/javascript" src="../d3/d3.js"></script>
+    <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
+    <template>
+        <svg class="px-simple-bar-chart-svg"></svg>
+    </template>
+</dom-module>
+
+<script>
+
+    var defaultWidth = 283;
+    var defaultHeight = 150;
+    var defaultColors = [
+        '#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f', '#b276b2',
+        '#decf3f', '#f15854', '#4d4d4d'];
+    var defaultChartData = [
+        [10020,7067,38637,16768,30326,39947,19388],
+        [23130,44660,33249,37361,10534,21310,7169],
+        [35026,5590,579,11844,7412,20533,39119],
+        [14143,19257,49999,41541,1953,9695,30172],
+        [45566,40825,20263,28778,39128,45208,28079]
+    ];
+
+
+    Polymer({
+
+        is: 'px-simple-bar-chart',
+
+        /**
+         * Properties block, expose attribute values to the DOM via 'reflect'
+         *
+         * @property properties
+         * @type Object
+         */
+        properties: {
+            chartData: {
+                type: Array,
+                observer: 'chartDataChanged',
+                value: function() {
+                    return [];
+                }
+            },
+            width: {
+                type: Number,
+                observer: 'drawChartDebounced',
+                value: defaultWidth
+            },
+            height: {
+                type: Number,
+                observer: 'drawChartDebounced',
+                value: defaultHeight
+            },
+            legendLabels: {
+                type: Array,
+                observer: 'drawChartDebounced',
+                value: function() {
+                    return [];
+                }
+            },
+            colors: {
+                type: Array,
+                observer: 'drawChartDebounced',
+                value: function() {
+                    return defaultColors;
+                }
+            }
+        },
+
+        // Fired on attached event
+        attached: function() {
+            this.drawChartDebounced();
+        },
+
+        chartDataChanged: function(a) {
+            this.drawChartDebounced();
+        },
+
+        drawChartDebounced: function() {
+            this.debounce('drawChart', function() {
+                this.drawChart();
+            }, 300);
+        },
+
+        isInt: function(n){
+            return Number(n) === n && n % 1 === 0;
+        },
+
+        isFloat: function(n){
+            return n === Number(n) && n % 1 !== 0;
+        },
+
+        reconcileValue: function(value, defaultValue) {
+            if(value === '' || value == false || value == undefined) {
+                return defaultValue;
+            } else if(value === 'false') {
+                return false;
+            } else if(this.isFloat(value)) {
+                return parseFloat(value);
+            } else if(this.isInt(value)) {
+                return parseInt(value);
+            } else {
+                return value;
+            };
+        },
+
+        reconcileValues: function() {
+            // this function creates a buffer between what users pass into the
+            // element and what the element will use internally
+            this.widthValue = this.reconcileValue(this.width, 283);
+            this.heightValue = this.reconcileValue(this.height, 150);
+        },
+
+        drawChart: function() {
+            if(this.chartData && this.chartData.length > 0) {
+                this.reconcileValues();
+                this.attachSVG();
+                this.setSizes();
+                this.setScales();
+                this.drawBars();
+                if(this.requireLegend()) { this.drawLegend(); };
+                this.addStyleScope();
+            } else {
+                var that = this;
+                var timeout = setTimeout(function(){
+                    that.drawChart();
+                }, 100);
+            }
+        },
+
+        attachSVG: function() {
+            // select the svg element
+            this.svg = d3.select(this.$$('.px-simple-bar-chart-svg'));
+            // Remove previous child elements
+            this.svg.text("");
+        },
+
+        setSizes: function() {
+            this.gridColumns = (this.getLongestSeries().length * 2 ) - 1;
+            this.gridWidth = Math.round(this.widthValue / this.gridColumns);
+            this.chartWidth = this.gridWidth * this.gridColumns;
+            this.widthRemainder = this.widthValue % this.gridWidth;
+            if(this.requireLegend()) {
+                this.legendHeight = this.getLegendHeight() + 25;
+            } else {
+                this.legendHeight = 0;
+            }
+            this.chartHeight = this.heightValue - this.legendHeight;
+            // expand SVG to accomodate columns
+            this.svg
+                .attr("width", this.chartWidth)
+                .attr("height", this.heightValue);
+        },
+
+        getLongestSeries: function() {
+            try {
+                return this.chartData.reduce(function(prev, current) {
+                    return prev.length < current.length ? current : prev;
+                });
+            } catch(err) {
+                console.log('the error is:', err);
+                return 0;
+            }
+        },
+
+        requireLegend: function() {
+            // legend is required if any of the
+            return this.chartData.length > 1;
+        },
+
+        getMax: function() {
+            var arr = [];
+            this.chartData.forEach(function(series, i) {
+                series.forEach(function(value, j) {
+                    var valueType = typeof arr[j];
+                    if(valueType.toString() === 'undefined') {
+                        arr[j] = value;
+                    } else {
+                        arr[j] += value;
+                    }
+                });
+            });
+            return d3.max(arr);
+        },
+
+        setScales: function() {
+            // no xscale necessary
+            this.yScale = d3.scale
+                .linear()
+                .domain([0, this.getMax()])
+                .range([0, this.chartHeight]);
+        },
+
+        getLegendHeight: function() {
+            return this.drawLegend(true);
+        },
+
+        getColor: function(index) {
+            if(index >= 0 && index < this.colors.length) {
+                return this.colors[index];
+            } else {
+                // recurse and loop through color list
+                return this.getColor(Math.abs(this.colors.length - index));
+            };
+        },
+
+        drawLegend: function(dryRun) {
+            // TODO: Clean up this method, it is a bit unruly.
+            // dry run is meant to only calculate necessary height of legend
+            // track X position as legend is drawn across the top of the chart
+            var cumulativeX = 0;
+            var cumulativeY = 5;
+            var dryRun = dryRun || false;
+            var dataLength = this.chartData.length;
+            var i;
+            for(i=dataLength-1;i>=0;i--) {
+                var series = this.chartData[i];
+                var squareSize = 10;
+                var margin = 5;
+                var seriesTotal = this.getSeriesTotal(series);
+                if(this.legendLabels.length > i) {
+                    var labelText = this.legendLabels[i];
+                } else {
+                    var labelText = seriesTotal;
+                };
+                var textWidth = this.calculateTextWidth(labelText);
+                var fullWidth = squareSize + margin + textWidth;
+                var endPosition = fullWidth + cumulativeX;
+                var color = this.getColor(i);
+                if(endPosition >= this.chartWidth) {
+                    cumulativeY += 20;
+                    cumulativeX = 0;
+                };
+                var rectNode = this.svg
+                    .append("rect")
+                    .attr("class", "legend-box")
+                    .attr("x", cumulativeX)
+                    .attr("y", cumulativeY)
+                    .attr("width", squareSize)
+                    .attr("height", squareSize)
+                    .attr("fill", color);
+                var textNode = this.svg
+                    .append("text")
+                    .attr("class", "legend-text")
+                    .attr("x", cumulativeX += squareSize + margin)
+                    .attr("y", cumulativeY + 9)
+                    .text(labelText);
+                cumulativeX += Math.round(textWidth + (margin * 3));
+                if(dryRun) {
+                    rectNode.remove();
+                    textNode.remove();
+                }
+            };
+            if(dryRun) {
+                return cumulativeY;
+            }
+        },
+
+        calculateTextWidth: function(text) {
+            var textNode = this.svg
+                .append("text")
+                .attr("class", "legend-text")
+                .attr("x", 0)
+                .attr("y", 0)
+                .text(text);
+            var width = textNode.node().getComputedTextLength();
+            textNode.remove();
+             // correct for getComputedTextLength accuracy
+            return Math.round(width - (width * 0.21));
+        },
+
+        getSeriesTotal: function(series) {
+            return series.reduce(function(p,c) {
+                return p + c;
+            });
+        },
+
+        addStyleScope: function() {
+            // polymer doesn't apply style-scope classes to svg child nodes
+            // so we need to add .px-simple-line-chart-svg here
+            if(this.svg[0] && this.svg[0][0]) {
+                d3.selectAll(this.svg[0][0].childNodes)
+                    .classed(this.is, true);
+            };
+        },
+
+        drawBars: function() {
+            var offsets = []; // accumulate y for each value stack
+            var that = this;
+            this.chartData.forEach(function(series, i) {
+                var color = that.getColor(i);
+                series.forEach(function(value, j) {
+                    // for each series draw a bar representing each value
+                    var barHeight = Math.floor(that.yScale(value));
+                    var typeofElement = typeof offsets[j];
+                    var isFirst = typeofElement.toString() === 'undefined';
+                    offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
+                    var y = that.heightValue - offsets[j] - 1;
+                    var x = (that.gridWidth*2) * j;
+                    that.drawBar(x, y, that.gridWidth, barHeight, i, color);
+                });
+            });
+            this.svg
+                .append("line")
+                .attr("class","bar-chart-bottom-line")
+                .attr("x1", 0)
+                .attr("y1", this.heightValue)
+                .attr("x2", this.chartWidth)
+                .attr("y2", this.heightValue);
+        },
+
+        drawBar: function(x, y, width, height, i, color) {
+            this.svg
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", color);
+        }
+
+    });
+</script>
