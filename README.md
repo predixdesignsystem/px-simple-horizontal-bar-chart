@@ -7,7 +7,7 @@ Px-Simple-Bar-Chart is a Predix Experience ('Px') component
 
 ## Getting Started
 
-Read https://github.sw.ge.com/pages/PX/technical-principles/
+
 
 From the component's directory...
 
