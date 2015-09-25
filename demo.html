@@ -36,7 +36,9 @@
             }
             .control label {
                 float: left;
-                margin: 7px;
+                width: 85px;
+                margin: 0 5px;
+                text-align: right;
             }
             #demo-controls h3 {
                 margin: 10px;
@@ -59,6 +61,9 @@
                 background: #cccccc;
                 margin: 30px 0;
             }
+            input[type="range"] {
+                width: 120px;
+            }
         </style>
     </head>
 
@@ -70,63 +75,82 @@
                 <h3>Modify the demonstration chart:</h3>
                 <div class="control">
                     <label>Width:</label>
-                    <px-slider
-                      value="{{width}}"
-                      min="100"
-                      max="600">
-                    </px-slider>
+                    <input
+                        type="range"
+                        step="1"
+                        min="100"
+                        max="600"
+                        value="{{width}}"
+                        id="width-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{width}}</span> px
+                    </input>
                 </div>
                 <div class="control">
                     <label>Height:</label>
-                    <px-slider
-                      value="{{height}}"
-                      min="100"
-                      max="500">
-                    </px-slider>
+                    <input
+                        type="range"
+                        step="1"
+                        min="75"
+                        max="300"
+                        value="{{height}}"
+                        id="height-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{height}}</span> px
                 </div>
                 <div class="control">
-                    <label># Series:</label>
-                    <px-slider
-                      id="series-slider"
-                      class="listen-for-change"
-                      value="{{series}}"
-                      min="1"
-                      max="10">
-                    </px-slider>
-                    <input type="hidden" id="series-input" value="{{series}}" />
+                    <label>Series:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="1"
+                        max="10"
+                        value="{{series}}"
+                        id="series-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{series}}</span> series
                 </div>
                 <div class="control">
-                    <label># Values per series:</label>
-                    <px-slider
-                      id="values-slider"
-                      class="listen-for-change"
-                      value="{{values}}"
-                      min="1"
-                      max="150">
-                    </px-slider>
-                    <input type="hidden" id="values-input" value="{{values}}" />
+                    <label>Values:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="1"
+                        max="20"
+                        value="{{values}}"
+                        id="values-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{values}}</span> values per series
                 </div>
                 <div class="control">
                     <label>Min Value:</label>
-                    <px-slider
-                      id="min-slider"
-                      class="listen-for-change"
-                      value="{{min}}"
-                      min="10"
-                      max="100">
-                    </px-slider>
-                    <input type="hidden" id="min-value-input" value="{{min}}" />
+                    <input
+                        type="range"
+                        step="1"
+                        min="10"
+                        max="100"
+                        value="{{min}}"
+                        id="min-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{min}}</span> minimum value
                 </div>
                 <div class="control">
                     <label>Max Value:</label>
-                    <px-slider
-                      id="max-slider"
-                      class="listen-for-change"
-                      value="{{max}}"
-                      min="100"
-                      max="100000">
-                    </px-slider>
-                    <input type="hidden" id="max-value-input" value="{{max}}" />
+                    <input
+                        type="range"
+                        step="1"
+                        min="101"
+                        max="1000"
+                        value="{{max}}"
+                        id="max-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{max}}</span> maximum value
                 </div>
             </div>
 
@@ -136,7 +160,6 @@
                 width="{{width}}"
                 height="{{height}}"
             >&hearts;</px-simple-bar-chart>
-
 
             <br clear="both" /><br /><br />
             <hr />
@@ -203,21 +226,24 @@
                 this.series = 5;
                 this.width = 283;
                 this.height = 150;
-                handleChange();
+                var that = this;
+                handleChange(that);
                 var sliders = document.getElementsByClassName('listen-for-change');
                 for(i=0;i<sliders.length;i++) {
-                    sliders[i].addEventListener('value-changed', function (e) {
-                        handleChange();
+                    sliders[i].addEventListener('change', function (e) {
+                        handleChange(that);
                     });
                 };
             });
 
-            var handleChange = function() {
-                var valuesInput = document.getElementById("values-slider");
-                var seriesInput = document.getElementById("series-slider");
-                var numSeries = parseInt(seriesInput.value);
-                var numValues = parseInt(valuesInput.value);
-                var newData = generateNewData(numSeries, numValues);
+            var handleChange = function(that) {
+                that.min = document.getElementById('min-input').value;
+                that.max = document.getElementById('max-input').value;
+                that.width = document.getElementById('width-input').value;
+                that.height = document.getElementById('height-input').value;
+                that.values = document.getElementById('values-input').value;
+                that.series = document.getElementById('series-input').value;
+                var newData = generateNewData(that.values, that.series);
                 var chart = document.getElementById("demo-chart");
                 if(chart) {
                     chart.setAttribute("chart-data", JSON.stringify(newData));
@@ -229,8 +255,8 @@
             };
 
             var generateNewData = function(numSeries, numValues) {
-                var minValueInput = document.getElementById("min-slider");
-                var maxValueInput = document.getElementById("max-slider");
+                var minValueInput = document.getElementById("min-input");
+                var maxValueInput = document.getElementById("max-input");
                 var min = parseInt(minValueInput.value);
                 var max = parseInt(maxValueInput.value);
                 var arr = [];
@@ -376,11 +402,14 @@
             var template = document.querySelector('#just-for-demo');
             // The dom-change event signifies when the template has stamped its DOM.
             template.addEventListener('dom-change', function() {
-                var i;
-                for(i=0;i<100;i++) {
-                    examples.push(generateChartConfig());
-                };
-                this.examples = examples;
+                var that = this;
+                setTimeout(function() {
+                    var i;
+                    for(i=0;i<100;i++) {
+                        examples.push(generateChartConfig());
+                    };
+                    that.examples = examples;
+                }, 500);
             });
 
         </script>
