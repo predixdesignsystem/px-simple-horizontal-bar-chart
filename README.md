@@ -3,11 +3,13 @@ Px-Simple-Bar-Chart
 
 ## Overview
 
-Px-Simple-Bar-Chart is a Predix Experience ('Px') component
+Px-Simple-Bar-Chart is a Predix Experience ('Px') component.
+
+Use this component to visualize a series or multiple series of numeric values as a bar chart or stacked bar chart. Each series is represented by a sequence of horizontally aligned rectangle bars, the height of each proportionally representing a value. If multiple series are passed to the component then a stacked sequence of rectangle bars will be drawn using a different color to represent each series and a legend to identify them will be drawn above the bars.
+
+The colors and legend labels are configurable although the Px team recommends you stick with the default settings, if possible. The width and height are also configurable with default values of 283 pixels wide by 150 pixels high. We recommend viewing the demo.html page to become aware of the configuration possibilities.
 
 ## Getting Started
-
-
 
 From the component's directory...
 
@@ -19,7 +21,7 @@ $ grunt sass
 
 ### API and examples
 
-From the component's directory
+From the component's directory run:
 
 ```
 $ grunt depserve
@@ -27,26 +29,39 @@ $ grunt depserve
 
 Starts a local server. Navigate to the root of that server (e.g. http://localhost:8080/) in a browser to open the API documentation page, with link to the "Demo" / working examples.
 
+### Local Development
+
+Local development is enabled by running `grunt devmode` (see below)
+
 ### LiveReload
 
-By default grunt depserve is configured to enable LiveReload and will be watching for modifications in your root directory as well as `/css`.
+By default grunt watch is configured to enable LiveReload and will be watching for modifications in your root directory as well as `/css`.
 
-Your browser will also need to have the LiveReload extension installed and enabled. For instructions on how to do this please refer to [livereload.com/extensions/](http://livereload.com/extensions/).
+Your browser will also need to have the LiveReload extension installed and enabled. For instructions on how to do this please refer to: [livereload.com/extensions/](http://livereload.com/extensions/).
 
-Add, remove, modify file system patterns specified in the `depserve.options.livereload` array in your `Gruntfile.js`
-
-This is an example depserve configuration:
+This is an example watch configuration:
 
 ```
-depserve: {
-    options: {
-        open: '&lt;%= depserveOpenUrl %&gt;,
-        livereload: [__dirname + "/js", __dirname + "/css", __dirname]
+watch: {
+    sass: {
+        files: ['sass/**/*.scss'],
+        tasks: ['sass', 'autoprefixer'],
+        options: {
+            interrupt: true,
+            livereload: true
+        }
+    },
+    htmljs: {
+        files: ['*.html', '*.js'],
+        options: {
+            interrupt: true,
+            livereload: true
+        }
     }
-}
+},
 ```
 
-Disable LiveReload by removing the `livereload` key from the configuration object.
+Disable LiveReload by removing the `livereload` key from the configuration object or explicitly setting it to false.
 
 ### DevMode
 
@@ -79,15 +94,63 @@ watch: {
 
 ### Options
 
-Does this component have runtime configuration options?  If so, they should be able to be passed as attributes on the element with examples shown below.
+Options are passed into the component as attributes on the element tag.
+
+##### chart-data
+
+Send your data to the component via the `chart-data` attribute which defines the series data to be charted. It needs to be passed in as a multi-dimensional array containing one or more arrays of numeric values.
+
+```
+<px-simple-bar-chart
+    chart-data="[ [1,2,3] ]">
+</px-simple-bar-chart>
+
+<px-simple-bar-chart
+    chart-data="[ [1,2,3], [4,5,6], [7,8,9] ]">
+</px-simple-bar-chart>
+```
+
+##### width and height
+
+Set the `width` and `height` attributes to define the target pixel width and height of the chart component. The default settings are 283 by 150.
+
+```
+<px-simple-bar-chart
+    ...
+    width="370"
+    height="230">
+</px-simple-bar-chart>
+```
+
+##### legend-labels
+
+Use the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
+
+```
+<px-simple-bar-chart
+    ...
+    legend-labels="['Alpha', 'Bravo', 'Charlie']">
+</px-simple-bar-chart>
+```
+
+##### colors
+
+Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
+
+```
+<px-simple-bar-chart
+    ...
+    colors=['#5da5da', '#faa43a', '#60bd68']>
+</px-simple-bar-chart>
+```
 
 ### Function calls
 
-What is the public API of this component?
+There are no external function calls for this component.
 
 ### Extending styles
 
-Documented CSS extension points?
+There are no external CSS extension points.
 
 ### Extending behavior
 
