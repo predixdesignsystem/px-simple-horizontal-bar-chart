@@ -70,42 +70,6 @@
     <body>
 
         <template id="just-for-demo" is="dom-bind">
-            <div style="width: 290px; height: 150px;">
-                <px-simple-bar-chart
-                    id="test-chart"
-                    chart-data="[
-                        [1,2,3,1,2,1],
-                        [2,3,4,3,4,3],
-                        [5,4,5,5,5,4],
-                        [1,2,3,6,7,3],
-                        [2,3,4,1,2,2],
-                        [5,4,5,3,4,1],
-                        [5,4,5,4,5,6]
-                    ]"
-                    width="auto"
-                    height="auto"
-                >&hearts;</px-simple-bar-chart>
-            </div>
-
-            <br /><br />
-
-            <div style="width: auto; height: 150px;">
-                <px-simple-bar-chart
-                    id="test-chart"
-                    chart-data="[
-                        [1,2,3,1,2,1],
-                        [2,3,4,3,4,3],
-                        [5,4,5,5,5,4],
-                        [1,2,3,6,7,3],
-                        [2,3,4,1,2,2],
-                        [5,4,5,3,4,1],
-                        [5,4,5,4,5,6]
-                    ]"
-                    width="auto"
-                    height="auto"
-                >&hearts;</px-simple-bar-chart>
-            </div>
-
 
             <div id="demo-controls">
                 <h3>Modify the demonstration chart:</h3>
@@ -189,8 +153,6 @@
                 </div>
             </div>
 
-            <!--
-
             <px-simple-bar-chart
                 id="demo-chart"
                 chart-data="[]"
@@ -198,7 +160,27 @@
                 height="{{height}}"
             >&hearts;</px-simple-bar-chart>
 
-            -->
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>Test of "auto" width and height:</h3>
+            <br clear="both"/>
+            <div style="height: 200px; width: 100%">
+                <px-simple-bar-chart
+                    id="responsive-chart"
+                    chart-data="[
+                        [1,2,3,5,6,3,5,6,1,2,3,4],
+                        [5,2,1,2,3,7,5,3,4,5,6,7],
+                        [1,3,1,3,4,4,2,2,5,6,7,8],
+                        [4,5,6,3,2,3,4,2,5,3,2,1],
+                        [1,2,3,5,6,3,4,2,3,1,2,3],
+                        [5,2,1,2,3,1,2,3,5,6,7,8],
+                        [1,3,1,3,4,4,5,3,7,8,9,2]
+                    ]"
+                    width="auto"
+                    height="auto"
+                >&hearts;</px-simple-bar-chart>
+            </div>
+
 
             <br clear="both" /><br /><br />
             <hr />
@@ -405,7 +387,6 @@
                     legendLabelsB, legendLabelsC, legendLabelsD, legendLabelsE,
                     '','',''
                 ]);
-
                 var d = false;
                 var d = 'This Simple Bar Chart is ';
                 if(width) {
