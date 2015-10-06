@@ -14,21 +14,20 @@
         <link rel="import" href="px-simple-bar-chart.html"/>
         <style>
             body, html {
-                background: #fff;
+                background: #ffffff;
                 font-family: sans-serif;
-                padding: 1%;
-                font-family: sans-serif;
+                padding: 0.5%;
                 font-size: 14px;
                 line-height: 22px;
             }
             div#demo-controls {
                 background: #ffffff;
-                margin: 15px;
+                margin: 10px;
                 padding: 5px;
                 border: 1px solid #cccccc;
-                width: 400px;
+                width: 440px;
                 display: block;
-                float: right;
+                float: left;
             }
             .control {
                 margin: 5px;
@@ -59,7 +58,7 @@
                 height: 1px;
                 border: 0;
                 background: #cccccc;
-                margin: 30px 0;
+                margin: 50px 0 0 0;
             }
             input[type="range"] {
                 width: 120px;
@@ -69,7 +68,32 @@
 
     <body>
 
+        <h1>px-simple-bar-chart demonstration page</h1>
+
         <template id="just-for-demo" is="dom-bind">
+
+            <hr /><br />
+
+            <div class="description">
+                <strong>Description</strong>
+                <br /><br />
+                <i>px-simple-bar-chart with the default configuration.</i>
+            </div>
+            <div class="example">
+                <strong>Example chart</strong>
+                <br /><br />
+                <px-simple-bar-chart
+                    id="default-chart"
+                >&hearts;</px-simple-bar-chart>
+            </div>
+            <div class="config">
+                <strong>Configuration</strong>
+                <br /><br />
+                &lt;px-simple-bar-chart&gt;
+                &lt;/px-simple-bar-chart&gt;
+            </div>
+
+            <br clear="both" /><hr /><br />
 
             <div id="demo-controls">
                 <h3>Modify the demonstration chart:</h3>
@@ -153,9 +177,10 @@
                 </div>
             </div>
 
+
+
             <px-simple-bar-chart
                 id="demo-chart"
-                chart-data="[]"
                 width="{{width}}"
                 height="{{height}}"
             >&hearts;</px-simple-bar-chart>
@@ -368,24 +393,24 @@
                 var colors = generateConfigValueFromSet([colorsA, colorsB,
                     colorsC, colorsD, colorsE, colorsF, colorsG]);
 
-                var legendLabelsA = ['A','B','C','D','E','F','G','H','I','J',
-                    'K','L','M','N','O','P','Q','R'];
-                var legendLabelsB = ['Alpha','Beta','Charlie','Delta','Echo',
-                    'Fanta','Gamma','Hotel','India','Jakarta','King','Left',
-                    'Master','Never','Over','Produce','Question','Recourse'];
-                var legendLabelsC = ['1','2','3','4','5','6','7','8','9','10',
-                    '11','12','13','14','15','16','17','18','19','20','21'];
-                var legendLabelsD = ['Lorem','ipsum','dolor','sit','amet',
-                    'consectetur','adipiscing','elit','praesent', 'sed','purus',
-                    'non','est','posuere', 'dapibus', 'ut', 'at', 'purus',
+                var legendLabelsA = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R' ];
+                var legendLabelsB = [ 'Alpha', 'Beta', 'Charlie', 'Delta', 'Echo',
+                    'Fanta', 'Gamma', 'Hotel', 'India', 'Jakarta', 'King', 'Left',
+                    'Master', 'Never', 'Over', 'Produce', 'Question', 'Recourse'];
+                var legendLabelsC = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21'];
+                var legendLabelsD = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
+                    'consectetur', 'adipiscing', 'elit', 'praesent', 'sed', 'purus',
+                    'non', 'est', 'posuere', 'dapibus', 'ut', 'at', 'purus',
                     'suspendisse'];
-                var legendLabelsE = ['Proin convallis','Ante non','Augue semper'
-                    ,'Ut rutrum','Metus feugiat','Nullam at felis',
-                    'Donec quis tincidunt','Vestibulum ut augue ligula',
+                var legendLabelsE = ['Proin convallis', 'Ante non', 'Augue semper'
+                    ,'Ut rutrum', 'Metus feugiat', 'Nullam at felis',
+                    'Donec quis tincidunt', 'Vestibulum ut augue ligula',
                     'Integer in odio'];
-                var legendLabels = generateConfigValueFromSet([legendLabelsA,
-                    legendLabelsB, legendLabelsC, legendLabelsD, legendLabelsE,
-                    '','',''
+                var legendLabels = generateConfigValueFromSet([
+                    legendLabelsA, legendLabelsB, legendLabelsC, legendLabelsD,
+                    legendLabelsE
                 ]);
                 var d = false;
                 var d = 'This Simple Bar Chart is ';
@@ -425,7 +450,7 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<0;i++) {
+                    for(i=0;i<100;i++) {
                         examples.push(generateChartConfig());
                     };
                     that.examples = examples;
