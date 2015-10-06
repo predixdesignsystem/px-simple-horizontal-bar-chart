@@ -70,6 +70,42 @@
     <body>
 
         <template id="just-for-demo" is="dom-bind">
+            <div style="width: 290px; height: 150px;">
+                <px-simple-bar-chart
+                    id="test-chart"
+                    chart-data="[
+                        [1,2,3,1,2,1],
+                        [2,3,4,3,4,3],
+                        [5,4,5,5,5,4],
+                        [1,2,3,6,7,3],
+                        [2,3,4,1,2,2],
+                        [5,4,5,3,4,1],
+                        [5,4,5,4,5,6]
+                    ]"
+                    width="auto"
+                    height="auto"
+                >&hearts;</px-simple-bar-chart>
+            </div>
+
+            <br /><br />
+
+            <div style="width: auto; height: 150px;">
+                <px-simple-bar-chart
+                    id="test-chart"
+                    chart-data="[
+                        [1,2,3,1,2,1],
+                        [2,3,4,3,4,3],
+                        [5,4,5,5,5,4],
+                        [1,2,3,6,7,3],
+                        [2,3,4,1,2,2],
+                        [5,4,5,3,4,1],
+                        [5,4,5,4,5,6]
+                    ]"
+                    width="auto"
+                    height="auto"
+                >&hearts;</px-simple-bar-chart>
+            </div>
+
 
             <div id="demo-controls">
                 <h3>Modify the demonstration chart:</h3>
@@ -153,12 +189,16 @@
                 </div>
             </div>
 
+            <!--
+
             <px-simple-bar-chart
                 id="demo-chart"
                 chart-data="[]"
                 width="{{width}}"
                 height="{{height}}"
             >&hearts;</px-simple-bar-chart>
+
+            -->
 
             <br clear="both" /><br /><br />
             <hr />
@@ -404,7 +444,7 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<100;i++) {
+                    for(i=0;i<0;i++) {
                         examples.push(generateChartConfig());
                     };
                     that.examples = examples;

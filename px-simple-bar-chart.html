@@ -24,8 +24,8 @@ A simple bar chart that visualizes series data.
 
 <script>
 
-    var defaultWidth = 283;
-    var defaultHeight = 150;
+    var defaultWidth = '283';
+    var defaultHeight = '150';
     var defaultColors = [
         '#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f', '#b276b2',
         '#decf3f', '#f15854', '#4d4d4d'];
@@ -57,12 +57,12 @@ A simple bar chart that visualizes series data.
                 }
             },
             width: {
-                type: Number,
+                type: String,
                 observer: 'drawChartDebounced',
                 value: defaultWidth
             },
             height: {
-                type: Number,
+                type: String,
                 observer: 'drawChartDebounced',
                 value: defaultHeight
             },
@@ -94,7 +94,21 @@ A simple bar chart that visualizes series data.
         drawChartDebounced: function() {
             this.debounce('drawChart', function() {
                 this.drawChart();
-            }, 300);
+            }, 100);
+        },
+
+        removeChart: function() {
+            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"))
+                .attr("width", 1)
+                .attr("height", 1);
+            // Remove previous child elements
+            this.svg.text("");
+        },
+
+        removeChartDebounced: function() {
+            this.debounce('removeChart', function() {
+                this.removeChart();
+            }, 100);
         },
 
         isInt: function(n){
@@ -122,8 +136,69 @@ A simple bar chart that visualizes series data.
         reconcileValues: function() {
             // this function creates a buffer between what users pass into the
             // element and what the element will use internally
-            this.widthValue = this.reconcileValue(this.width, 283);
-            this.heightValue = this.reconcileValue(this.height, 150);
+            this.widthValue = this.reconcileDimensionValue(this.width, 283);
+            this.heightValue = this.reconcileDimensionValue(this.height, 150);
+            if(this.heightValue === 'auto' || this.widthValue === 'auto') {
+                var that = this;
+                window.onresize = function() {
+                    that.removeChartDebounced();
+                    that.drawChartDebounced();
+                };
+            };
+            if(this.widthValue === 'auto') {
+                this.widthValue = this.getWidthAuto();
+            };
+            if(this.heightValue === 'auto') {
+                this.heightValue = this.getHeightAuto();
+            };
+        },
+
+        getElementPadding: function(el) {
+            var style = window.getComputedStyle(el, null);
+            return {
+                top: style.getPropertyValue('padding-top').split('px')[0],
+                right: style.getPropertyValue('padding-right').split('px')[0],
+                bottom: style.getPropertyValue('padding-bottom').split('px')[0],
+                left: style.getPropertyValue('padding-left').split('px')[0]
+            };
+        },
+
+        getWidthAuto: function() {
+            var el = this.$$('.px-simple-bar-chart-svg').parentNode.parentNode;
+            var padding = this.getElementPadding(el);
+            return parseInt(el.clientWidth - padding.left - padding.right);
+        },
+
+        getHeightAuto: function() {
+            var el = this.$$('.px-simple-bar-chart-svg').parentNode.parentNode;
+            var padding = this.getElementPadding(el);
+            return parseInt(el.clientHeight - padding.top - padding.bottom);
+        },
+
+        reconcileDimensionValue: function(value, defaultValue) {
+            var r = defaultValue;
+            switch(value) {
+                case '':
+                case false:
+                case undefined:
+                    break;
+                case 'false':
+                    r = false;
+                    break;
+                case 'auto':
+                    r = 'auto';
+                    break;
+                default:
+                    if(this.isFloat(value)) {
+                        r = parseFloat(value);
+                    } else if(this.isInt(value)) {
+                        r = parseInt(value);
+                    } else {
+                        r = value;
+                    };
+                    break;
+            };
+            return r;
         },
 
         drawChart: function() {
@@ -292,7 +367,7 @@ A simple bar chart that visualizes series data.
 
         addStyleScope: function() {
             // polymer doesn't apply style-scope classes to svg child nodes
-            // so we need to add .px-simple-line-chart-svg here
+            // so we need to add .px-simple-bar-chart-svg here
             if(this.svg[0] && this.svg[0][0]) {
                 d3.selectAll(this.svg[0][0].childNodes)
                     .classed(this.is, true);
