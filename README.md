@@ -41,7 +41,7 @@ Your browser will also need to have the LiveReload extension installed and enabl
 
 This is an example watch configuration:
 
-```
+```javascript
 watch: {
     sass: {
         files: ['sass/**/*.scss'],
@@ -75,7 +75,7 @@ Starts a local server exactly the same as if you had run `grunt depserve` howeve
 
 This is an example `grunt watch` configuration which watches for changes to SASS files, then on changes executes SASS compilation and automatic prefixing:
 
-```
+```javascript
 watch: {
     sass: {
         files: ['sass/**/*.scss'],
@@ -100,7 +100,7 @@ Options are passed into the component as attributes on the element tag.
 
 Send your data to the component via the `chart-data` attribute which defines the series data to be charted. It needs to be passed in as a multi-dimensional array containing one or more arrays of numeric values.
 
-```
+```html
 <px-simple-bar-chart
     chart-data="[ [1,2,3] ]">
 </px-simple-bar-chart>
@@ -114,7 +114,7 @@ Send your data to the component via the `chart-data` attribute which defines the
 
 Set the `width` and `height` attributes to define the target pixel width and height of the chart component. The default settings are 283 by 150.
 
-```
+```html
 <px-simple-bar-chart
     ...
     width="370"
@@ -122,11 +122,23 @@ Set the `width` and `height` attributes to define the target pixel width and hei
 </px-simple-bar-chart>
 ```
 
+###### Automatic width and height for responsive layouts
+
+Set the `width` and `height` attributes to "auto" and the chart will expand to fill it's containing element. *Note: The containing element must be a block-level element.*
+
+```html
+<px-simple-line-chart
+    ...
+    width="auto"
+    height="auto">
+</px-simple-line-chart>
+```
+
 ##### legend-labels
 
 Use the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
 
-```
+```html
 <px-simple-bar-chart
     ...
     legend-labels="['Alpha', 'Bravo', 'Charlie']">
@@ -137,7 +149,7 @@ Use the `legend-labels` attribute to define custom text labels for your bar char
 
 Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
 
-```
+```html
 <px-simple-bar-chart
     ...
     colors=['#5da5da', '#faa43a', '#60bd68']>
