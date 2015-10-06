@@ -4,9 +4,9 @@ A simple bar chart that visualizes series data.
 
 ##### Usage
 
-    <px-simple-bar-chart chart-data="[[1,2,3]]"></px-simple-bar-chart>
+    <px-simple-bar-chart chart-data="[ [1,2,3] ]"></px-simple-bar-chart>
 
-    <px-simple-bar-chart chart-data="[[1,2,3],[1,2,3],[1,2,3]]">
+    <px-simple-bar-chart chart-data="[ [1,2,3], [1,2,3], [1,2,3] ]">
     </px-simple-bar-chart>
 
 @element px-simple-bar-chart
@@ -36,7 +36,12 @@ A simple bar chart that visualizes series data.
         [14143,19257,49999,41541,1953,9695,30172],
         [45566,40825,20263,28778,39128,45208,28079]
     ];
+    defaultChartData = [
+        [1,2,3,4,5,6,7],
+        [7,6,5,4,3,2,1],
+        [2,4,6,7,5,3,1],
 
+    ];
 
     Polymer({
 
@@ -53,7 +58,7 @@ A simple bar chart that visualizes series data.
                 type: Array,
                 observer: 'chartDataChanged',
                 value: function() {
-                    return [];
+                    return defaultChartData;
                 }
             },
             width: {
