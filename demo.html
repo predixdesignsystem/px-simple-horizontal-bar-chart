@@ -178,18 +178,19 @@
             </div>
 
 
-
-            <px-simple-bar-chart
-                id="demo-chart"
-                width="{{width}}"
-                height="{{height}}"
-            >&hearts;</px-simple-bar-chart>
+            <div>
+                <px-simple-bar-chart
+                    id="demo-chart"
+                    width="{{width}}"
+                    height="{{height}}"
+                >&hearts;</px-simple-bar-chart>
+            </div>
 
             <br clear="both" /><br /><br />
             <hr />
             <h3>Test of "auto" width and height:</h3>
             <br clear="both"/>
-            <div style="height: 200px; width: 100%">
+            <div style="height: 250px; width: 100%">
                 <px-simple-bar-chart
                     id="responsive-chart"
                     chart-data="[
@@ -450,7 +451,7 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<100;i++) {
+                    for(i=0;i<0;i++) {
                         examples.push(generateChartConfig());
                     };
                     that.examples = examples;
