@@ -56,6 +56,12 @@ var pxChartCommon = {
             .attr("height", 1);
         // Remove previous child elements
         this.svg.text("");
+    },
+
+    _getSeriesTotal: function(series) {
+        return series.reduce(function(p,c) {
+            return p + c;
+        });
     }
 
 };

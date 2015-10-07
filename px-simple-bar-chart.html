@@ -263,12 +263,6 @@ A simple bar chart that visualizes series data.
             return Math.round(width - (width * 0.21));
         },
 
-        _getSeriesTotal: function(series) {
-            return series.reduce(function(p,c) {
-                return p + c;
-            });
-        },
-
         _drawBars: function() {
             var offsets = []; // accumulate y for each value stack
             var that = this;
