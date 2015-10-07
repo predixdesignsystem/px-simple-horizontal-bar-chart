@@ -1,10 +1,10 @@
 <script>
 /*
-Behavior to define the width and height of an SVG chart
-Incoming `width` and `height` attributes may be defined as:
-Number, Number as String, or "auto". Numbers will be coerced into String
-Depends on local methods this._drawChart and this._removeChart
-Defines default values which may be overridden in parent chart element
+    Behavior to define the width and height of an SVG chart
+    Incoming `width` and `height` attributes may be defined as:
+    Number, Number as String, or "auto". Numbers will be coerced into String
+    Depends on local method this._drawChart
+    Defines default values which may be overridden in parent chart element
 */
 
 var defaultWidth = '283';
@@ -57,9 +57,9 @@ var pxChartDimensionsBehavior = {
                 return this._getAutoValue(type);
                 break;
             default:
-                if(this._isFloat(value)) {
+                if(px.isFloat(value)) {
                     return parseFloat(value);
-                } else if(this._isInt(value)) {
+                } else if(px.isInt(value)) {
                     return parseInt(value);
                 } else {
                     return value;

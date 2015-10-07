@@ -16,13 +16,15 @@ A simple bar chart that visualizes series data.
 -->
 <dom-module id="px-simple-bar-chart">
     <script type="text/javascript" src="../d3/d3.js"></script>
+    <script type="text/javascript" src="px-util.js"></script>
     <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
     <template>
         <svg class="px-simple-bar-chart-svg"></svg>
     </template>
 </dom-module>
 
-<link rel="import" href="px-chart-width-behavior.html">
+<link rel="import" href="px-chart-width-behavior.html" />
+<link rel="import" href="px-d3-util.html" />
 
 <script>
 
@@ -40,7 +42,7 @@ A simple bar chart that visualizes series data.
 
         is: 'px-simple-bar-chart',
 
-        behaviors: [pxChartDimensionsBehavior],
+        behaviors: [pxChartDimensionsBehavior, pxD3Util],
 
         /**
          * Properties block, expose attribute values to the DOM via 'reflect'
@@ -93,9 +95,26 @@ A simple bar chart that visualizes series data.
         },
 
         _drawChart: function() {
+            this._removeChart();
+            // multiple calls to _drawChart need to be debounced
             this.debounce('_drawChartDebounced', function() {
                 this._drawChartDebounced();
-            }, 100);
+            }, 310);
+        },
+
+        _removeChart: function() {
+            this.debounce('_removeChartDebounced', function() {
+                // first ensure that our SVG element is empty
+                this._removeChartDebounced();
+            }, 300);
+        },
+
+        _removeChartDebounced: function() {
+            this.svg = d3.select(this.$$("svg"))
+                .attr("width", 1)
+                .attr("height", 1);
+            // Remove previous child elements
+            this.svg.text("");
         },
 
         _drawChartDebounced: function() {
@@ -103,19 +122,20 @@ A simple bar chart that visualizes series data.
                 // capture dimensions using pxChartDimensionsBehavior
                 this.widthValue = this._reconcileWidth(this.width);
                 this.heightValue = this._reconcileHeight(this.height);
-                // if auto-resize is turned on, set window.onresize
+                // if auto-resize is necessary, set window.onresize listener
                 if(this.height === 'auto' || this.width === 'auto') {
                     var that = this;
                     window.onresize = function() {
-                        that._removeChart();
                         that._drawChart();
                     };
                 };
+                // add css class to svg elements using method from pxD3Util
                 this._attachSVG();
                 this._setSizes();
                 this._setScales();
                 this._drawBars();
-                if(this._requireLegend()) { this._drawLegend(); };
+                this._requireLegend() ? this._drawLegend() : false;
+                // add css class to svg elements using method from pxD3Util
                 this._addStyleScope();
             } else {
                 var that = this;
@@ -125,47 +145,18 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _removeChartDebounced: function() {
-            this.svg = d3.select(this.$$(".px-simple-bar-chart-svg"))
-                .attr("width", 1)
-                .attr("height", 1);
-            // Remove previous child elements
-            this.svg.text("");
-        },
-
-        _removeChart: function() {
-            this.debounce('_removeChartDebounced', function() {
-                this._removeChartDebounced();
-            }, 100);
-        },
-
-        _isInt: function(n){
-            return Number(n) === n && n % 1 === 0;
-        },
-
-        _isFloat: function(n){
-            return n === Number(n) && n % 1 !== 0;
-        },
-
         _reconcileValue: function(value, defaultValue) {
             if(value === '' || value == false || value == undefined) {
                 return defaultValue;
             } else if(value === 'false') {
                 return false;
-            } else if(this._isFloat(value)) {
+            } else if(px.isFloat(value)) {
                 return parseFloat(value);
-            } else if(this._isInt(value)) {
+            } else if(px.isInt(value)) {
                 return parseInt(value);
             } else {
                 return value;
             };
-        },
-
-        _attachSVG: function() {
-            // select the svg element
-            this.svg = d3.select(this.$$('.px-simple-bar-chart-svg'));
-            // Remove previous child elements
-            this.svg.text("");
         },
 
         _setSizes: function() {
@@ -177,7 +168,7 @@ A simple bar chart that visualizes series data.
                 this.legendHeight = this._getLegendHeight() + 25;
             } else {
                 this.legendHeight = 0;
-            }
+            };
             this.chartHeight = this.heightValue - this.legendHeight;
             // expand SVG to accomodate columns
             this.svg
@@ -193,7 +184,7 @@ A simple bar chart that visualizes series data.
             } catch(err) {
                 console.log('the error is:', err);
                 return 0;
-            }
+            };
         },
 
         _requireLegend: function() {
@@ -306,15 +297,6 @@ A simple bar chart that visualizes series data.
             return series.reduce(function(p,c) {
                 return p + c;
             });
-        },
-
-        _addStyleScope: function() {
-            // polymer doesn't apply style-scope classes to svg child nodes
-            // so we need to add .px-simple-bar-chart-svg here
-            if(this.svg[0] && this.svg[0][0]) {
-                d3.selectAll(this.svg[0][0].childNodes)
-                    .classed(this.is, true);
-            };
         },
 
         _drawBars: function() {
