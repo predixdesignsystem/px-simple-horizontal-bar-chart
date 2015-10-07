@@ -7,15 +7,21 @@
     Polymer behavior that provides the basic operations for px-simple-bar-chart
     and px-simple-line-chart
 
-    Depends on D3
+    Dependencies:
+    - D3
+
 */
 var pxChartCommon = {
 
     // Fired on attached event
     attached: function() {
+        this.svg = d3.select(this.$$("svg"));
         this._drawChart();
     },
 
+    /**
+     * _drawChart() removes previous chart and debounces multiple calls
+    */
     _drawChart: function() {
         this._removeChart();
         // multiple calls to _drawChart need to be debounced
@@ -24,6 +30,9 @@ var pxChartCommon = {
         }, 310);
     },
 
+    /**
+     * _removeChart() removes previous chart and debounces multiple calls
+    */
     _removeChart: function() {
         this.debounce('_removeChartDebounced', function() {
             // first ensure that our SVG element is empty
@@ -31,36 +40,42 @@ var pxChartCommon = {
         }, 300);
     },
 
+    /**
+     * _removeChartDebounced() adds the style-scope class of the component to all SVG
+     * child nodes. This is necessary because Polymer, while applying the class
+     * to child HTML elements, does not apply the class to child SVG elements
+     *
+    */
     _removeChartDebounced: function() {
-        this.svg = d3.select(this.$$("svg"))
-            .attr("width", 1)
-            .attr("height", 1);
-        // Remove previous child elements
-        this.svg.text("");
+        this.svg.attr("width", 1)
+            .attr("height", 1)
+            .text("");
     },
 
+    /**
+     * _addStyleScope() adds the style-scope class of the component to all SVG
+     * child nodes. This is necessary because Polymer, while applying the class
+     * to child HTML elements, does not apply the class to child SVG elements
+     *
+    */
     _addStyleScope: function() {
         // polymer doesn't apply style-scope classes to svg child nodes
         // so we need to add .px-simple-bar-chart-svg here
-        var svg = d3.select(this.$$("svg"));
-        if(svg[0] && svg[0][0]) {
-            d3.selectAll(svg[0][0].childNodes)
+        if(this.svg[0] && this.svg[0][0]) {
+            d3.selectAll(this.svg[0][0].childNodes)
                 .classed(this.is, true);
         };
     },
-
 
     /**
      * _clearSVG() selects the SVG of the chart, shrinks it to 1px by 1px and
      * empties it of child elements. This is necessary to do before drawing or
      * redrawing the chart.
      *
-     * @param {Array} series
-     * @return {Number} sum
     */
-    _clearSVG: function(svg) {
+    _clearSVG: function() {
         // select the svg element
-        svg
+        this.svg
             .attr("width", 1)
             .attr("height", 1)
             .text("");
@@ -96,10 +111,18 @@ var pxChartCommon = {
         };
     },
 
-    _calculateTextWidth: function(text) {
+    /**
+     * _calculateTextWidth() returns the width in pixels for a given string of
+     * text when rendered in SVG using the given className
+     *
+     * @param {String} text
+     * @param {String} className
+     * @return {Number} width
+    */
+    _calculateTextWidth: function(text, className) {
         var textNode = this.svg
             .append("text")
-            .attr("class", "legend-text")
+            .attr("class", className)
             .attr("x", 0)
             .attr("y", 0)
             .text(text);

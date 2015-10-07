@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-chart-dimensions-behavior.html" />
-<link rel="import" href="px-chart-common.html" />
+<link rel="import" href="px-chart-common-behavior.html" />
 <!--
 A simple bar chart that visualizes series data.
 
@@ -98,7 +98,7 @@ A simple bar chart that visualizes series data.
                 this._drawBars();
                 this._requireLegend() ? this._drawLegend() : false;
                 // add css class to svg elements using method from pxD3Util
-                this._addStyleScope();
+                this._addStyleScope(this.svg);
             } else {
                 var that = this;
                 var timeout = setTimeout(function(){
@@ -197,7 +197,7 @@ A simple bar chart that visualizes series data.
                 } else {
                     var labelText = seriesTotal;
                 };
-                var textWidth = this._calculateTextWidth(labelText);
+                var textWidth = this._calculateTextWidth(labelText, "legend-text");
                 var fullWidth = squareSize + margin + textWidth;
                 var endPosition = fullWidth + cumulativeX;
                 var color = this._getColor(i);
