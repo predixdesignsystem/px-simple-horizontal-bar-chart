@@ -250,19 +250,6 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _calculateTextWidth: function(text) {
-            var textNode = this.svg
-                .append("text")
-                .attr("class", "legend-text")
-                .attr("x", 0)
-                .attr("y", 0)
-                .text(text);
-            var width = textNode.node().getComputedTextLength();
-            textNode.remove();
-             // correct for getComputedTextLength accuracy
-            return Math.round(width - (width * 0.21));
-        },
-
         _drawBars: function() {
             var offsets = []; // accumulate y for each value stack
             var that = this;
