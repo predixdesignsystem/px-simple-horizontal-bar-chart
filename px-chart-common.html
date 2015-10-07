@@ -1,0 +1,62 @@
+<script>
+/*
+    Name:
+    pxChartCommon
+
+    Description:
+    Polymer behavior that provides the basic operations for px-simple-bar-chart
+    and px-simple-line-chart
+
+    Depends on D3
+*/
+var pxChartCommon = {
+
+    // Fired on attached event
+    attached: function() {
+        this._drawChart();
+    },
+
+    _drawChart: function() {
+        this._removeChart();
+        // multiple calls to _drawChart need to be debounced
+        this.debounce('_drawChartDebounced', function() {
+            this._drawChartDebounced();
+        }, 310);
+    },
+
+    _removeChart: function() {
+        this.debounce('_removeChartDebounced', function() {
+            // first ensure that our SVG element is empty
+            this._removeChartDebounced();
+        }, 300);
+    },
+
+    _removeChartDebounced: function() {
+        this.svg = d3.select(this.$$("svg"))
+            .attr("width", 1)
+            .attr("height", 1);
+        // Remove previous child elements
+        this.svg.text("");
+    },
+
+    _addStyleScope: function() {
+        // polymer doesn't apply style-scope classes to svg child nodes
+        // so we need to add .px-simple-bar-chart-svg here
+        var svg = d3.select(this.$$("svg"));
+        if(svg[0] && svg[0][0]) {
+            d3.selectAll(svg[0][0].childNodes)
+                .classed(this.is, true);
+        };
+    },
+
+    _attachSVG: function() {
+        // select the svg element
+        this.svg = d3.select(this.$$('svg'))
+            .attr("width", 1)
+            .attr("height", 1);
+        // Remove previous child elements
+        this.svg.text("");
+    }
+
+};
+</script>

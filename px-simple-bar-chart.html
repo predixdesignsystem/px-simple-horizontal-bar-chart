@@ -4,7 +4,8 @@ A simple bar chart that visualizes series data.
 
 ##### Usage
 
-    <px-simple-bar-chart chart-data="[ [1,2,3] ]"></px-simple-bar-chart>
+    <px-simple-bar-chart chart-data="[ [1,2,3] ]">
+    </px-simple-bar-chart>
 
     <px-simple-bar-chart chart-data="[ [1,2,3], [1,2,3], [1,2,3] ]">
     </px-simple-bar-chart>
@@ -23,8 +24,8 @@ A simple bar chart that visualizes series data.
     </template>
 </dom-module>
 
-<link rel="import" href="px-chart-width-behavior.html" />
-<link rel="import" href="px-d3-util.html" />
+<link rel="import" href="px-chart-dimensions-behavior.html" />
+<link rel="import" href="px-chart-common.html" />
 
 <script>
 
@@ -42,7 +43,7 @@ A simple bar chart that visualizes series data.
 
         is: 'px-simple-bar-chart',
 
-        behaviors: [pxChartDimensionsBehavior, pxD3Util],
+        behaviors: [pxChartDimensionsBehavior, pxChartCommon],
 
         /**
          * Properties block, expose attribute values to the DOM via 'reflect'
@@ -87,34 +88,6 @@ A simple bar chart that visualizes series data.
                     return defaultColors;
                 }
             }
-        },
-
-        // Fired on attached event
-        attached: function() {
-            this._drawChart();
-        },
-
-        _drawChart: function() {
-            this._removeChart();
-            // multiple calls to _drawChart need to be debounced
-            this.debounce('_drawChartDebounced', function() {
-                this._drawChartDebounced();
-            }, 310);
-        },
-
-        _removeChart: function() {
-            this.debounce('_removeChartDebounced', function() {
-                // first ensure that our SVG element is empty
-                this._removeChartDebounced();
-            }, 300);
-        },
-
-        _removeChartDebounced: function() {
-            this.svg = d3.select(this.$$("svg"))
-                .attr("width", 1)
-                .attr("height", 1);
-            // Remove previous child elements
-            this.svg.text("");
         },
 
         _drawChartDebounced: function() {
