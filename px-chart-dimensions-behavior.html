@@ -55,28 +55,8 @@ var pxChartDimensionsBehavior = {
     },
 
     _reconcileDimensionValue: function(value, defaultValue, type) {
-        switch(value) {
-            case '':
-            case false:
-            case undefined:
-                return defaultValue;
-                break;
-            case 'false':
-                return false;
-                break;
-            case 'auto':
-                return this._getAutoValue(type);
-                break;
-            default:
-                if(px.isFloat(value)) {
-                    return parseFloat(value);
-                } else if(px.isInt(value)) {
-                    return parseInt(value);
-                } else {
-                    return value;
-                };
-                break;
-        };
+        var value = this._reconcileValue(value, defaultValue);
+        return value === 'auto' ? this._getAutoValue(type) : value;
     },
 
     _getAutoValue: function(type) {

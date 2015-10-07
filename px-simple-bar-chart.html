@@ -89,18 +89,10 @@ A simple bar chart that visualizes series data.
 
         _drawChartDebounced: function() {
             if(this.chartData && this.chartData.length > 0) {
-                // capture dimensions using pxChartDimensionsBehavior
-                this.widthValue = this._reconcileWidth(this.width);
-                this.heightValue = this._reconcileHeight(this.height);
-                // if auto-resize is necessary, set window.onresize listener
-                if(this.height === 'auto' || this.width === 'auto') {
-                    var that = this;
-                    window.onresize = function() {
-                        that._drawChart();
-                    };
-                };
-                // add css class to svg elements using method from pxD3Util
-                this._attachSVG();
+                // setup svg element and selection
+                this.svg = this.svg || d3.select(this.$$('svg'));
+                this._clearSVG(this.svg);
+                this._setDimensions();
                 this._setSizes();
                 this._setScales();
                 this._drawBars();
@@ -115,22 +107,21 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _reconcileValue: function(value, defaultValue) {
-            if(value === '' || value == false || value == undefined) {
-                return defaultValue;
-            } else if(value === 'false') {
-                return false;
-            } else if(px.isFloat(value)) {
-                return parseFloat(value);
-            } else if(px.isInt(value)) {
-                return parseInt(value);
-            } else {
-                return value;
+        _setDimensions: function() {
+            // capture dimensions using pxChartDimensionsBehavior
+            this.widthValue = this._reconcileWidth(this.width);
+            this.heightValue = this._reconcileHeight(this.height);
+            // if auto-resize is necessary, set window.onresize listener
+            if(this.height === 'auto' || this.width === 'auto') {
+                var that = this;
+                window.onresize = function() {
+                    that._drawChart();
+                };
             };
         },
 
         _setSizes: function() {
-            this.gridColumns = (this._getLongestSeries().length * 2 ) - 1;
+            this.gridColumns = (this._getLongestSeries(this.chartData).length * 2 ) - 1;
             this.gridWidth = Math.round(this.widthValue / this.gridColumns);
             this.chartWidth = this.gridWidth * this.gridColumns;
             this.widthRemainder = this.widthValue % this.gridWidth;
@@ -144,17 +135,6 @@ A simple bar chart that visualizes series data.
             this.svg
                 .attr("width", this.chartWidth)
                 .attr("height", this.heightValue);
-        },
-
-        _getLongestSeries: function() {
-            try {
-                return this.chartData.reduce(function(prev, current) {
-                    return prev.length < current.length ? current : prev;
-                });
-            } catch(err) {
-                console.log('the error is:', err);
-                return 0;
-            };
         },
 
         _requireLegend: function() {

@@ -49,19 +49,51 @@ var pxChartCommon = {
         };
     },
 
-    _attachSVG: function() {
+
+    /**
+     * _clearSVG() selects the SVG of the chart, shrinks it to 1px by 1px and
+     * empties it of child elements. This is necessary to do before drawing or
+     * redrawing the chart.
+     *
+     * @param {Array} series
+     * @return {Number} sum
+    */
+    _clearSVG: function(svg) {
         // select the svg element
-        this.svg = d3.select(this.$$('svg'))
+        svg
             .attr("width", 1)
-            .attr("height", 1);
-        // Remove previous child elements
-        this.svg.text("");
+            .attr("height", 1)
+            .text("");
     },
 
+    /**
+     * _getSeriesTotal() returns the sum of the values of a series
+     *
+     * @param {Array} series
+     * @return {Number} sum
+    */
     _getSeriesTotal: function(series) {
         return series.reduce(function(p,c) {
             return p + c;
         });
+    },
+
+    /**
+     * _getLongestSeries() returns the longest series
+     * based on the array of series passed
+     *
+     * @param {Array} seriesArray
+     * @return {Array} series
+    */
+    _getLongestSeries: function(seriesArray) {
+        try {
+            return seriesArray.reduce(function(prev, current) {
+                return prev.length < current.length ? current : prev;
+            });
+        } catch(err) {
+            console.log('_getLongestSeries error:', err);
+            return 0;
+        };
     },
 
     _calculateTextWidth: function(text) {
@@ -75,6 +107,31 @@ var pxChartCommon = {
         textNode.remove();
          // correct for getComputedTextLength accuracy
         return Math.round(width - (width * 0.21));
+    },
+
+    _reconcileValue: function(value, defaultValue) {
+        switch(value) {
+            case '':
+            case false:
+            case undefined:
+                return defaultValue;
+                break;
+            case 'false':
+                return false;
+                break;
+            case 'auto':
+                return 'auto';
+                break;
+            default:
+                if(px.isFloat(value)) {
+                    return parseFloat(value);
+                } else if(px.isInt(value)) {
+                    return parseInt(value);
+                } else {
+                    return value;
+                };
+                break;
+        };
     }
 
 };
