@@ -1,10 +1,21 @@
 <script>
 /*
-    Behavior to define the width and height of an SVG chart
-    Incoming `width` and `height` attributes may be defined as:
-    Number, Number as String, or "auto". Numbers will be coerced into String
-    Depends on local method this._drawChart
-    Defines default values which may be overridden in parent chart element
+    Name:
+    pxChartDimensionsBehavior
+
+    Description:
+    pxChartDimensionsBehavior is a Polymer behavior for use in
+    px-simple-bar-chart and px-simple-line-chart to define the width and height
+    of the SVG chart drawn using the D3.js graphics library. It adds two
+    attributes to an element: `width` and `height` attributes which may be
+    defined as: Number, Number as String, or "auto". Numbers will be coerced
+    into String and auto will set the element up to be responsive.
+
+    Dependencies:
+    This behavior depends on local method this._drawChart.
+
+    Defaults:
+    defaultWidth, defaultHeight
 */
 
 var defaultWidth = '283';
