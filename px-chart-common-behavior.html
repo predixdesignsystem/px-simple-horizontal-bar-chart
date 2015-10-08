@@ -10,7 +10,7 @@
 
     Dependencies:
     - D3
-    - px
+    - window.px library
 
 */
 var pxChartCommon = {
@@ -134,6 +134,15 @@ var pxChartCommon = {
         return Math.round(width - (width * 0.21));
     },
 
+    /**
+     * _reconcileValue() reconcile the incoming value on an element's attribute
+     * This is necessary because some values may come in as one type but
+     * need to be interpreted as another type
+     *
+     * @param {String,Number,Boolean} value
+     * @param {String,Number,Boolean} defaultValue
+     * @return {String,Number,Boolean} returnValue
+    */
     _reconcileValue: function(value, defaultValue) {
         switch(value) {
             case '':
