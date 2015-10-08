@@ -89,8 +89,7 @@ A simple bar chart that visualizes series data.
 
         _drawChartDebounced: function() {
             if(this.chartData && this.chartData.length > 0) {
-                // setup svg element and selection
-                this.svg = this.svg || d3.select(this.$$('svg'));
+                // clear the svg element
                 this._clearSVG(this.svg);
                 this._setDimensions();
                 this._setSizes();
@@ -147,7 +146,7 @@ A simple bar chart that visualizes series data.
             this.chartData.forEach(function(series, i) {
                 series.forEach(function(value, j) {
                     var valueType = typeof arr[j];
-                    if(valueType.toString() === 'undefined') {
+                    if(valueType.toString() === "undefined") {
                         arr[j] = value;
                     } else {
                         arr[j] += value;

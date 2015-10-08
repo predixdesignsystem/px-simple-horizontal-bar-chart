@@ -15,7 +15,7 @@ var pxChartCommon = {
 
     // Fired on attached event
     attached: function() {
-        this.svg = d3.select(this.$$("svg"));
+        this.svg = this.svg || d3.select(this.$$("svg"));
         this._drawChart();
     },
 
