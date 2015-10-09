@@ -20,7 +20,7 @@ A simple bar chart that visualizes series data.
     <script type="text/javascript" src="../d3/d3.js"></script>
     <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
     <template>
-        <svg class="px-simple-bar-chart-svg"></svg>
+        <svg class="px-simple-horizontal-bar-chart-svg"></svg>
     </template>
 </dom-module>
 
@@ -29,14 +29,12 @@ A simple bar chart that visualizes series data.
     var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
         '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
     var defaultChartData = [
-        [1,2,3,4,5,6,7],
-        [7,6,5,4,3,2,1],
-        [2,4,6,7,5,3,1]
+        [1,2,3,4,5,6,7]
     ];
 
     Polymer({
 
-        is: 'px-simple-bar-chart',
+        is: 'px-simple-horizontal-bar-chart',
 
         behaviors: [pxSimpleChartCommonBehavior],
 
@@ -47,6 +45,7 @@ A simple bar chart that visualizes series data.
          * @type Object
          */
         properties: {
+
             /**
             * chartData
             *
@@ -59,6 +58,7 @@ A simple bar chart that visualizes series data.
                     return defaultChartData;
                 }
             },
+
             /**
             * legendLabels
             *
@@ -71,6 +71,7 @@ A simple bar chart that visualizes series data.
                     return [];
                 }
             },
+
             /**
             * colors
             *
@@ -82,18 +83,34 @@ A simple bar chart that visualizes series data.
                 value: function() {
                     return defaultColors;
                 }
+            },
+
+            /**
+            * barLabels
+            *
+            * Format: String
+            * Default: "percentage"
+            * Two options: "percentage" or "values"
+            */
+            barLabels: {
+                type: String,
+                observer: '_drawChart',
+                value: 'percentage'
             }
+
         },
 
         _drawChartDebounced: function() {
-            if(this.chartData && this.chartData.length > 0) {
+            console.log('this.svg',this.svg);
+            if(this.chartData && this.chartData.length > 0 && this.svg) {
                 // clear the svg element
                 this._clearSVG(this.svg);
                 this._setDimensions();
                 this._setSizes();
                 this._setScales();
                 this._drawBars();
-                this._requireLegend() ? this._drawLegend() : false;
+                this._drawLeftLine();
+                // this._drawLegend();
                 // add css class to svg elements using method from pxD3Util
                 this._addStyleScope(this.svg);
             } else {
@@ -104,66 +121,27 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _setDimensions: function() {
-            // capture dimensions using pxChartDimensionsBehavior
-            this.widthValue = this._reconcileWidth(this.width);
-            this.heightValue = this._reconcileHeight(this.height);
-            // if auto-resize is necessary, set window.onresize listener
-            if(this.height === 'auto' || this.width === 'auto') {
-                var that = this;
-                window.onresize = function() {
-                    that._drawChart();
-                };
-            };
-        },
-
         _setSizes: function() {
-            this.gridColumns = (this._getLongestSeries(this.chartData).length * 2 ) - 1;
-            this.gridWidth = Math.round(this.widthValue / this.gridColumns);
-            this.chartWidth = this.gridWidth * this.gridColumns;
-            this.widthRemainder = this.widthValue % this.gridWidth;
-            if(this._requireLegend()) {
-                this.legendHeight = this._getLegendHeight() + 25;
-            } else {
-                this.legendHeight = 0;
-            };
+            this.numberOfBars = this.chartData.length;
+            this.legendHeight = this._getLegendHeight();
             this.chartHeight = this.heightValue - this.legendHeight;
-            // expand SVG to accomodate columns
-            this.svg
-                .attr("width", this.chartWidth)
-                .attr("height", this.heightValue);
-        },
-
-        _requireLegend: function() {
-            // legend is required if any of the
-            return this.chartData.length > 1;
-        },
-
-        _getMax: function() {
-            var arr = [];
-            this.chartData.forEach(function(series, i) {
-                series.forEach(function(value, j) {
-                    var valueType = typeof arr[j];
-                    if(valueType.toString() === "undefined") {
-                        arr[j] = value;
-                    } else {
-                        arr[j] += value;
-                    }
-                });
-            });
-            return d3.max(arr);
+            this.barPadding = 1;
+            this.barHeight = Math.round(this.barsHeight / this.numberOfBars)
+                - this.barPadding;
+            this.chartWidth = this.widthValue - 30;
         },
 
         _setScales: function() {
-            // no xscale necessary
-            this.yScale = d3.scale
+            // no yscale necessary
+            this.xScale = d3.scale
                 .linear()
-                .domain([0, this._getMax()])
-                .range([0, this.chartHeight]);
+                .domain([0, d3.max(this.chartData)])
+                .range([0, this.chartWidth]);
         },
 
         _getLegendHeight: function() {
-            return this._drawLegend(true);
+            return 50;
+            // return this._drawLegend(true);
         },
 
         _getColor: function(index) {
@@ -227,31 +205,6 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _drawBars: function() {
-            var offsets = []; // accumulate y for each value stack
-            var that = this;
-            this.chartData.forEach(function(series, i) {
-                var color = that._getColor(i);
-                series.forEach(function(value, j) {
-                    // for each series draw a bar representing each value
-                    var barHeight = Math.floor(that.yScale(value));
-                    var typeofElement = typeof offsets[j];
-                    var isFirst = typeofElement.toString() === 'undefined';
-                    offsets[j] = isFirst ? barHeight : offsets[j] + barHeight;
-                    var y = that.heightValue - offsets[j] - 1;
-                    var x = (that.gridWidth*2) * j;
-                    that._drawBar(x, y, that.gridWidth, barHeight, i, color);
-                });
-            });
-            this.svg
-                .append("line")
-                .attr("class","bar-chart-bottom-line")
-                .attr("x1", 0)
-                .attr("y1", this.heightValue)
-                .attr("x2", this.chartWidth)
-                .attr("y2", this.heightValue);
-        },
-
         _drawBar: function(x, y, width, height, i, color) {
             this.svg
                 .append("rect")
@@ -261,7 +214,32 @@ A simple bar chart that visualizes series data.
                 .attr("width", width)
                 .attr("height", height)
                 .attr("fill", color);
+        },
+
+        _drawBars: function() {
+            // loop through the chartData and draw a bar for each value
+            var length = this.chartData.length, i = 0, v, barWidth, y, x, color;
+            var bar;
+            for(i;i<length;i++) {
+                v = this.chartData[i];
+                barWidth = Math.floor(this.xScale(v));
+                x = 0;
+                y = i * this.barHeight;
+                color = this._getColor(i);
+                bar = this._drawBar(x, y, barWidth, this.barHeight, color);
+            };
+        },
+
+        _drawLeftLine: function() {
+            this.svg
+                .append("line")
+                .attr("class","bar-chart-bottom-line")
+                .attr("x1", 0)
+                .attr("y1", this.heightValue)
+                .attr("x2", this.chartWidth)
+                .attr("y2", this.heightValue);
         }
+
 
     });
 </script>
