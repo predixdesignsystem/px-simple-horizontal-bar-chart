@@ -10,7 +10,6 @@
         <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
         <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
         <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-        <link rel="import" href="../px-slider/px-slider.html"/>
         <link rel="import" href="px-simple-horizontal-bar-chart.html"/>
         <style>
             body, html {
@@ -123,19 +122,7 @@
                     </input>
                     <span>{{height}}</span> px
                 </div>
-                <div class="control">
-                    <label>Series:</label>
-                    <input
-                        type="range"
-                        step="1"
-                        min="1"
-                        max="10"
-                        value="{{series}}"
-                        id="series-input"
-                        class="listen-for-change">
-                    </input>
-                    <span>{{series}}</span> series
-                </div>
+
                 <div class="control">
                     <label>Values:</label>
                     <input
@@ -279,7 +266,6 @@
                 that.width = document.getElementById('width-input').value;
                 that.height = document.getElementById('height-input').value;
                 that.values = document.getElementById('values-input').value;
-                that.series = document.getElementById('series-input').value;
                 var newData = generateNewData(that.values, that.series);
                 var chart = document.getElementById("demo-chart");
                 if(chart) {
@@ -297,11 +283,8 @@
                 var min = parseInt(minValueInput.value);
                 var max = parseInt(maxValueInput.value);
                 var arr = [];
-                for(i=0;i<numSeries;i++) {
-                    arr[i] = [];
-                    for(j=0;j<numValues;j++) {
-                        arr[i][j] = parseInt(generateRandomNumber(min, max));
-                    }
+                for(i=0;i<numValues;i++) {
+                    arr.push(parseInt(generateRandomNumber(min, max)));
                 };
                 return arr;
             };
@@ -441,7 +424,7 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<100;i++) {
+                    for(i=0;i<0;i++) {
                         examples.push(generateChartConfig(i));
                     };
                     that.examples = examples;

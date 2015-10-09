@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
+<link rel="import" href="/bower_components/px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
 <!--
 A simple bar chart that visualizes series data.
 
@@ -16,21 +16,18 @@ A simple bar chart that visualizes series data.
 @homepage index.html
 @demo demo.html
 -->
-<dom-module id="px-simple-bar-chart">
+<dom-module id="px-simple-horizontal-bar-chart">
     <script type="text/javascript" src="../d3/d3.js"></script>
-    <link rel="import" type="css" href="css/px-simple-bar-chart.css"/>
+    <link rel="import" type="css" href="css/px-simple-horizontal-bar-chart.css"/>
     <template>
         <svg class="px-simple-horizontal-bar-chart-svg"></svg>
     </template>
 </dom-module>
-
 <script>
 
     var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
         '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
-    var defaultChartData = [
-        [1,2,3,4,5,6,7]
-    ];
+    var defaultChartData = [1,2,3,4,5,6,7];
 
     Polymer({
 
@@ -101,12 +98,12 @@ A simple bar chart that visualizes series data.
         },
 
         _drawChartDebounced: function() {
-            console.log('this.svg',this.svg);
             if(this.chartData && this.chartData.length > 0 && this.svg) {
                 // clear the svg element
                 this._clearSVG(this.svg);
                 this._setDimensions();
                 this._setSizes();
+                this._drawSVG();
                 this._setScales();
                 this._drawBars();
                 this._drawLeftLine();
@@ -126,9 +123,15 @@ A simple bar chart that visualizes series data.
             this.legendHeight = this._getLegendHeight();
             this.chartHeight = this.heightValue - this.legendHeight;
             this.barPadding = 1;
-            this.barHeight = Math.round(this.barsHeight / this.numberOfBars)
+            this.barHeight = Math.round(this.chartHeight / this.numberOfBars)
                 - this.barPadding;
             this.chartWidth = this.widthValue - 30;
+        },
+
+        _drawSVG: function() {
+            this.svg
+                .attr('width', this.widthValue)
+                .attr('height', this.heightValue);
         },
 
         _setScales: function() {
