@@ -372,7 +372,7 @@
                 return chartData;
             };
 
-            function generateChartConfig() {
+            function generateChartConfig(n) {
                 var width = generateConfigValue(250,450,'');
                 var height = generateConfigValue(200,300,'');
                 var colorsA = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
@@ -435,7 +435,7 @@
                     height: height,
                     chartData: chartData,
                     legendLabels: legendLabels,
-                    id: 'hello',
+                    id: 'demo-chart-'+n,
                     colors: colors,
                     colorsText: colorsText,
                     legendLabelsText: legendLabelsText
@@ -450,7 +450,7 @@
                 setTimeout(function() {
                     var i;
                     for(i=0;i<100;i++) {
-                        examples.push(generateChartConfig());
+                        examples.push(generateChartConfig(i));
                     };
                     that.examples = examples;
                 }, 500);
