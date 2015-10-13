@@ -1,0 +1,438 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>px-simple-horizontal-bar-chart Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="px-simple-horizontal-bar-chart.html"/>
+        <style>
+            body, html {
+                background: #ffffff;
+                font-family: sans-serif;
+                padding: 0.5%;
+                font-size: 14px;
+                line-height: 22px;
+            }
+            div#demo-controls {
+                background: #ffffff;
+                margin: 10px;
+                padding: 5px;
+                border: 1px solid #cccccc;
+                width: 440px;
+                display: block;
+                float: left;
+            }
+            .control {
+                margin: 5px;
+                clear: both;
+            }
+            .control label {
+                float: left;
+                width: 85px;
+                margin: 0 5px;
+                text-align: right;
+            }
+            #demo-controls h3 {
+                margin: 10px;
+            }
+            .example {
+                float: left;
+                margin-right: 15px;
+            }
+            .config {
+                float: left;
+            }
+            .description {
+                float: left;
+                width: 300px;
+                margin-right: 20px;
+            }
+            hr {
+                height: 1px;
+                border: 0;
+                background: #cccccc;
+                margin: 50px 0 0 0;
+            }
+            input[type="range"] {
+                width: 120px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>px-simple-horizontal-bar-chart demonstration page</h1>
+
+        <template id="just-for-demo" is="dom-bind">
+
+            <hr /><br />
+
+            <div class="description">
+                <strong>Description</strong>
+                <br /><br />
+                <i>px-simple-horizontal-bar-chart with the default configuration.</i>
+            </div>
+            <div class="example">
+                <strong>Example chart</strong>
+                <br /><br />
+                <px-simple-horizontal-bar-chart
+                    id="default-chart"
+                >&hearts;</px-simple-horizontal-bar-chart>
+            </div>
+            <div class="config">
+                <strong>Configuration</strong>
+                <br /><br />
+                &lt;px-simple-horizontal-bar-chart&gt;
+                &lt;/px-simple-horizontal-bar-chart&gt;
+            </div>
+
+            <br clear="both" /><hr /><br />
+
+            <div id="demo-controls">
+                <h3>Modify the demonstration chart:</h3>
+                <div class="control">
+                    <label>Width:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="100"
+                        max="600"
+                        value="{{width}}"
+                        id="width-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{width}}</span> px
+                </div>
+                <div class="control">
+                    <label>Height:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="75"
+                        max="300"
+                        value="{{height}}"
+                        id="height-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{height}}</span> px
+                </div>
+
+                <div class="control">
+                    <label>Values:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="1"
+                        max="20"
+                        value="{{values}}"
+                        id="values-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{values}}</span> values per series
+                </div>
+                <div class="control">
+                    <label>Min Value:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="10"
+                        max="100"
+                        value="{{min}}"
+                        id="min-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{min}}</span> minimum value
+                </div>
+                <div class="control">
+                    <label>Max Value:</label>
+                    <input
+                        type="range"
+                        step="1"
+                        min="101"
+                        max="1000"
+                        value="{{max}}"
+                        id="max-input"
+                        class="listen-for-change">
+                    </input>
+                    <span>{{max}}</span> maximum value
+                </div>
+            </div>
+
+            <div>
+                <px-simple-horizontal-bar-chart
+                    id="demo-chart"
+                    width="{{width}}"
+                    height="{{height}}"
+                >&hearts;</px-simple-horizontal-bar-chart>
+            </div>
+
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>Test of "auto" width and height:</h3>
+            <br clear="both"/>
+            <div style="height: 250px; width: 100%">
+                <px-simple-horizontal-bar-chart
+                    id="responsive-chart"
+                    chart-data="[1,2,3,5,6,3,5,6,1,2,3,4]"
+                    width="auto"
+                    height="auto"
+                >&hearts;</px-simple-horizontal-bar-chart>
+            </div>
+
+            <br clear="both" /><br /><br />
+            <hr />
+            <h3>101 Randomly Generated Examples:</h3>
+            <br clear="both"/>
+
+            <template is="dom-repeat" items="{{examples}}">
+                <div class="description">
+                    <strong>Description</strong>
+                    <br />
+                    <i>{{item.description}}</i>
+                </div>
+                <div class="example">
+                    <strong>Example chart</strong>
+                    <br/>
+                    <px-simple-horizontal-bar-chart
+                        id="{{item.id}}"
+                        class="example-chart"
+                        chart-data="{{item.chartData}}"
+                        width="{{item.width}}"
+                        height="{{item.height}}"
+                        legend-labels="{{item.legendLabels}}"
+                        colors="{{item.colors}}"
+                    >&hearts;</px-simple-horizontal-bar-chart>
+                </div>
+                <div class="config">
+                    <strong>Element Configuration</strong>
+                    <br/>
+                    &lt;px-simple-horizontal-bar-chart
+                    <br />
+                    <template is="dom-if" if="{{item.width}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;width='<span>{{item.width}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.height}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;height='<span>{{item.height}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.legendLabels}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;legend-labels='<span>{{item.legendLabelsText}}</span>'
+                        <br/>
+                    </template>
+                    <template is="dom-if" if="{{item.colors}}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;colors='<span>{{item.colorsText}}</span>'
+                        <br/>
+                    </template>
+                    &gt;&lt;px-simple-horizontal-bar-chart&gt;
+                </div>
+                <br clear="both" />
+                <hr />
+            </template>
+
+        </template>
+
+        <script>
+
+            var template = document.querySelector('#just-for-demo');
+
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                this.max = 50000;
+                this.min = 50;
+                this.values = 7;
+                this.series = 5;
+                this.width = 283;
+                this.height = 150;
+                var that = this;
+                handleChange(that);
+                var sliders = document.getElementsByClassName('listen-for-change');
+                for(i=0;i<sliders.length;i++) {
+                    sliders[i].addEventListener('change', function (e) {
+                        handleChange(that);
+                    });
+                };
+            });
+
+            var handleChange = function(that) {
+                that.min = document.getElementById('min-input').value;
+                that.max = document.getElementById('max-input').value;
+                that.width = document.getElementById('width-input').value;
+                that.height = document.getElementById('height-input').value;
+                that.values = document.getElementById('values-input').value;
+                var newData = generateNewData(that.values, that.series);
+                var chart = document.getElementById("demo-chart");
+                if(chart) {
+                    chart.setAttribute("chart-data", JSON.stringify(newData));
+                };
+            };
+
+            function generateRandomNumber(min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+            var generateNewData = function(numSeries, numValues) {
+                var minValueInput = document.getElementById("min-input");
+                var maxValueInput = document.getElementById("max-input");
+                var min = parseInt(minValueInput.value);
+                var max = parseInt(maxValueInput.value);
+                var arr = [];
+                for(i=0;i<numValues;i++) {
+                    arr.push(parseInt(generateRandomNumber(min, max)));
+                };
+                return arr;
+            };
+
+            var examples = [];
+
+            function fiftyFifty() {
+                return Math.random() * 100 > 50;
+            };
+
+            function isInt(n){
+                return Number(n) === n && n % 1 === 0;
+            };
+
+            function isFloat(n){
+                return n === Number(n) && n % 1 !== 0;
+            };
+
+            function randomFloat(min,max) {
+                return (Math.random()*(max-min)+min).toFixed(2);
+            };
+
+            function randomInt(min,max) {
+                return Math.floor(Math.random()*(max-min+1)+min);
+            };
+
+            function randomValue(min,max) {
+                if(isFloat(min) || isFloat(max)) {
+                    return randomFloat(min,max);
+                } else {
+                    return randomInt(min,max);
+                }
+            };
+
+            function generateConfigValue(min, max, defaultValue) {
+                return fiftyFifty() ? defaultValue : randomValue(min,max);
+            };
+
+            function generateConfigValueFromSet(set) {
+                return set[randomValue(0,set.length-1)];
+            };
+
+            function generateRandomSeries(length, min, max) {
+                var arr = [];
+                var i;
+                for(i=0;i<=length;i++) {
+                    arr.push(randomValue(min, max));
+                };
+                return arr;
+            };
+
+            function generateRandomChartData() {
+                var chartData = [];
+                var length = randomValue(1,16);
+                var min = randomValue(1,100);
+                var max = randomValue(min,1000);
+                for(i=0;i<length;i++) {
+                    chartData.push(generateRandomSeries(10, min, max));
+                }
+                return chartData;
+            };
+
+            function generateChartConfig(n) {
+                var width = generateConfigValue(250,450,'');
+                var height = generateConfigValue(200,300,'');
+                var colorsA = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0',
+                    '#b2912f', '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+                var colorsB = ["#029bde", "#99399b", "#e23838", "#f88303",
+                    "#ffb901", "#5dbc3e"];
+                var colorsC = ["#EA3556", "#64938D", "#EDE5E2", "#ED146F",
+                    "#EDDE45", "#9BF0E9"];
+                var colorsD = ["#3E7B7C", "#7EA593", "#7EA593", "#DBB793",
+                    "#EE8568", "#957673", "#CC5E4F"];
+                var colorsE = ["#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630",
+                    "#FA6900"];
+                var colorsF = ["#FF4E50", "#FC913A", "#F9D423", "#EDE574",
+                    "#E1F5C4"];
+                var colorsG = ["#A8E6CE", "#DCEDC2", "#FFD3B5", "#FFAAA6",
+                    "#FF8C94"];
+                var colors = generateConfigValueFromSet([colorsA, colorsB,
+                    colorsC, colorsD, colorsE, colorsF, colorsG]);
+
+                var legendLabelsA = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R' ];
+                var legendLabelsB = [ 'Alpha', 'Beta', 'Charlie', 'Delta', 'Echo',
+                    'Fanta', 'Gamma', 'Hotel', 'India', 'Jakarta', 'King', 'Left',
+                    'Master', 'Never', 'Over', 'Produce', 'Question', 'Recourse'];
+                var legendLabelsC = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21'];
+                var legendLabelsD = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
+                    'consectetur', 'adipiscing', 'elit', 'praesent', 'sed', 'purus',
+                    'non', 'est', 'posuere', 'dapibus', 'ut', 'at', 'purus',
+                    'suspendisse'];
+                var legendLabelsE = ['Proin convallis', 'Ante non', 'Augue semper'
+                    ,'Ut rutrum', 'Metus feugiat', 'Nullam at felis',
+                    'Donec quis tincidunt', 'Vestibulum ut augue ligula',
+                    'Integer in odio'];
+                var legendLabels = generateConfigValueFromSet([
+                    legendLabelsA, legendLabelsB, legendLabelsC, legendLabelsD,
+                    legendLabelsE
+                ]);
+                var d = false;
+                var d = 'This Simple Bar Chart is ';
+                if(width) {
+                    d += width + ' pixels wide';
+                    if(height) {
+                        d += ' and ' + height + ' pixels high. ';
+                    } else {
+                        d += '.';
+                    };
+                } else if(!width && height) {
+                    d += height + ' pixels high. ';
+                } else if(!width && !height){
+                    d += ' configured with the following setup. '
+                };
+                var colorsText = '["' + colors.toString().split(',').join('", "') + '"]';
+                var legendLabelsText = '["' + legendLabels.toString().split(',').join('", "') + '"]';
+
+                var chartData = generateRandomSeries(10, 0, 100);
+                var config = {
+                    description: d ? d : 'This is the default configuration of <px-simple-horizontal-bar-chart>.',
+                    width: width,
+                    height: height,
+                    chartData: chartData,
+                    legendLabels: legendLabels,
+                    id: 'demo-chart-'+n,
+                    colors: colors,
+                    colorsText: colorsText,
+                    legendLabelsText: legendLabelsText
+                };
+                return config;
+            };
+
+            var template = document.querySelector('#just-for-demo');
+            // The dom-change event signifies when the template has stamped its DOM.
+            template.addEventListener('dom-change', function() {
+                var that = this;
+                setTimeout(function() {
+                    var i;
+                    for(i=0;i<0;i++) {
+                        examples.push(generateChartConfig(i));
+                    };
+                    that.examples = examples;
+                }, 500);
+            });
+
+        </script>
+
+
+    </body>
+</html>

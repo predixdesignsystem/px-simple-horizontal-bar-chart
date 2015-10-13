@@ -1,0 +1,248 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="/bower_components/px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
+<!--
+A simple bar chart that visualizes series data.
+
+##### Usage
+
+    <px-simple-bar-chart chart-data="[ [1,2,3] ]">
+    </px-simple-bar-chart>
+
+    <px-simple-bar-chart chart-data="[ [1,2,3], [1,2,3], [1,2,3] ]">
+    </px-simple-bar-chart>
+
+@element px-simple-bar-chart
+@blurb Predix Experience Simple Bar Chart
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-simple-horizontal-bar-chart">
+    <script type="text/javascript" src="../d3/d3.js"></script>
+    <link rel="import" type="css" href="css/px-simple-horizontal-bar-chart.css"/>
+    <template>
+        <svg class="px-simple-horizontal-bar-chart-svg"></svg>
+    </template>
+</dom-module>
+<script>
+
+    var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
+        '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
+    var defaultChartData = [1,2,3,4,5,6,7];
+
+    Polymer({
+
+        is: 'px-simple-horizontal-bar-chart',
+
+        behaviors: [pxSimpleChartCommonBehavior],
+
+        /**
+         * Properties block, expose attribute values to the DOM via 'reflect'
+         *
+         * @property properties
+         * @type Object
+         */
+        properties: {
+
+            /**
+            * chartData
+            *
+            * Format: [ [7, 11], [10, 4], [15, 10] ... ]
+            */
+            chartData: {
+                type: Array,
+                observer: '_drawChart',
+                value: function() {
+                    return defaultChartData;
+                }
+            },
+
+            /**
+            * legendLabels
+            *
+            * Format: Array
+            */
+            legendLabels: {
+                type: Array,
+                observer: '_drawChart',
+                value: function() {
+                    return [];
+                }
+            },
+
+            /**
+            * colors
+            *
+            * Format: Array
+            */
+            colors: {
+                type: Array,
+                observer: '_drawChart',
+                value: function() {
+                    return defaultColors;
+                }
+            },
+
+            /**
+            * barLabels
+            *
+            * Format: String
+            * Default: "percentage"
+            * Two options: "percentage" or "values"
+            */
+            barLabels: {
+                type: String,
+                observer: '_drawChart',
+                value: 'percentage'
+            }
+
+        },
+
+        _drawChartDebounced: function() {
+            if(this.chartData && this.chartData.length > 0 && this.svg) {
+                // clear the svg element
+                this._clearSVG(this.svg);
+                this._setDimensions();
+                this._setSizes();
+                this._drawSVG();
+                this._setScales();
+                this._drawBars();
+                this._drawLeftLine();
+                // this._drawLegend();
+                // add css class to svg elements using method from pxD3Util
+                this._addStyleScope(this.svg);
+            } else {
+                var that = this;
+                var timeout = setTimeout(function(){
+                    that._drawChartDebounced();
+                }, 100);
+            }
+        },
+
+        _setSizes: function() {
+            this.numberOfBars = this.chartData.length;
+            this.legendHeight = this._getLegendHeight();
+            this.chartHeight = this.heightValue - this.legendHeight;
+            this.barPadding = 1;
+            this.barHeight = Math.round(this.chartHeight / this.numberOfBars)
+                - this.barPadding;
+            this.chartWidth = this.widthValue - 30;
+        },
+
+        _drawSVG: function() {
+            this.svg
+                .attr('width', this.widthValue)
+                .attr('height', this.heightValue);
+        },
+
+        _setScales: function() {
+            // no yscale necessary
+            this.xScale = d3.scale
+                .linear()
+                .domain([0, d3.max(this.chartData)])
+                .range([0, this.chartWidth]);
+        },
+
+        _getLegendHeight: function() {
+            return 50;
+            // return this._drawLegend(true);
+        },
+
+        _getColor: function(index) {
+            if(index >= 0 && index < this.colors.length) {
+                return this.colors[index];
+            } else {
+                // recurse and loop through color list
+                return this._getColor(Math.abs(this.colors.length - index));
+            };
+        },
+
+        _drawLegend: function(dryRun) {
+            // TODO: Clean up this method, it is a bit unruly.
+            // dry run is meant to only calculate necessary height of legend
+            // track X position as legend is drawn across the top of the chart
+            var cumulativeX = 0;
+            var cumulativeY = 5;
+            var dryRun = dryRun || false;
+            var dataLength = this.chartData.length;
+            var i;
+            for(i=dataLength-1;i>=0;i--) {
+                var series = this.chartData[i];
+                var squareSize = 10;
+                var margin = 5;
+                var seriesTotal = this._getSeriesTotal(series);
+                if(this.legendLabels.length > i) {
+                    var labelText = this.legendLabels[i];
+                } else {
+                    var labelText = seriesTotal;
+                };
+                var textWidth = this._calculateTextWidth(labelText, "legend-text");
+                var fullWidth = squareSize + margin + textWidth;
+                var endPosition = fullWidth + cumulativeX;
+                var color = this._getColor(i);
+                if(endPosition >= this.chartWidth) {
+                    cumulativeY += 20;
+                    cumulativeX = 0;
+                };
+                var rectNode = this.svg
+                    .append("rect")
+                    .attr("class", "legend-box")
+                    .attr("x", cumulativeX)
+                    .attr("y", cumulativeY)
+                    .attr("width", squareSize)
+                    .attr("height", squareSize)
+                    .attr("fill", color);
+                var textNode = this.svg
+                    .append("text")
+                    .attr("class", "legend-text")
+                    .attr("x", cumulativeX += squareSize + margin)
+                    .attr("y", cumulativeY + 9)
+                    .text(labelText);
+                cumulativeX += Math.round(textWidth + (margin * 3));
+                if(dryRun) {
+                    rectNode.remove();
+                    textNode.remove();
+                }
+            };
+            if(dryRun) {
+                return cumulativeY;
+            }
+        },
+
+        _drawBar: function(x, y, width, height, i, color) {
+            this.svg
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", color);
+        },
+
+        _drawBars: function() {
+            // loop through the chartData and draw a bar for each value
+            var length = this.chartData.length, i = 0, v, barWidth, y, x, color;
+            var bar;
+            for(i;i<length;i++) {
+                v = this.chartData[i];
+                barWidth = Math.floor(this.xScale(v));
+                x = 0;
+                y = i * this.barHeight;
+                color = this._getColor(i);
+                bar = this._drawBar(x, y, barWidth, this.barHeight, color);
+            };
+        },
+
+        _drawLeftLine: function() {
+            this.svg
+                .append("line")
+                .attr("class","bar-chart-bottom-line")
+                .attr("x1", 0)
+                .attr("y1", this.heightValue)
+                .attr("x2", this.chartWidth)
+                .attr("y2", this.heightValue);
+        }
+
+
+    });
+</script>
