@@ -190,7 +190,7 @@ A simple bar chart that visualizes series data.
                     .attr("y", cumulativeY)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
-                    .attr("fill", color);
+                    .attr("fill", i);
                 var textNode = this.svg
                     .append("text")
                     .attr("class", "legend-text")
@@ -216,7 +216,7 @@ A simple bar chart that visualizes series data.
                 .attr("y", y)
                 .attr("width", width)
                 .attr("height", height)
-                .attr("fill", color);
+                .attr("fill", i);
         },
 
         _drawBars: function() {
