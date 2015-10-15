@@ -107,7 +107,7 @@ A simple bar chart that visualizes series data.
                 this._setScales();
                 this._drawBars();
                 this._drawLeftLine();
-                // this._drawLegend();
+                this._drawLegend();
                 // add css class to svg elements using method from pxD3Util
                 this._addStyleScope(this.svg);
             } else {
@@ -143,8 +143,8 @@ A simple bar chart that visualizes series data.
         },
 
         _getLegendHeight: function() {
-            return 50;
-            // return this._drawLegend(true);
+//            return 50;
+            return this._drawLegend(true);
         },
 
         _getColor: function(index) {
@@ -166,10 +166,9 @@ A simple bar chart that visualizes series data.
             var dataLength = this.chartData.length;
             var i;
             for(i=dataLength-1;i>=0;i--) {
-                var series = this.chartData[i];
                 var squareSize = 10;
                 var margin = 5;
-                var seriesTotal = this._getSeriesTotal(series);
+                var seriesTotal = this.chartData[i];
                 if(this.legendLabels.length > i) {
                     var labelText = this.legendLabels[i];
                 } else {
@@ -190,7 +189,7 @@ A simple bar chart that visualizes series data.
                     .attr("y", cumulativeY)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
-                    .attr("fill", i);
+                    .attr("fill", color);
                 var textNode = this.svg
                     .append("text")
                     .attr("class", "legend-text")
