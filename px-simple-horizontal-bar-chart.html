@@ -107,7 +107,7 @@ A simple bar chart that visualizes series data.
                 this._setScales();
                 this._drawBars();
                 this._drawLeftLine();
-                // this._drawLegend();
+                this._drawLegend();
                 // add css class to svg elements using method from pxD3Util
                 this._addStyleScope(this.svg);
             } else {
@@ -143,8 +143,8 @@ A simple bar chart that visualizes series data.
         },
 
         _getLegendHeight: function() {
-            return 50;
-            // return this._drawLegend(true);
+//            return 50;
+            return this._drawLegend(true);
         },
 
         _getColor: function(index) {
@@ -166,10 +166,9 @@ A simple bar chart that visualizes series data.
             var dataLength = this.chartData.length;
             var i;
             for(i=dataLength-1;i>=0;i--) {
-                var series = this.chartData[i];
                 var squareSize = 10;
                 var margin = 5;
-                var seriesTotal = this._getSeriesTotal(series);
+                var seriesTotal = this.chartData[i];
                 if(this.legendLabels.length > i) {
                     var labelText = this.legendLabels[i];
                 } else {
@@ -187,7 +186,7 @@ A simple bar chart that visualizes series data.
                     .append("rect")
                     .attr("class", "legend-box")
                     .attr("x", cumulativeX)
-                    .attr("y", cumulativeY)
+                    .attr("y", cumulativeY + 140)
                     .attr("width", squareSize)
                     .attr("height", squareSize)
                     .attr("fill", color);
@@ -195,7 +194,7 @@ A simple bar chart that visualizes series data.
                     .append("text")
                     .attr("class", "legend-text")
                     .attr("x", cumulativeX += squareSize + margin)
-                    .attr("y", cumulativeY + 9)
+                    .attr("y", cumulativeY + 149)
                     .text(labelText);
                 cumulativeX += Math.round(textWidth + (margin * 3));
                 if(dryRun) {
@@ -216,7 +215,7 @@ A simple bar chart that visualizes series data.
                 .attr("y", y)
                 .attr("width", width)
                 .attr("height", height)
-                .attr("fill", color);
+                .attr("fill", i);
         },
 
         _drawBars: function() {
@@ -237,10 +236,10 @@ A simple bar chart that visualizes series data.
             this.svg
                 .append("line")
                 .attr("class","bar-chart-bottom-line")
-                .attr("x1", 0)
-                .attr("y1", this.heightValue)
-                .attr("x2", this.chartWidth)
-                .attr("y2", this.heightValue);
+                .attr("x1", this.heightValue)
+                .attr("y1", 0)
+                .attr("x2", this.heightValue)
+                .attr("y2", this.chartWidth);
         }
 
 
