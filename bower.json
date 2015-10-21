@@ -18,7 +18,7 @@
     "px-theme": "https://github.com/PredixDev/px-theme.git#~0.3.0",
     "d3": "~3.5.6",
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.4",
-    "px-simple-chart-common-behavior": "https://github.com/PredixDev/px-simple-chart-common-behavior.git#0.0.4"
+    "px-simple-chart-common-behavior": "https://github.com/PredixDev/px-simple-chart-common-behavior.git#0.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.0.0",
