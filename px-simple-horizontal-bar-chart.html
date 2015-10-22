@@ -258,17 +258,16 @@ A simple bar chart that visualizes series data.
                 .attr("x", 0)
                 .attr("y", 0)
                 .text(text);
-            var height = textNode.attr('height');
-            console.log(height)
+            var height = textNode.node().getBBox().height;
             textNode.remove();
             // correct for getComputedTextLength accuracy
             return Math.round(height);
         },
 
         _calculateLabelCenterOffset: function(labelText) {
-            return Math.round(
-                (this.barHeight - this._calculateTextHeight(labelText) ) / 2 )
-            ;
+            var height = this._calculateTextHeight(labelText);
+            var offset = ((this.barHeight - height) / 2) + height;
+            return Math.round(offset);
         },
 
         _drawBarLabel: function(x, y, labelText) {
