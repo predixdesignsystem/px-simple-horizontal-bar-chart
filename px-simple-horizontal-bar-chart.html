@@ -5,14 +5,11 @@ A simple bar chart that visualizes series data.
 
 ##### Usage
 
-    <px-simple-bar-chart chart-data="[ [1,2,3] ]">
+    <px-simple-bar-chart chart-data="[1,2,3]">
     </px-simple-bar-chart>
 
-    <px-simple-bar-chart chart-data="[ [1,2,3], [1,2,3], [1,2,3] ]">
-    </px-simple-bar-chart>
-
-@element px-simple-bar-chart
-@blurb Predix Experience Simple Bar Chart
+@element px-simple-horizontal-bar-chart
+@blurb Predix Experience Simple Horizontal Bar Chart
 @homepage index.html
 @demo demo.html
 -->
@@ -254,18 +251,29 @@ A simple bar chart that visualizes series data.
                 .attr("fill", i);
         },
 
+        _drawBarLabel: function(x, y, labelText) {
+            // use common function _calculateTextWidth to calc label width
+            var textWidth = this._calculateTextWidth(labelText);
+            this.svg
+                .append("text")
+                .attr("class", "bar-label")
+                .attr("x", this.widthValue - textWidth )
+                .attr("y", y)
+                .attr("width", textWidth)
+                .attr("text-anchor", "end");
+        },
+
         _drawBars: function() {
             // loop through the chartData and draw a bar for each value
             var length = this.chartData.length, i = 0, v, barWidth, y, x, color;
-            var bar;
-            console.log(this.barHeight);
             for(i;i<length;i++) {
                 v = this.chartData[i];
                 barWidth = Math.floor(this.xScale(v));
                 x = 0;
                 y = i * (this.barHeight + barPadding);
                 color = this._getColor(i);
-                bar = this._drawBar(x, y, barWidth, this.barHeight, color);
+                this._drawBar(x, y, barWidth, this.barHeight, color);
+                this._drawBarLabel(x, y, String(v));
             };
         },
 
