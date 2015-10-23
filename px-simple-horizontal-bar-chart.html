@@ -228,7 +228,7 @@ A simple bar chart that visualizes series data.
             var dataLength = this.chartData.length;
             var i;
             for(i=0;i<dataLength;i++) {
-                var labelText = this.chartData[i];
+                var labelText = this.legendLabels[i];
                 var textWidth = this._calculateTextWidth(labelText, "legend-text");
                 if(textWidth > legendText) {
                     textWidth = this._shortenText(labelText, legendText);
