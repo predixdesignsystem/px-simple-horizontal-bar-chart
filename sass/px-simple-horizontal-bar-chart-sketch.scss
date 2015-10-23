@@ -14,20 +14,21 @@
 // @author
 //
 
-/*
-THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
-Predix branding rules go in px-simple-bar-chart-predix.scss, not in this file.
-*/
-/* hello */
+@import "px-typography-design/_base.typography.scss";
+
 .bar {
   shape-rendering: crispEdges;
 }
-.px-simple-bar-chart-svg {
+.px-simple-horizontal-bar-chart-svg {
     background: white;
     margin: 10px;
 }
 .legend-text {
-    font-family: sans-serif;
-    color: #000000;
-    font-size: 12px;
+    font-family: "GE Inspira Sans", sans-serif;
+    color: $gray6;
+}
+.bar-label {
+    font-family: "GE Inspira Sans", sans-serif;
+    font-weight: bold;
+    color: $black;
 }

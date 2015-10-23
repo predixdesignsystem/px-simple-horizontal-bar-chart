@@ -226,7 +226,7 @@ A simple bar chart that visualizes series data.
                 return text;
             } else {
                 return this._shortenText(
-                    text.substring(0, text.length - 1),
+                    text.substring(0, text.length - 4) + '...',
                     targetWidth
                 );
             }
@@ -239,8 +239,9 @@ A simple bar chart that visualizes series data.
             for(i=0;i<dataLength;i++) {
                 var labelText = this.legendLabels[i];
                 var textWidth = this._calculateTextWidth(labelText, "legend-text");
-                if(textWidth > legendText) {
-                    labelText = this._shortenText(labelText, legendText);
+                var targetWidth = legendText - 10;
+                if(textWidth > targetWidth) {
+                    labelText = this._shortenText(labelText, targetWidth);
                     console.log('new label text', labelText);
                 };
                 var color = this._getColor(i);
@@ -269,7 +270,7 @@ A simple bar chart that visualizes series data.
             var height = this._calculateTextHeight(labelText);
             var diff = Math.abs(this.barHeight - height);
             var offset = (diff / 2) - barPadding + height;
-            return Math.round(offset - offset * 0.07);
+            return Math.round(offset - offset * 0.25);
         },
 
         _drawBarLabel: function(x, y, labelText) {
