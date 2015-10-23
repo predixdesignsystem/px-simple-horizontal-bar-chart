@@ -291,16 +291,17 @@ A simple bar chart that visualizes series data.
             });
         },
 
-        _getPercent: function(value) {
-            return Math.round(value / this._sum(this.chartData) * 100);
+        _getPercent: function(value, sum) {
+            return Math.round(value / sum * 100);
         },
 
         _drawBars: function() {
             // loop through the chartData and draw a bar for each value
             var length = this.chartData.length, i = 0, value, labelText, barWidth, y, x, color;
+            var sum = this._sum(this.chartData);
             for(i;i<length;i++) {
                 value = this.chartData[i];
-                textLabel = this._getPercent(value) + "%";
+                textLabel = this._getPercent(value, sum) + "%";
                 barWidth = Math.floor(this.xScale(value));
                 x = 0;
                 y = i * (this.barHeight + barPadding);
