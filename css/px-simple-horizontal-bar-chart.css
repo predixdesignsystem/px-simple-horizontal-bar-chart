@@ -224,7 +224,8 @@ sub {
 .bar-label {
   font-family: "GE Inspira Sans", sans-serif;
   font-weight: bold;
-  color: black; }
+  color: black;
+  font-size: 14px; }
 
 .bar-chart-bottom-line {
   stroke: #3b3b3f; }

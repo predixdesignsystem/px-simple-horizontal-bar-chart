@@ -83,7 +83,7 @@
                 <br /><br />
                 <px-simple-horizontal-bar-chart
                     id="default-chart"
-                    chart-data="[1,2,3,4,5]"
+                    chart-data="[1,2,3,4,5,6]"
                     legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what" ]'
 
                 >&hearts;</px-simple-horizontal-bar-chart>
@@ -403,7 +403,7 @@
                 var colorsText = '["' + colors.toString().split(',').join('", "') + '"]';
                 var legendLabelsText = '["' + legendLabels.toString().split(',').join('", "') + '"]';
 
-                var chartData = generateRandomSeries(10, 0, 100);
+                var chartData = generateRandomSeries(6, 0, 100);
                 var config = {
                     description: d ? d : 'This is the default configuration of <px-simple-horizontal-bar-chart>.',
                     width: width,

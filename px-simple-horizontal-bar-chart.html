@@ -26,7 +26,7 @@ A simple bar chart that visualizes series data.
         '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
     var defaultChartData = [ 29, 20, 15, 18, 8, 10 ];
     var defaultChartLabels = ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
-        'Bar Five', 'Bar Six'];
+        'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten'];
 
     var legendBox = 12;
     var legendMargin = 5;
@@ -36,6 +36,7 @@ A simple bar chart that visualizes series data.
     var legendItemHeight = legendMargin + legendBox;
     var legendMarginTop = 8;
     var barPadding = 2;
+    var minimumBarHeight = 10;
 
     Polymer({
 
@@ -131,6 +132,9 @@ A simple bar chart that visualizes series data.
             this.chartWidth = this.widthValue - this._getBarLabelWidth();
             var availableHeight = this.heightValue - this._getLegendHeight()
             this.barHeight = Math.round(availableHeight / this.chartData.length) - barPadding;
+            if(this.barHeight < minimumBarHeight) {
+                console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.')
+            };
             this.chartHeight = (this.barHeight + barPadding) * (this.chartData.length) - barPadding;
         },
 
@@ -236,13 +240,15 @@ A simple bar chart that visualizes series data.
         _drawLegend: function() {
             var dataLength = this.chartData.length;
             var i;
+            if(this.legendLabels.length < this.chartData.length) {
+                console.error('There are not enough legend-labels defined for the chart data.')
+            };
             for(i=0;i<dataLength;i++) {
                 var labelText = this.legendLabels[i];
                 var textWidth = this._calculateTextWidth(labelText, "legend-text");
                 var targetWidth = legendText - 10;
                 if(textWidth > targetWidth) {
                     labelText = this._shortenText(labelText, targetWidth);
-                    console.log('new label text', labelText);
                 };
                 var color = this._getColor(i);
                 var maxItemsInColumn = this._getMaxItemsInColumn();
@@ -250,7 +256,6 @@ A simple bar chart that visualizes series data.
                 var x = columnNumber * legendColumnWidth;
                 var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
                 var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
-                //console.log(columnNumber, x, y, color, labelText)
                 this._drawLegendItem(x, y, color, labelText);
             };
         },
