@@ -220,8 +220,17 @@ A simple bar chart that visualizes series data.
 
         // TODO: return the text, shortened to fit in the width and add '...' to
         // the end
-        _shortenText(text, width) {
-            return this._calculateTextWidth(text, "legend-text");
+        _shortenText(text, targetWidth) {
+            var width = this._calculateTextWidth(text, "legend-text");
+            if(width <= targetWidth) {
+                return text;
+            } else {
+                return this._shortenText(
+                    text.substring(0, text.length - 1),
+                    targetWidth
+                );
+            }
+
         },
 
         _drawLegend: function() {
@@ -231,12 +240,12 @@ A simple bar chart that visualizes series data.
                 var labelText = this.legendLabels[i];
                 var textWidth = this._calculateTextWidth(labelText, "legend-text");
                 if(textWidth > legendText) {
-                    textWidth = this._shortenText(labelText, legendText);
+                    labelText = this._shortenText(labelText, legendText);
+                    console.log('new label text', labelText);
                 };
                 var color = this._getColor(i);
                 var maxItemsInColumn = this._getMaxItemsInColumn();
                 var columnNumber = Math.floor(i/maxItemsInColumn);
-                console.log(columnNumber)
                 var x = columnNumber * legendColumnWidth;
                 var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
                 var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
@@ -254,19 +263,6 @@ A simple bar chart that visualizes series data.
                 .attr("width", width)
                 .attr("height", height)
                 .attr("fill", i);
-        },
-
-        _calculateTextHeight: function(text, className) {
-            var textNode = this.svg
-                .append("text")
-                .attr("class", className)
-                .attr("x", 0)
-                .attr("y", 0)
-                .text(text);
-            var height = textNode.node().getBoundingClientRect().height;
-            textNode.remove();
-            // correct for getComputedTextLength accuracy
-            return Math.round(height);
         },
 
         _calculateLabelCenterOffset: function(labelText) {

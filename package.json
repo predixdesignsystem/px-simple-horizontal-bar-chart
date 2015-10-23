@@ -2,7 +2,7 @@
     "name": "px-simple-bar-chart",
     "author": "General Electric",
     "description": "A Px component",
-    "version": "0.2.2",
+    "version": "1.0.0",
     "private": true,
     "extName" : null,
     "repository" :
