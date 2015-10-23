@@ -25,6 +25,8 @@ A simple bar chart that visualizes series data.
     var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
         '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
     var defaultChartData = [ 29, 20, 15, 18, 8, 10 ];
+    var defaultChartLabels = ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
+        'Bar Five', 'Bar Six'];
 
     var legendBox = 12;
     var legendMargin = 5;
@@ -32,6 +34,7 @@ A simple bar chart that visualizes series data.
     var legendPadding = 19;
     var legendColumnWidth = legendBox + legendMargin + legendText;
     var legendItemHeight = legendMargin + legendBox;
+    var legendMarginTop = 8;
     var barPadding = 2;
 
     Polymer({
@@ -70,7 +73,7 @@ A simple bar chart that visualizes series data.
                 type: Array,
                 observer: '_drawChart',
                 value: function() {
-                    return [];
+                    return defaultChartLabels;
                 }
             },
 
@@ -125,9 +128,10 @@ A simple bar chart that visualizes series data.
         },
 
         _setSizes: function() {
-            this.chartHeight = this.heightValue - this._getLegendHeight();
             this.chartWidth = this.widthValue - this._getBarLabelWidth();
-            this.barHeight = Math.round(this.chartHeight / this.chartData.length) - barPadding;
+            var availableHeight = this.heightValue - this._getLegendHeight()
+            this.barHeight = Math.round(availableHeight / this.chartData.length) - barPadding;
+            this.chartHeight = (this.barHeight + barPadding) * (this.chartData.length) - barPadding;
         },
 
         // TODO: write this function
@@ -175,6 +179,10 @@ A simple bar chart that visualizes series data.
             };
         },
 
+        _getMaxItemsInColumn: function() {
+            return Math.ceil(this.chartData.length / this._getLegendColumns());
+        },
+
         /**
          * _getLegendHeight() calculates the necessary height of legend
          *
@@ -182,62 +190,59 @@ A simple bar chart that visualizes series data.
          * @return {Number} numColumns
         */
         _getLegendHeight: function() {
-            var maxItemsInColumn = Math.ceil(
-                this.chartData.length / this._getLegendColumns()
-            );
-            return maxItemsInColumn * legendItemHeight;
+            return (this._getMaxItemsInColumn() * legendItemHeight) + legendMarginTop;
         },
 
+        _drawLegendBox: function(x, y, color) {
+            return this.svg
+                .append("rect")
+                .attr("class", "legend-box")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", legendBox)
+                .attr("height", legendBox)
+                .attr("fill", color);
+        },
 
-        _drawLegend: function(dryRun) {
-            // TODO: Clean up this method, it is a bit unruly.
-            // dry run is meant to only calculate necessary height of legend
-            // track X position as legend is drawn across the top of the chart
-            var cumulativeX = 0;
-            var cumulativeY = 5;
-            var dryRun = dryRun || false;
+        _drawLegendLabel: function(x, y, labelText) {
+            return this.svg
+                .append("text")
+                .attr("class", "legend-text")
+                .attr("x", x + 10)
+                .attr("y", y + 11)
+                .text(labelText);
+        },
+
+        _drawLegendItem: function(x, y, color, labelText) {
+            this._drawLegendBox(x, y, color);
+            this._drawLegendLabel(x + legendMargin, y, labelText);
+        },
+
+        // TODO: return the text, shortened to fit in the width and add '...' to
+        // the end
+        _shortenText(text, width) {
+            return this._calculateTextWidth(text, "legend-text");
+        },
+
+        _drawLegend: function() {
             var dataLength = this.chartData.length;
             var i;
-            for(i=dataLength-1;i>=0;i--) {
-                var squareSize = 10;
-                var margin = 5;
-                var seriesTotal = this.chartData[i];
-                if(this.legendLabels.length > i) {
-                    var labelText = this.legendLabels[i];
-                } else {
-                    var labelText = seriesTotal;
-                };
+            for(i=0;i<dataLength;i++) {
+                var labelText = this.chartData[i];
                 var textWidth = this._calculateTextWidth(labelText, "legend-text");
-                var fullWidth = squareSize + margin + textWidth;
-                var endPosition = fullWidth + cumulativeX;
-                var color = this._getColor(i);
-                if(endPosition >= this.chartWidth) {
-                    cumulativeY += 20;
-                    cumulativeX = 0;
+                if(textWidth > legendText) {
+                    textWidth = this._shortenText(labelText, legendText);
                 };
-                var rectNode = this.svg
-                    .append("rect")
-                    .attr("class", "legend-box")
-                    .attr("x", cumulativeX)
-                    .attr("y", cumulativeY + 140)
-                    .attr("width", squareSize)
-                    .attr("height", squareSize)
-                    .attr("fill", color);
-                var textNode = this.svg
-                    .append("text")
-                    .attr("class", "legend-text")
-                    .attr("x", cumulativeX += squareSize + margin)
-                    .attr("y", cumulativeY + 149)
-                    .text(labelText);
-                cumulativeX += Math.round(textWidth + (margin * 3));
-                if(dryRun) {
-                    rectNode.remove();
-                    textNode.remove();
-                }
+                var color = this._getColor(i);
+                var maxItemsInColumn = this._getMaxItemsInColumn();
+                var columnNumber = Math.floor(i/maxItemsInColumn);
+                console.log(columnNumber)
+                var x = columnNumber * legendColumnWidth;
+                var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
+                var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
+                //console.log(columnNumber, x, y, color, labelText)
+                this._drawLegendItem(x, y, color, labelText);
             };
-            if(dryRun) {
-                return cumulativeY;
-            }
         },
 
         _drawBar: function(x, y, width, height, i, color) {
