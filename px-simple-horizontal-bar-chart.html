@@ -137,7 +137,6 @@ A simple bar chart that visualizes series data.
             var availableHeight = drawLegend ?
                 this.heightValue - this._getLegendHeight() :
                 this.heightValue;
-                console.log("drawLegend", drawLegend);
             this.barHeight = Math.round(availableHeight / this.chartData.length) - barPadding;
             if(this.barHeight < minimumBarHeight) {
                 console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.');
@@ -325,7 +324,6 @@ A simple bar chart that visualizes series data.
             var length = this.chartData.length, i = 0, value, labelText, barWidth, y, x, color;
             var sum = this._sum(this.chartData);
             var drawBars = this._isThereEnoughSpaceForBarLabels();
-            console.log("drawbars", drawBars);
             // choose the correct percentage calculation function to be used
             // on each label
             var percentFunction =
