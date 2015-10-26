@@ -1,14 +1,14 @@
 {
-    "name": "px-simple-bar-chart",
+    "name": "px-simple-horizontal-bar-chart",
     "author": "General Electric",
     "description": "A Px component",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "private": true,
     "extName" : null,
     "repository" :
     {
         "type": "git",
-        "url": "https://github.com/PredixDev/px-simple-bar-chart.git"
+        "url": "https://github.com/PredixDev/px-simple-horizontal-bar-chart.git"
     },
     "homepage": "http://predix.io/",
     "devDependencies": {
