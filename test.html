@@ -1,0 +1,93 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>px-simple-horizontal-bar-chart Demo</title>
+        <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+        <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+        <link rel="import" href="px-simple-horizontal-bar-chart.html"/>
+        <style>
+            body, html {
+                background: #ffffff;
+                font-family: sans-serif;
+                padding: 0.5%;
+                font-size: 14px;
+                line-height: 22px;
+            }
+            div#demo-controls {
+                background: #ffffff;
+                margin: 10px;
+                padding: 5px;
+                border: 1px solid #cccccc;
+                width: 440px;
+                display: block;
+                float: left;
+            }
+            .control {
+                margin: 5px;
+                clear: both;
+            }
+            .control label {
+                float: left;
+                width: 85px;
+                margin: 0 5px;
+                text-align: right;
+            }
+            #demo-controls h3 {
+                margin: 10px;
+            }
+            .example {
+                float: left;
+                margin-right: 15px;
+            }
+            .config {
+                float: left;
+            }
+            .description {
+                float: left;
+                width: 300px;
+                margin-right: 20px;
+            }
+            hr {
+                height: 1px;
+                border: 0;
+                background: #cccccc;
+                margin: 50px 0 0 0;
+            }
+            input[type="range"] {
+                width: 120px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>px-simple-horizontal-bar-chart demonstration page</h1>
+
+        <template id="just-for-demo" is="dom-bind">
+
+            <px-simple-horizontal-bar-chart
+                id="default-chart"
+                chart-data='[200, 100, 36]'
+                legend-labels='[
+                    "Label One",
+                    "This is definitely tooooo long.",
+                    "Hello",
+                    "123",
+                    "123",
+                    "123",
+                    "123",
+                    "what"
+                ]'>
+                &hearts;
+            </px-simple-horizontal-bar-chart>
+
+        </template>
+
+    </body>
+</html>
