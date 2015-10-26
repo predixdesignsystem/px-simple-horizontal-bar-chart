@@ -70,22 +70,15 @@
         <h1>px-simple-horizontal-bar-chart demonstration page</h1>
 
         <template id="just-for-demo" is="dom-bind">
-
+            <div style="height:10px;">
             <px-simple-horizontal-bar-chart
                 id="default-chart"
-                chart-data='[200, 100, 36]'
-                legend-labels='[
-                    "Label One",
-                    "This is definitely tooooo long.",
-                    "Hello",
-                    "123",
-                    "123",
-                    "123",
-                    "123",
-                    "what"
-                ]'>
+                chart-data="[1,2,3]"
+                    height="auto"
+                   legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what","additional" ]'>
                 &hearts;
             </px-simple-horizontal-bar-chart>
+        </div>
 
         </template>
 

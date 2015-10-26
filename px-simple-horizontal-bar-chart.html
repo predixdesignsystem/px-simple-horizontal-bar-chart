@@ -113,12 +113,15 @@ A simple bar chart that visualizes series data.
                 this._clearSVG(this.svg);
                 // _setDimensions sets this.widthValue and this.heightValue
                 this._setDimensions();
-                this._setSizes();
+                var drawLegend = this._isThereEnoughSpaceForLegend();
+                this._setSizes(drawLegend);
                 this._drawSVG();
                 this._setScales();
                 this._drawBars();
                 this._drawLeftLine();
-                this._drawLegend();
+                if(drawLegend){
+                    this._drawLegend();
+                }
                 // add css class to svg elements using method from pxD3Util
                 this._addStyleScope(this.svg);
             } else {
@@ -129,12 +132,17 @@ A simple bar chart that visualizes series data.
             }
         },
 
-        _setSizes: function() {
+        _setSizes: function(drawLegend) {
             this.chartWidth = this.widthValue - this._getBarLabelWidth();
-            var availableHeight = this.heightValue - this._getLegendHeight()
+            var availableHeight = drawLegend ?
+                this.heightValue - this._getLegendHeight() :
+                this.heightValue;
+                console.log("drawLegend", drawLegend);
             this.barHeight = Math.round(availableHeight / this.chartData.length) - barPadding;
             if(this.barHeight < minimumBarHeight) {
-                console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.')
+                console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.');
+            }else if(this.barHeight < 1){
+                console.error('The height of your chart is too low to render the component.');
             };
             this.chartHeight = (this.barHeight + barPadding) * (this.chartData.length) - barPadding;
         },
@@ -316,6 +324,8 @@ A simple bar chart that visualizes series data.
             // loop through the chartData and draw a bar for each value
             var length = this.chartData.length, i = 0, value, labelText, barWidth, y, x, color;
             var sum = this._sum(this.chartData);
+            var drawBars = this._isThereEnoughSpaceForBarLabels();
+            console.log("drawbars", drawBars);
             // choose the correct percentage calculation function to be used
             // on each label
             var percentFunction =
@@ -329,7 +339,9 @@ A simple bar chart that visualizes series data.
                 y = i * (this.barHeight + barPadding);
                 color = this._getColor(i);
                 this._drawBar(x, y, barWidth, this.barHeight, color);
-                this._drawBarLabel(x, y, textLabel);
+                if(drawBars) {
+                    this._drawBarLabel(x, y, textLabel);
+                }
             };
         },
 
@@ -341,6 +353,20 @@ A simple bar chart that visualizes series data.
                 .attr("y1", 0)
                 .attr("x2", 0)
                 .attr("y2", this.chartHeight);
+        },
+
+        _minChartHeight: function(minBarHeight) {
+            return (minBarHeight * this.chartData.length)
+                + legendMarginTop
+                + (legendItemHeight * this._getMaxItemsInColumn());
+        },
+
+        _isThereEnoughSpaceForBarLabels: function(){
+            return this._minChartHeight(14) <= this.heightValue;
+        },
+
+        _isThereEnoughSpaceForLegend: function(){
+            return this._minChartHeight(3) <= this.heightValue;
         }
 
 
