@@ -83,10 +83,12 @@
                 <br /><br />
                 <px-simple-horizontal-bar-chart
                     id="default-chart"
-                    chart-data="[1,2,3,4,5,6]"
-                    legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what" ]'
+                    chart-data='[200, 100, 36]'
+                    legend-labels='[ "Label One", "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what" ]'
 
                 >&hearts;</px-simple-horizontal-bar-chart>
+
+
             </div>
             <div class="config">
                 <strong>Configuration</strong>
@@ -167,23 +169,27 @@
                 </div>
             </div>
             <div>
+                <!--
                 <px-simple-horizontal-bar-chart
                     id="demo-chart"
                     width="{{width}}"
                     height="{{height}}"
                 >&hearts;</px-simple-horizontal-bar-chart>
+            -->
             </div>
             <br clear="both" /><br /><br />
             <hr />
             <h3>Test of "auto" width and height:</h3>
             <br clear="both"/>
             <div style="height: 250px; width: 100%">
+                <!--
                 <px-simple-horizontal-bar-chart
                     id="responsive-chart"
                     chart-data="[1,2,3,5,6,3,5,6,1,2,3,4]"
                     width="auto"
                     height="auto"
                 >&hearts;</px-simple-horizontal-bar-chart>
+            -->
             </div>
             <br clear="both" /><br /><br />
             <hr />
@@ -199,6 +205,7 @@
                 <div class="example">
                     <strong>Example chart</strong>
                     <br/>
+                    <!--
                     <px-simple-horizontal-bar-chart
                         id="{{item.id}}"
                         class="example-chart"
@@ -208,6 +215,7 @@
                         legend-labels="{{item.legendLabels}}"
                         colors="{{item.colors}}"
                     >&hearts;</px-simple-horizontal-bar-chart>
+                -->
                 </div>
                 <div class="config">
                     <strong>Element Configuration</strong>
@@ -424,7 +432,7 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<100;i++) {
+                    for(i=0;i<0;i++) {
                         examples.push(generateChartConfig(i));
                     };
                     that.examples = examples;

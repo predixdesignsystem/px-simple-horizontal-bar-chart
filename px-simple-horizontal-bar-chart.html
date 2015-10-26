@@ -26,7 +26,8 @@ A simple bar chart that visualizes series data.
         '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
     var defaultChartData = [ 29, 20, 15, 18, 8, 10 ];
     var defaultChartLabels = ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
-        'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten'];
+        'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten',
+        'Bar Eleven', 'Bar Twelve', 'Bar Thirteen', 'Bar Fourteen', 'Bar Fifteen'];
 
     var legendBox = 12;
     var legendMargin = 5;
@@ -138,9 +139,9 @@ A simple bar chart that visualizes series data.
             this.chartHeight = (this.barHeight + barPadding) * (this.chartData.length) - barPadding;
         },
 
-        // TODO: write this function
+        // TODO: write this function to calculate based on label text strings
         _getBarLabelWidth: function() {
-            return 50;
+            return 60;
         },
 
         _drawSVG: function() {
@@ -156,7 +157,6 @@ A simple bar chart that visualizes series data.
                 .domain([0, d3.max(this.chartData)])
                 .range([0, this.chartWidth]);
         },
-
 
         _getColor: function(index) {
             if(index >= 0 && index < this.colors.length) {
@@ -222,8 +222,6 @@ A simple bar chart that visualizes series data.
             this._drawLegendLabel(x + legendMargin, y, labelText);
         },
 
-        // TODO: return the text, shortened to fit in the width and add '...' to
-        // the end
         _shortenText(text, targetWidth) {
             var width = this._calculateTextWidth(text, "legend-text");
             if(width <= targetWidth) {
@@ -300,13 +298,32 @@ A simple bar chart that visualizes series data.
             return Math.round(value / sum * 100);
         },
 
+        _getPercentAccurate: function(value, sum) {
+            return Math.round((value/sum * 100)*10)/10;
+        },
+
+        // returns boolean defining need for floating point in percentage label
+        _percentagesNeedFloatingPoint: function(arr) {
+            var sum = this._sum(arr);
+            var i = 0, len = arr.length, percentageSum = 0;
+            for(i=0;i<len;i++) {
+                percentageSum += this._getPercent(arr[i], sum);
+            };
+            return (percentageSum !== 100);
+        },
+
         _drawBars: function() {
             // loop through the chartData and draw a bar for each value
             var length = this.chartData.length, i = 0, value, labelText, barWidth, y, x, color;
             var sum = this._sum(this.chartData);
+            // choose the correct percentage calculation function to be used
+            // on each label
+            var percentFunction =
+                this._percentagesNeedFloatingPoint(this.chartData) ?
+                     this._getPercentAccurate : this._getPercent;
             for(i;i<length;i++) {
                 value = this.chartData[i];
-                textLabel = this._getPercent(value, sum) + "%";
+                textLabel = percentFunction(value, sum) + "%";
                 barWidth = Math.floor(this.xScale(value));
                 x = 0;
                 y = i * (this.barHeight + barPadding);
