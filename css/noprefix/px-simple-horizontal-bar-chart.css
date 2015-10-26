@@ -227,5 +227,5 @@ sub {
   color: black;
   font-size: 14px; }
 
-.bar-chart-bottom-line {
-  stroke: #3b3b3f; }
+.bar-chart-left-line {
+  stroke: #525156; }
