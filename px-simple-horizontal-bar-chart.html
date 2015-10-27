@@ -181,7 +181,7 @@ A simple bar chart that visualizes series data.
          *
          * @return {Number} numColumns
         */
-        _getLegendColumns() {
+        _getLegendColumns: function() {
             var maxColumns = (this.widthValue - legendPadding) / legendColumnWidth;
             if( (this.chartData.length / maxColumns) >= 1) {
                 return maxColumns;
@@ -229,7 +229,7 @@ A simple bar chart that visualizes series data.
             this._drawLegendLabel(x + legendMargin, y, labelText);
         },
 
-        _shortenText(text, targetWidth) {
+        _shortenText: function(text, targetWidth) {
             var width = this._calculateTextWidth(text, "legend-text");
             if(width <= targetWidth) {
                 return text;
