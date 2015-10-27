@@ -1,13 +1,13 @@
-Px-Simple-Bar-Chart
+Px-Simple-Horizontal-Bar-Chart
 -----------------------------------------------
 
 ## Overview
 
-Px-Simple-Bar-Chart is a Predix Experience ('Px') component.
+Px-Simple-Horizontal-Bar-Chart is a Predix Experience ('Px') component.
 
-Use this component to visualize a series or multiple series of numeric values as a bar chart or stacked bar chart. Each series is represented by a sequence of horizontally aligned rectangle bars, the height of each proportionally representing a value. If multiple series are passed to the component then a stacked sequence of rectangle bars will be drawn using a different color to represent each series and a legend to identify them will be drawn above the bars.
+Use this component to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
 
-The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the demo.html page to become aware of the configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
+The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to become aware of the configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ From the component's directory run:
 $ grunt depserve
 ```
 
-Starts a local server. Navigate to the root of that server (e.g. http://localhost:8080/) in a browser to open the API documentation page, with link to the "Demo" / working examples.
+Starts a local server. Navigate to the root of that server (e.g. http://localhost:8082/) in a browser to open the API documentation page, with link to the "Demo" / working examples.
 
 ### Local Development
 
@@ -101,13 +101,9 @@ Options are passed into the component as attributes on the element tag.
 Send your data to the component via the `chart-data` attribute which defines the series data to be charted. It needs to be passed in as a multi-dimensional array containing one or more arrays of numeric values.
 
 ```html
-<px-simple-bar-chart
-    chart-data="[ [1,2,3] ]">
-</px-simple-bar-chart>
-
-<px-simple-bar-chart
-    chart-data="[ [1,2,3], [4,5,6], [7,8,9] ]">
-</px-simple-bar-chart>
+<px-simple-horizontal-bar-chart
+    chart-data="[1,2,3]">
+</px-simple-horizontal-bar-chart>
 ```
 
 ##### width and height
@@ -115,16 +111,16 @@ Send your data to the component via the `chart-data` attribute which defines the
 Set the `width` and `height` attributes to define the target pixel width and height of the chart component. The default settings are 283 by 150.
 
 ```html
-<px-simple-bar-chart
+<px-simple-horizontal-bar-chart
     ...
     width="370"
     height="230">
-</px-simple-bar-chart>
+</px-simple-horizontal-bar-chart>
 ```
 
 ###### Automatic width and height for responsive layouts
 
-Set the `width` and `height` attributes to "auto" and the chart will expand to fill it's containing element. *Note: The containing element must be a block-level element.*
+Set the `width` and `height` attributes to "auto" and the chart will expand to fill it's containing element. *Note: The parent containing element must be a block-level element or have a defined width/height so that the component can inherit the value.*
 
 ```html
 <px-simple-line-chart
@@ -139,10 +135,10 @@ Set the `width` and `height` attributes to "auto" and the chart will expand to f
 Use the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
 
 ```html
-<px-simple-bar-chart
+<px-simple-horizontal-bar-chart
     ...
     legend-labels="['Alpha', 'Bravo', 'Charlie']">
-</px-simple-bar-chart>
+</px-simple-horizontal-bar-chart>
 ```
 
 ##### colors
@@ -150,10 +146,10 @@ Use the `legend-labels` attribute to define custom text labels for your bar char
 Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
 
 ```html
-<px-simple-bar-chart
+<px-simple-horizontal-bar-chart
     ...
     colors=['#5da5da', '#faa43a', '#60bd68']>
-</px-simple-bar-chart>
+</px-simple-horizontal-bar-chart>
 ```
 
 ### Function calls
