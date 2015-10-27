@@ -12,89 +12,37 @@
         <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
         <link rel="import" href="px-simple-horizontal-bar-chart.html"/>
         <style>
-            body, html {
-                background: #ffffff;
-                font-family: sans-serif;
-                padding: 0.5%;
-                font-size: 14px;
-                line-height: 22px;
-            }
-            div#demo-controls {
-                background: #ffffff;
-                margin: 10px;
-                padding: 5px;
-                border: 1px solid #cccccc;
-                width: 440px;
-                display: block;
-                float: left;
-            }
-            .control {
-                margin: 5px;
-                clear: both;
-            }
-            .control label {
-                float: left;
-                width: 85px;
-                margin: 0 5px;
-                text-align: right;
-            }
-            #demo-controls h3 {
-                margin: 10px;
-            }
-            .example {
-                float: left;
-                margin-right: 15px;
-            }
-            .config {
-                float: left;
-            }
-            .description {
-                float: left;
-                width: 300px;
-                margin-right: 20px;
-            }
-            hr {
-                height: 1px;
-                border: 0;
-                background: #cccccc;
-                margin: 50px 0 0 0;
-            }
-            input[type="range"] {
-                width: 120px;
-            }
+
         </style>
     </head>
 
     <body>
 
-        <h1>px-simple-horizontal-bar-chart demonstration page</h1>
-
         <template id="just-for-demo" is="dom-bind">
-            <!-- <div style="height:10px;"> -->
-            <px-simple-horizontal-bar-chart
-                id="default-chart"
-                width="auto"
-                height="850"
-                chart-data="[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]"
-                legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what","additional",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","121231231231233", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "121231231231231231231231231233","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123",
-                "123", "123","123", "123","123", "123","123", "123"]'>
-                &hearts;
-            </px-simple-horizontal-bar-chart>
-        <!-- </div> -->
-
+            <div id="container">
+                <px-simple-horizontal-bar-chart
+                    id="default-chart"
+                    width="auto"
+                    height="auto"
+                    chart-data="[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]"
+                    legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what","additional",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","121231231231233", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "121231231231231231231231231233","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123",
+                    "123", "123","123", "123","123", "123","123", "123"]'>
+                    &hearts;
+                </px-simple-horizontal-bar-chart>
+            </div>
         </template>
 
     </body>
