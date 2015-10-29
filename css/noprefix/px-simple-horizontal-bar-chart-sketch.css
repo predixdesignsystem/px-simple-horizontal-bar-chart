@@ -206,10 +206,11 @@ sub {
 
 .legend-text {
   font-family: "GE Inspira Sans", sans-serif;
-  color: #9999a3; }
+  color: #9999a3;
+  font-size: 12px; }
 
 .bar-label {
   font-family: "GE Inspira Sans", sans-serif;
   font-weight: bold;
   color: black;
-  font-size: 14px; }
+  font-size: 15px; }
