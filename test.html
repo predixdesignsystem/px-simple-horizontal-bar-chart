@@ -12,7 +12,10 @@
         <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
         <link rel="import" href="px-simple-horizontal-bar-chart.html"/>
         <style>
-
+            #container {
+                height: 170px;
+                width: 600px;
+            }
         </style>
     </head>
 
@@ -24,7 +27,7 @@
                     id="default-chart"
                     width="auto"
                     height="auto"
-                    chart-data="[1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]"
+                    chart-data="[1,2,3,5]"
                     legend-labels='[ 123, "This is definitely tooooo long.", "Hello", "123", "123", "123", "123", "what","additional",
                     "123", "123","123", "123","123", "123","123", "123",
                     "123", "123","123", "123","123", "123","123", "123",

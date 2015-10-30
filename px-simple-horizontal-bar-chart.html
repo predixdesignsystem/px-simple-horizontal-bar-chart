@@ -224,21 +224,46 @@ A simple bar chart that visualizes series data.
                 .text(labelText);
         },
 
-        _drawLegendItem: function(x, y, color, labelText) {
-            this._drawLegendBox(x, y, color);
-            this._drawLegendLabel(x + legendMargin, y, labelText);
+        _drawLegendItem: function(i) {
+            var labelText = this.legendLabels[i];
+            var targetWidth = legendText - 10;
+            var color = this._getColor(i);
+            var maxItemsInColumn = this._getMaxItemsInColumn();
+            var columnNumber = Math.floor(i/maxItemsInColumn);
+            var x = columnNumber * legendColumnWidth;
+            var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
+            var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
+            var labelTextPromise = this._shortenText(labelText, targetWidth);
+            var that = this;
+            labelTextPromise.then(function(labelText) {
+                console.log(x, y, color, labelText)
+                that._drawLegendBox(x, y, color);
+                that._drawLegendLabel(x + legendMargin, y, labelText);
+            }).catch(function(reason) {
+                console.log('labelTextPromise rejected:' + reason)
+            });
         },
 
         _shortenText: function(text, targetWidth) {
-            var width = this._calculateTextWidth(text, "legend-text");
-            if(width <= targetWidth) {
-                return text;
-            } else {
-                return this._shortenText(
-                    text.substring(0, text.length - 4) + '...',
-                    targetWidth
-                );
-            };
+            var that = this;
+            return new Promise(function(resolve, reject) {
+                var widthPromise = that._calculateTextWidth(text, "legend-text");
+                widthPromise.then(function(width) {
+                    if(width <= targetWidth) {
+                        resolve(text);
+                    } else {
+                        var recurseivePromise = that._shortenText(
+                            text.substring(0, text.length - 4) + '...',
+                            targetWidth
+                        );
+                        recurseivePromise.then(function(text) {
+                            resolve(text);
+                        }).catch(function(reason) {
+                            console.log('recursivePromise failed. Reason: '+reason);
+                        });
+                    };
+                });
+            });
         },
 
         _drawLegend: function() {
@@ -248,19 +273,7 @@ A simple bar chart that visualizes series data.
                 console.error('There are not enough legend-labels defined for the chart data.')
             };
             for(i=0;i<dataLength;i++) {
-                var labelText = this.legendLabels[i];
-                var textWidth = this._calculateTextWidth(labelText, "legend-text");
-                var targetWidth = legendText - 10;
-                if(textWidth > targetWidth) {
-                    labelText = this._shortenText(labelText, targetWidth);
-                };
-                var color = this._getColor(i);
-                var maxItemsInColumn = this._getMaxItemsInColumn();
-                var columnNumber = Math.floor(i/maxItemsInColumn);
-                var x = columnNumber * legendColumnWidth;
-                var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
-                var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
-                this._drawLegendItem(x, y, color, labelText);
+                this._drawLegendItem(i);
             };
         },
 
@@ -275,8 +288,8 @@ A simple bar chart that visualizes series data.
                 .attr("fill", i);
         },
 
-        _calculateLabelCenterOffset: function(labelText) {
-            var height = this._calculateTextHeight(labelText);
+        _calculateLabelCenterOffset: function(rectObject) {
+            var height = rectObject.height;
             var diff = Math.abs(this.barHeight - height);
             var offset = (diff / 2) - barPadding + height;
             return Math.round(offset - offset * 0.10);
@@ -284,14 +297,22 @@ A simple bar chart that visualizes series data.
 
         _drawBarLabel: function(x, y, labelText) {
             // use common function _calculateTextWidth to calc label width
-            var textWidth = this._calculateTextWidth(labelText);
-            this.svg
-                .append("text")
-                .attr("class", "bar-label")
-                .attr("x", this.widthValue - textWidth - 10 )
-                .attr("y", y + this._calculateLabelCenterOffset(labelText))
-                .attr("width", textWidth)
-                .text(labelText);
+            var textSizePromise = this._calculateTextSize(labelText);
+            var widthValue = this.widthValue;
+            var that = this;
+            textSizePromise.then(function(rectObject) {
+                var textWidth = rectObject.width;
+                var labelOffset = that._calculateLabelCenterOffset(rectObject);
+                that.svg
+                    .append("text")
+                    .attr("class", "bar-label")
+                    .attr("x", widthValue - textWidth - 10)
+                    .attr("y", y + labelOffset)
+                    .attr("width", textWidth)
+                    .text(labelText);
+            }).catch(function(reason) {
+                console.log('textSizePromise rejected: '+reason);
+            });
         },
 
         _sum: function(arr) {
