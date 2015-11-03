@@ -35,13 +35,16 @@ A simple bar chart that visualizes series data.
             'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten',
             'Bar Eleven', 'Bar Twelve', 'Bar Thirteen', 'Bar Fourteen', 'Bar Fifteen'],
 
-        _legendBoxSize: 12,
-        _legendMargin: 5,
-        _legendTextWidth: 115,
-        _legendPadding: 19,
-        _legendMarginTop: 8,
-        _barPadding: 2,
-        _minimumBarHeight: 10,
+        _defaultMeasurements: {
+            _legendBoxSize: 12,
+            _legendMargin: 5,
+            _legendTextWidth: 115,
+            _legendPadding: 19,
+            _legendMarginTop: 8,
+            _barPadding: 2,
+            _minimumBarHeight: 10
+        },
+
 
         /**
          * Properties block, expose attribute values to the DOM via 'reflect'
@@ -105,10 +108,17 @@ A simple bar chart that visualizes series data.
 
         },
 
+        _setDefaultMeasurements: function() {
+            for(var prop in this._defaultMeasurements) {
+                this[prop] = this._defaultMeasurements[prop];
+            };
+            this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
+            this._legendItemHeight = this._legendMargin + this._legendBoxSize;
+        },
+
         _drawChartDebounced: function() {
             if(this.chartData && this.chartData.length > 0 && this.svg) {
-                this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
-                this._legendItemHeight = this._legendMargin + this._legendBoxSize;
+                this._setDefaultMeasurements();
                 // clear the svg element
                 this._clearSVG(this.svg);
                 // _setDimensions sets this.widthValue and this.heightValue
@@ -191,7 +201,7 @@ A simple bar chart that visualizes series data.
         },
 
         _getMaxItemsInColumn: function() {
-            return Math.ceil(this.chartData.length / this._getMaxLegendColumns());
+            return Math.floor(this.chartData.length / this._getMaxLegendColumns());
         },
 
         /**
@@ -283,9 +293,9 @@ A simple bar chart that visualizes series data.
             if(this.legendLabels.length < this.chartData.length) {
                 console.error('There are not enough legend-labels defined for the chart data.')
             };
-            var diff = this.widthValue - this._legendPadding - this._getWidthUsedByLegend();
+            var diff = this.widthValue - this._getWidthUsedByLegend();
             this._legendTextWidth += Math.floor(diff / this._getNumberOfColumnsUsed()) - this._legendMargin;
-            var legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
+            this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
             for(i=0;i<dataLength;i++) {
                 this._drawLegendItem(i);
             };
