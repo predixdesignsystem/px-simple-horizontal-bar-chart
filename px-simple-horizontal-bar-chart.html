@@ -137,13 +137,13 @@ A simple bar chart that visualizes series data.
             var availableHeight = drawLegend ?
                 this.heightValue - this._getLegendHeight() :
                 this.heightValue;
-            this.barHeight = Math.round(availableHeight / this.chartData.length) - barPadding;
-            if(this.barHeight < minimumBarHeight) {
+            this.barHeight = Math.round(availableHeight / this.chartData.length) - this._barPadding;
+            if(this.barHeight < this._minimumBarHeight) {
                 console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.');
             }else if(this.barHeight < 1){
                 console.error('The height of your chart is too low to render the component.');
             };
-            this.chartHeight = (this.barHeight + barPadding) * (this.chartData.length) - barPadding;
+            this.chartHeight = (this.barHeight + this._barPadding) * (this.chartData.length) - this._barPadding;
         },
 
         // TODO: write this function to calculate based on label text strings
@@ -182,7 +182,7 @@ A simple bar chart that visualizes series data.
          * @return {Number} numColumns
         */
         _getMaxLegendColumns: function() {
-            var maxColumns = (this.widthValue - legendPadding) / legendColumnWidth;
+            var maxColumns = (this.widthValue - this._legendPadding) / this._legendColumnWidth;
             if( (this.chartData.length / maxColumns) >= 1) {
                 return Math.floor(maxColumns);
             } else {
@@ -202,7 +202,7 @@ A simple bar chart that visualizes series data.
         */
         _getLegendHeight: function() {
             console.log(this._getMaxItemsInColumn());
-            return (this._getMaxItemsInColumn() * legendItemHeight) + this._legendMarginTop;
+            return (this._getMaxItemsInColumn() * this._legendItemHeight) + this._legendMarginTop;
         },
 
         _drawLegendBox: function(x, y, color) {
@@ -235,9 +235,9 @@ A simple bar chart that visualizes series data.
             var maxItemsInColumn = this._getMaxItemsInColumn();
             var targetWidth = this._legendTextWidth;
             var columnNumber = Math.floor(i/maxItemsInColumn);
-            var x = columnNumber * legendColumnWidth;
-            var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
-            var y = (i * legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
+            var x = columnNumber * this._legendColumnWidth;
+            var columnTop = this._legendItemHeight * maxItemsInColumn * columnNumber;
+            var y = (i * this._legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
             var that = this;
             var labelTextPromise = this._shortenText(labelText, targetWidth);
             labelTextPromise.then(function(labelText) {
@@ -275,7 +275,7 @@ A simple bar chart that visualizes series data.
         },
 
         _getWidthUsedByLegend: function() {
-            return legendColumnWidth * this._getNumberOfColumnsUsed();
+            return this._legendColumnWidth * this._getNumberOfColumnsUsed();
         },
 
         _drawLegend: function() {
@@ -284,8 +284,8 @@ A simple bar chart that visualizes series data.
             if(this.legendLabels.length < this.chartData.length) {
                 console.error('There are not enough legend-labels defined for the chart data.')
             };
-            var diff = this.widthValue - legendPadding - this._getWidthUsedByLegend();
-            // console.log(this.widthValue, legendPadding, this._getWidthUsedByLegend() )
+            var diff = this.widthValue - this._legendPadding - this._getWidthUsedByLegend();
+            // console.log(this.widthValue, this._legendPadding, this._getWidthUsedByLegend() )
             // console.log('diff', diff);
             this._legendTextWidth =+ Math.floor(diff / this._getNumberOfColumnsUsed());
             var legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
@@ -308,7 +308,7 @@ A simple bar chart that visualizes series data.
         _calculateLabelCenterOffset: function(rectObject) {
             var height = rectObject.height;
             var diff = Math.abs(this.barHeight - height);
-            var offset = (diff / 2) - barPadding + height;
+            var offset = (diff / 2) - this._barPadding + height;
             return Math.round(offset - offset * 0.10);
         },
 
@@ -372,7 +372,7 @@ A simple bar chart that visualizes series data.
                 textLabel = percentFunction(value, sum) + "%";
                 barWidth = Math.floor(this.xScale(value));
                 x = 0;
-                y = i * (this.barHeight + barPadding);
+                y = i * (this.barHeight + this._barPadding);
                 color = this._getColor(i);
                 this._drawBar(x, y, barWidth, this.barHeight, color);
                 if(drawBars) {
@@ -394,7 +394,7 @@ A simple bar chart that visualizes series data.
         _minChartHeight: function(minBarHeight) {
             return (minBarHeight * this.chartData.length)
                 + this._legendMarginTop
-                + (legendItemHeight * this._getMaxItemsInColumn());
+                + (this._legendItemHeight * this._getMaxItemsInColumn());
         },
 
         _isThereEnoughSpaceForBarLabels: function(){
