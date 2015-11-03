@@ -184,6 +184,10 @@ A simple bar chart that visualizes series data.
             };
         },
 
+        _getMaxNumberOfColumns: function() {
+            return Math.floor(this.widthValue / this._legendColumnWidth);
+        },
+
         /**
          * _getMaxLegendColumns() calculates the number of columns necessary
          * depends on variables legendPadding, legendColumnWidth,
@@ -192,16 +196,23 @@ A simple bar chart that visualizes series data.
          * @return {Number} numColumns
         */
         _getMaxLegendColumns: function() {
-            var maxColumns = (this.widthValue - this._legendPadding) / this._legendColumnWidth;
-            if( (this.chartData.length / maxColumns) >= 1) {
+            var maxColumns = this._getMaxNumberOfColumns();
+            if((this.chartData.length / maxColumns) >= 1) {
+                // all columns will be used
                 return Math.floor(maxColumns);
             } else {
-                return Math.floor(this.chartData.length % maxColumns);
+                // only some of the columns will be used
+                var columnsUsed = Math.floor(this.chartData.length % maxColumns);
+                if(columnsUsed === 0) {
+                    return maxColumns;
+                } else {
+                    return columnsUsed;
+                }
             };
         },
 
         _getMaxItemsInColumn: function() {
-            return Math.floor(this.chartData.length / this._getMaxLegendColumns());
+            return Math.ceil(this.chartData.length / this._getMaxLegendColumns());
         },
 
         /**
@@ -247,6 +258,9 @@ A simple bar chart that visualizes series data.
             var x = columnNumber * this._legendColumnWidth;
             var columnTop = this._legendItemHeight * maxItemsInColumn * columnNumber;
             var y = (i * this._legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
+            if(typeof y !== Number) {
+                // console.log(y, targetWidth, columnNumber, columnTop, maxItemsInColumn, this._legendItemHeight, this.chartHeight, this._legendMarginTop);
+            }
             var that = this;
             var labelTextPromise = this._shortenText(labelText, targetWidth);
             labelTextPromise.then(function(labelText) {
