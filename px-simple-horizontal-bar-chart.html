@@ -39,8 +39,6 @@ A simple bar chart that visualizes series data.
         _legendMargin: 5,
         _legendTextWidth: 115,
         _legendPadding: 19,
-        _legendColumnWidth: this._legendBoxSize + this._legendMargin + this._legendTextWidth,
-        _legendItemHeight: this._legendMargin + this._legendBoxSize,
         _legendMarginTop: 8,
         _barPadding: 2,
         _minimumBarHeight: 10,
@@ -109,6 +107,8 @@ A simple bar chart that visualizes series data.
 
         _drawChartDebounced: function() {
             if(this.chartData && this.chartData.length > 0 && this.svg) {
+                this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
+                this._legendItemHeight = this._legendMargin + this._legendBoxSize;
                 // clear the svg element
                 this._clearSVG(this.svg);
                 // _setDimensions sets this.widthValue and this.heightValue
@@ -201,7 +201,6 @@ A simple bar chart that visualizes series data.
          * @return {Number} numColumns
         */
         _getLegendHeight: function() {
-            console.log(this._getMaxItemsInColumn());
             return (this._getMaxItemsInColumn() * this._legendItemHeight) + this._legendMarginTop;
         },
 
@@ -242,7 +241,7 @@ A simple bar chart that visualizes series data.
             var labelTextPromise = this._shortenText(labelText, targetWidth);
             labelTextPromise.then(function(labelText) {
                 that._drawLegendBox(x, y, color);
-                that._drawLegendLabel(x + this._legendMargin, y, labelText);
+                that._drawLegendLabel(x + that._legendMargin, y, labelText);
             }).catch(function(reason) {
                 console.log('labelTextPromise rejected:', reason)
             });
@@ -285,9 +284,7 @@ A simple bar chart that visualizes series data.
                 console.error('There are not enough legend-labels defined for the chart data.')
             };
             var diff = this.widthValue - this._legendPadding - this._getWidthUsedByLegend();
-            // console.log(this.widthValue, this._legendPadding, this._getWidthUsedByLegend() )
-            // console.log('diff', diff);
-            this._legendTextWidth =+ Math.floor(diff / this._getNumberOfColumnsUsed());
+            this._legendTextWidth += Math.floor(diff / this._getNumberOfColumnsUsed()) - this._legendMargin;
             var legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
             for(i=0;i<dataLength;i++) {
                 this._drawLegendItem(i);
