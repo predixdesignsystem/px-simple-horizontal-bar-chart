@@ -22,28 +22,28 @@ A simple bar chart that visualizes series data.
 </dom-module>
 <script>
 
-    var defaultColors = ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
-        '#b276b2', '#decf3f', '#f15854', '#4d4d4d'];
-    var defaultChartData = [ 29, 20, 15, 18, 8, 10 ];
-    var defaultChartLabels = ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
-        'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten',
-        'Bar Eleven', 'Bar Twelve', 'Bar Thirteen', 'Bar Fourteen', 'Bar Fifteen'];
-
-    var legendBox = 12;
-    var legendMargin = 5;
-    var legendText = 115;
-    var legendPadding = 19;
-    var legendColumnWidth = legendBox + legendMargin + legendText;
-    var legendItemHeight = legendMargin + legendBox;
-    var legendMarginTop = 8;
-    var barPadding = 2;
-    var minimumBarHeight = 10;
-
     Polymer({
 
         is: 'px-simple-horizontal-bar-chart',
 
         behaviors: [pxSimpleChartCommonBehavior],
+
+        _defaultColors: ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
+            '#b276b2', '#decf3f', '#f15854', '#4d4d4d'],
+        _defaultChartData: [ 29, 20, 15, 18, 8, 10 ],
+        _defaultChartLabels: ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
+            'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten',
+            'Bar Eleven', 'Bar Twelve', 'Bar Thirteen', 'Bar Fourteen', 'Bar Fifteen'],
+
+        _legendBoxSize: 12,
+        _legendMargin: 5,
+        _legendTextWidth: 115,
+        _legendPadding: 19,
+        _legendColumnWidth: this._legendBoxSize + this._legendMargin + this._legendTextWidth,
+        _legendItemHeight: this._legendMargin + this._legendBoxSize,
+        _legendMarginTop: 8,
+        _barPadding: 2,
+        _minimumBarHeight: 10,
 
         /**
          * Properties block, expose attribute values to the DOM via 'reflect'
@@ -62,7 +62,7 @@ A simple bar chart that visualizes series data.
                 type: Array,
                 observer: '_drawChart',
                 value: function() {
-                    return defaultChartData;
+                    return this._defaultChartData;
                 }
             },
 
@@ -75,7 +75,7 @@ A simple bar chart that visualizes series data.
                 type: Array,
                 observer: '_drawChart',
                 value: function() {
-                    return defaultChartLabels;
+                    return this._defaultChartLabels;
                 }
             },
 
@@ -88,7 +88,7 @@ A simple bar chart that visualizes series data.
                 type: Array,
                 observer: '_drawChart',
                 value: function() {
-                    return defaultColors;
+                    return this._defaultColors;
                 }
             },
 
@@ -175,23 +175,23 @@ A simple bar chart that visualizes series data.
         },
 
         /**
-         * _getLegendColumns() calculates the number of columns necessary
+         * _getMaxLegendColumns() calculates the number of columns necessary
          * depends on variables legendPadding, legendColumnWidth,
          * this.heightValue, this.widthValue
          *
          * @return {Number} numColumns
         */
-        _getLegendColumns: function() {
+        _getMaxLegendColumns: function() {
             var maxColumns = (this.widthValue - legendPadding) / legendColumnWidth;
             if( (this.chartData.length / maxColumns) >= 1) {
-                return maxColumns;
+                return Math.floor(maxColumns);
             } else {
-                return this.chartData.length % maxColumns;
+                return Math.floor(this.chartData.length % maxColumns);
             };
         },
 
         _getMaxItemsInColumn: function() {
-            return Math.ceil(this.chartData.length / this._getLegendColumns());
+            return Math.ceil(this.chartData.length / this._getMaxLegendColumns());
         },
 
         /**
@@ -201,46 +201,50 @@ A simple bar chart that visualizes series data.
          * @return {Number} numColumns
         */
         _getLegendHeight: function() {
-            return (this._getMaxItemsInColumn() * legendItemHeight) + legendMarginTop;
+            console.log(this._getMaxItemsInColumn());
+            return (this._getMaxItemsInColumn() * legendItemHeight) + this._legendMarginTop;
         },
 
         _drawLegendBox: function(x, y, color) {
-            return this.svg
+            var boxNode = this.svg
                 .append("rect")
                 .attr("class", "legend-box")
                 .attr("x", x)
                 .attr("y", y)
-                .attr("width", legendBox)
-                .attr("height", legendBox)
+                .attr("width", this._legendBoxSize)
+                .attr("height", this._legendBoxSize)
                 .attr("fill", color);
+            this._addStyleScopeToElement(boxNode);
+            return boxNode;
         },
 
         _drawLegendLabel: function(x, y, labelText) {
-            return this.svg
+            var textNode = this.svg
                 .append("text")
                 .attr("class", "legend-text")
                 .attr("x", x + 10)
                 .attr("y", y + 10)
                 .text(labelText);
+            this._addStyleScopeToElement(textNode);
+            return textNode;
         },
 
         _drawLegendItem: function(i) {
             var labelText = this.legendLabels[i];
-            var targetWidth = legendText - 10;
             var color = this._getColor(i);
             var maxItemsInColumn = this._getMaxItemsInColumn();
+            var targetWidth = this._legendTextWidth;
             var columnNumber = Math.floor(i/maxItemsInColumn);
             var x = columnNumber * legendColumnWidth;
             var columnTop = legendItemHeight * maxItemsInColumn * columnNumber;
-            var y = (i * legendItemHeight) + this.chartHeight - columnTop + legendMarginTop;
-            var labelTextPromise = this._shortenText(labelText, targetWidth);
+            var y = (i * legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
             var that = this;
+            var labelTextPromise = this._shortenText(labelText, targetWidth);
             labelTextPromise.then(function(labelText) {
-                console.log(x, y, color, labelText)
                 that._drawLegendBox(x, y, color);
-                that._drawLegendLabel(x + legendMargin, y, labelText);
+                that._drawLegendLabel(x + this._legendMargin, y, labelText);
             }).catch(function(reason) {
-                console.log('labelTextPromise rejected:' + reason)
+                console.log('labelTextPromise rejected:', reason)
             });
         },
 
@@ -252,18 +256,26 @@ A simple bar chart that visualizes series data.
                     if(width <= targetWidth) {
                         resolve(text);
                     } else {
-                        var recurseivePromise = that._shortenText(
-                            text.substring(0, text.length - 4) + '...',
-                            targetWidth
-                        );
-                        recurseivePromise.then(function(text) {
-                            resolve(text);
+                        var newText = text.substring(0, text.length - 4) + '...';
+                        var shortenPromise = that._shortenText(newText, targetWidth);
+                        shortenPromise.then(function(promiseText) {
+                            resolve(promiseText);
                         }).catch(function(reason) {
-                            console.log('recursivePromise failed. Reason: '+reason);
+                            console.log('shortenPromise failed. Reason: ', reason);
                         });
-                    };
+                    }
+                }).catch(function(reason) {
+                    console.log('widthPromise failed. Reason: ', reason )
                 });
             });
+        },
+
+        _getNumberOfColumnsUsed: function() {
+            return Math.ceil(this.chartData.length / this._getMaxItemsInColumn());
+        },
+
+        _getWidthUsedByLegend: function() {
+            return legendColumnWidth * this._getNumberOfColumnsUsed();
         },
 
         _drawLegend: function() {
@@ -272,6 +284,11 @@ A simple bar chart that visualizes series data.
             if(this.legendLabels.length < this.chartData.length) {
                 console.error('There are not enough legend-labels defined for the chart data.')
             };
+            var diff = this.widthValue - legendPadding - this._getWidthUsedByLegend();
+            // console.log(this.widthValue, legendPadding, this._getWidthUsedByLegend() )
+            // console.log('diff', diff);
+            this._legendTextWidth =+ Math.floor(diff / this._getNumberOfColumnsUsed());
+            var legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
             for(i=0;i<dataLength;i++) {
                 this._drawLegendItem(i);
             };
@@ -303,15 +320,16 @@ A simple bar chart that visualizes series data.
             textSizePromise.then(function(rectObject) {
                 var textWidth = rectObject.width;
                 var labelOffset = that._calculateLabelCenterOffset(rectObject);
-                that.svg
+                var textNode = that.svg
                     .append("text")
                     .attr("class", "bar-label")
                     .attr("x", widthValue - textWidth - 10)
                     .attr("y", y + labelOffset)
                     .attr("width", textWidth)
                     .text(labelText);
+                that._addStyleScopeToElement(textNode);
             }).catch(function(reason) {
-                console.log('textSizePromise rejected: '+reason);
+                console.log('textSizePromise rejected: ', reason);
             });
         },
 
@@ -375,7 +393,7 @@ A simple bar chart that visualizes series data.
 
         _minChartHeight: function(minBarHeight) {
             return (minBarHeight * this.chartData.length)
-                + legendMarginTop
+                + this._legendMarginTop
                 + (legendItemHeight * this._getMaxItemsInColumn());
         },
 
