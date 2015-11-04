@@ -1,6 +1,6 @@
 {
   "name": "px-simple-horizontal-bar-chart",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "main": [
     "px-simple-bar-chart.html"
   ],
@@ -14,11 +14,11 @@
     "test"
   ],
   "dependencies": {
-    "polymer": "~1.1.3",
+    "polymer": "~1.2.1",
     "px-theme": "https://github.com/PredixDev/px-theme.git#~0.3.0",
     "d3": "~3.5.6",
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.4",
-    "px-simple-chart-common-behavior": "https://github.com/PredixDev/px-simple-chart-common-behavior.git#promises",
+    "px-simple-chart-common-behavior": "https://github.com/PredixDev/px-simple-chart-common-behavior.git#1.1.0",
     "es6-promise": "~3.0.2"
   },
   "devDependencies": {
