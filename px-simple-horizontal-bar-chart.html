@@ -390,7 +390,11 @@ A simple bar chart that visualizes series data.
                      this._getPercentAccurate : this._getPercent;
             for(i;i<length;i++) {
                 value = this.chartData[i];
-                textLabel = percentFunction(value, sum) + "%";
+                if( value == 0) {
+                    textLabel = value + "%";
+                } else {
+                    textLabel = percentFunction(value, sum) + "%";
+                };
                 barWidth = Math.floor(this.xScale(value));
                 x = 0;
                 y = i * (this.barHeight + this._barPadding);
