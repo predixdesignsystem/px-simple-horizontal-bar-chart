@@ -1,6 +1,6 @@
 {
   "name": "px-simple-horizontal-bar-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": [
     "px-simple-bar-chart.html"
   ],
@@ -14,7 +14,7 @@
     "test"
   ],
   "dependencies": {
-    "polymer": "~1.2.1",
+    "polymer": "~1.1.5",
     "px-theme": "https://github.com/PredixDev/px-theme.git#~0.3.0",
     "d3": "~3.5.6",
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.4",

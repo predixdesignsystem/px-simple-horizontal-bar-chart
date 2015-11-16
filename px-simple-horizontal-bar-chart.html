@@ -104,6 +104,28 @@ A simple bar chart that visualizes series data.
                 type: String,
                 observer: '_drawChart',
                 value: 'percentage'
+            },
+
+            /**
+             * domainRangeMin
+             *
+             * Format: String
+             * Default: "0"
+             */
+            domainMin: {
+                type: Number,
+                observer: '_drawChart',
+                value: '0'
+            },
+
+            /**
+             * domainRangeMax
+             *
+             * Format: String
+             */
+            domainMax: {
+                type: Number,
+                observer: '_drawChart'
             }
 
         },
@@ -273,23 +295,23 @@ A simple bar chart that visualizes series data.
 
         _shortenText: function(text, targetWidth) {
             var that = this;
-            return new Promise(function(resolve, reject) {
-                var widthPromise = that._calculateTextWidth(text, "legend-text");
-                widthPromise.then(function(width) {
-                    if(width <= targetWidth) {
-                        resolve(text);
-                    } else {
-                        var newText = text.substring(0, text.length - 4) + '...';
-                        var shortenPromise = that._shortenText(newText, targetWidth);
-                        shortenPromise.then(function(promiseText) {
-                            resolve(promiseText);
-                        }).catch(function(reason) {
-                            console.log('shortenPromise failed. Reason: ', reason);
-                        });
-                    }
-                }).catch(function(reason) {
-                    console.log('widthPromise failed. Reason: ', reason )
-                });
+                        return new Promise(function(resolve, reject) {
+                            var widthPromise = that._calculateTextWidth(text, "legend-text");
+                            widthPromise.then(function(width) {
+                                if(width <= targetWidth) {
+                                    resolve(text);
+                                } else {
+                                    var newText = text.substring(0, text.length - 4) + '...';
+                                    var shortenPromise = that._shortenText(newText, targetWidth);
+                                    shortenPromise.then(function(promiseText) {
+                                        resolve(promiseText);
+                                    }).catch(function(reason) {
+                                        console.log('shortenPromise failed. Reason: ', reason);
+                                    });
+                                }
+                            }).catch(function(reason) {
+                                console.log('widthPromise failed. Reason: ', reason )
+                            });
             });
         },
 
@@ -390,7 +412,11 @@ A simple bar chart that visualizes series data.
                      this._getPercentAccurate : this._getPercent;
             for(i;i<length;i++) {
                 value = this.chartData[i];
-                textLabel = percentFunction(value, sum) + "%";
+                if( value == 0) {
+                    textLabel = value + "%";
+                } else {
+                    textLabel = percentFunction(value, sum) + "%";
+                };
                 barWidth = Math.floor(this.xScale(value));
                 x = 0;
                 y = i * (this.barHeight + this._barPadding);
