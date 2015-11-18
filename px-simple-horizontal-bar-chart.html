@@ -191,10 +191,19 @@ A simple bar chart that visualizes series data.
 
         _setScales: function() {
             // no yscale necessary
-            this.xScale = d3.scale
-                .linear()
-                .domain([0, d3.max(this.chartData)])
-                .range([0, this.chartWidth]);
+            console.log(this.domainMin);
+            if(this.domainMin || this.domainMax) {
+                this.xScale = d3.scale
+                        .linear()
+                        .domain([this.domainMin, this.domainMax])
+                        .range([0, this.chartWidth]);
+            } else {
+                this.xScale = d3.scale
+                        .linear()
+                        .domain([0, d3.max(this.chartData)])
+                        .range([0, this.chartWidth]);
+            };
+
         },
 
         _getColor: function(index) {
