@@ -193,6 +193,7 @@ A simple bar chart that visualizes series data.
             // no yscale necessary
             if(this.domainMax) {
                 if(this.domainMax < d3.max(this.chartData)){
+                    console.error("domainMax input is less than the Max Chart Data");
                     this.xScale = d3.scale
                             .linear()
                             .domain([0, d3.max(this.chartData)])
