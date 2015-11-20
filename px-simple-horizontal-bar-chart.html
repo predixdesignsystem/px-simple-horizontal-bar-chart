@@ -107,18 +107,19 @@ A simple bar chart that visualizes series data.
             },
 
             /**
-             * domainRangeMin
+             * domainMin
              *
              * Format: String
              * Default: "0"
              */
             domainMin: {
                 type: Number,
-                observer: '_drawChart'
+                observer: '_drawChart',
+                value: 0
             },
 
             /**
-             * domainRangeMax
+             * domainMax
              *
              * Format: String
              */
@@ -190,12 +191,18 @@ A simple bar chart that visualizes series data.
 
         _setScales: function() {
             // no yscale necessary
-            console.log(this.domainMin);
-            if(this.domainMin || this.domainMax) {
-                this.xScale = d3.scale
-                        .linear()
-                        .domain([this.domainMin, this.domainMax])
-                        .range([0, this.chartWidth]);
+            if(this.domainMax) {
+                if(this.domainMax < d3.max(this.chartData)){
+                    this.xScale = d3.scale
+                            .linear()
+                            .domain([0, d3.max(this.chartData)])
+                            .range([0, this.chartWidth]);
+                } else {
+                    this.xScale = d3.scale
+                            .linear()
+                            .domain([this.domainMin, this.domainMax])
+                            .range([0, this.chartWidth]);
+                };
             } else {
                 this.xScale = d3.scale
                         .linear()
