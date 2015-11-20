@@ -140,8 +140,18 @@ Use the `legend-labels` attribute to define custom text labels for your bar char
     legend-labels="['Alpha', 'Bravo', 'Charlie']">
 </px-simple-horizontal-bar-chart>
 ```
-
 ##### colors
+
+Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
+
+```html
+<px-simple-horizontal-bar-chart
+    ...
+    colors=['#5da5da', '#faa43a', '#60bd68']>
+</px-simple-horizontal-bar-chart>
+```
+
+##### domain-min and domain-max
 
 Use the `domain-min` and `domain-max` attributes to customize the x-axis range. Doing so helps compare multiple graphs with different value ranges and scale them accordingly.
 
@@ -150,17 +160,6 @@ Use the `domain-min` and `domain-max` attributes to customize the x-axis range. 
     ...
     domain-min="100"
     domain-max="600">
-</px-simple-horizontal-bar-chart>
-```
-
-##### domain-min and domain-max
-
-Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
-
-```html
-<px-simple-horizontal-bar-chart
-    ...
-    colors=['#5da5da', '#faa43a', '#60bd68']>
 </px-simple-horizontal-bar-chart>
 ```
 
