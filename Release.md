@@ -1,7 +1,9 @@
 # Px-Simple-Horizontal-Bar-Chart
 
-**Description:** Px UI Component used to visualize a series of numeric values as a horizontally-oriented bar chart
+**Description:** Px UI Component used to visualize a series of numeric values as a horizontally-oriented bar chart.
+
 **Version**: 0.2.0
+
 **Date**: December 8, 2015
 
 ### Overview
