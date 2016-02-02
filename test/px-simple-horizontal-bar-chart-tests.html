@@ -24,6 +24,12 @@
     id="fixture3"
 >&hearts;</px-simple-horizontal-bar-chart>
 
+<div id="fixture_dimensions" style="width:300px; height:200px;">
+<px-simple-horizontal-bar-chart
+    height="auto" width="auto" id="fixture4"
+>&hearts;</px-simple-horizontal-bar-chart>
+</div>
+
   <script>
 
   test('fixture exists', function(done) {
@@ -134,6 +140,37 @@
    },1000);
 
  });
+
+ test('fixture4 SVG element has assigned width', function(done) {
+    var fixture = document.getElementById("fixture4");
+
+    setTimeout(function(){
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).width,"300px");
+    done();
+    },1000);
+
+  });
+
+  test('fixture4 SVG element has assigned height', function(done) {
+    var fixture = document.getElementById("fixture4");
+
+    setTimeout(function(){
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"200px");
+    done();
+    },1000);
+
+  });
+
+  test('fixture4 test for resize chart by height', function(done) {
+    var fixture = document.getElementById("fixture4");
+    document.getElementById('fixture_dimensions').setAttribute("style","height:270px");
+    window.dispatchEvent(new Event('resize'));
+    setTimeout(function(){
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"270px");
+    done();
+    },1000);
+
+  });
 
   </script>
        </body>
