@@ -48,7 +48,7 @@
 
    setTimeout(function(){
 
-  assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"150px");
+  assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('height'),"150px");
    done();
    },1000);
 
@@ -59,7 +59,7 @@
 
    setTimeout(function(){
 
-  assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"200px");
+  assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('height'),"200px");
    done();
    },1000);
 
@@ -69,7 +69,7 @@
    var fixture = document.getElementById("fixture1");
 
    setTimeout(function(){
-   assert.equal(getComputedStyle(fixture.querySelector('svg')).width,"283px");
+   assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('width'),"283px");
    done();
    },1000);
 
@@ -79,7 +79,7 @@
    var fixture = document.getElementById("fixture1");
 
    setTimeout(function(){
-   assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"150px");
+   assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('height'),"150px");
    done();
    },1000);
 
@@ -145,7 +145,7 @@
     var fixture = document.getElementById("fixture4");
 
     setTimeout(function(){
-    assert.equal(getComputedStyle(fixture.querySelector('svg')).width,"300px");
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('width'),"300px");
     done();
     },1000);
 
@@ -155,7 +155,7 @@
     var fixture = document.getElementById("fixture4");
 
     setTimeout(function(){
-    assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"200px");
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('height'),"200px");
     done();
     },1000);
 
@@ -166,7 +166,7 @@
     document.getElementById('fixture_dimensions').setAttribute("style","height:270px");
     window.dispatchEvent(new Event('resize'));
     setTimeout(function(){
-    assert.equal(getComputedStyle(fixture.querySelector('svg')).height,"270px");
+    assert.equal(getComputedStyle(fixture.querySelector('svg')).getPropertyValue('height'),"270px");
     done();
     },1000);
 
