@@ -25,6 +25,9 @@
  * Monochromatic (gray10 is darkest, gray1 is lightest)
  */
 /**
+ * Define grey = gray to avoid dev typos
+ */
+/**
  * Buttons
  */
 /**
@@ -202,7 +205,7 @@ sub {
 
 .px-simple-horizontal-bar-chart-svg {
   background: white;
-  margin: 10px; }
+  margin: 10px 0; }
 
 .legend-text {
   font-family: "GE Inspira Sans", sans-serif;

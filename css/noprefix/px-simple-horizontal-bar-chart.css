@@ -9,7 +9,7 @@
  */
 /*
 THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
-common/abstract rules go in px-simple-bar-horizontal-chart-sketch.scss, not in this file.
+common/abstract rules go in px-simple-horizontal-bar-chart-sketch.scss, not in this file.
 */
 /*------------------------------------*    #PX-COLORS-DESIGN
 \*------------------------------------*/
@@ -27,6 +27,9 @@ common/abstract rules go in px-simple-bar-horizontal-chart-sketch.scss, not in t
      */
 /**
  * Monochromatic (gray10 is darkest, gray1 is lightest)
+ */
+/**
+ * Define grey = gray to avoid dev typos
  */
 /**
  * Buttons
@@ -215,7 +218,7 @@ sub {
 
 .px-simple-horizontal-bar-chart-svg {
   background: white;
-  margin: 10px; }
+  margin: 10px 0; }
 
 .legend-text {
   font-family: "GE Inspira Sans", sans-serif;
