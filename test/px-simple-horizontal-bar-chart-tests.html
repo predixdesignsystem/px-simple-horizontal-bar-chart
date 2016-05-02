@@ -91,8 +91,8 @@
    var fixture = document.getElementById("fixture3");
    var svg = fixture.querySelector('svg');
    var rect = svg.querySelectorAll('rect');
-   var is_firechrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ||
-    navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+   var is_firechrome = (navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ||
+    navigator.userAgent.toLowerCase().indexOf('firefox') > -1) && navigator.userAgent.toLowerCase().indexOf('edge') === -1;
 
     if(!is_firechrome)
     {
@@ -117,11 +117,11 @@
    var fixture = document.getElementById("fixture3");
    var svg = fixture.querySelector('svg');
    var rect = svg.querySelectorAll('rect');
-   
-   assert.isTrue(svg.querySelectorAll('rect')[6].classList.contains('legend-box'));
-   assert.isTrue(svg.querySelectorAll('rect')[7].classList.contains('legend-box'));
-   assert.isTrue(svg.querySelectorAll('rect')[8].classList.contains('legend-box'));
-   assert.isTrue(svg.querySelectorAll('rect')[9].classList.contains('legend-box'));
+
+   assert.isTrue(rect[6].className.baseVal.indexOf('legend-box') !== -1);
+   assert.isTrue(rect[7].className.baseVal.indexOf('legend-box') !== -1);
+   assert.isTrue(rect[8].className.baseVal.indexOf('legend-box') !== -1);
+   assert.isTrue(rect[9].className.baseVal.indexOf('legend-box') !== -1);
    done();
  });
 
