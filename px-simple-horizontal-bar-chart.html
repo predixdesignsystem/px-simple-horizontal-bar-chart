@@ -1,7 +1,12 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
 <!--
-A simple bar chart that visualizes series data.
+
+Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
+
+Use this component to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
+
+The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to become aware of the configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
 
 ##### Usage
 
@@ -9,7 +14,7 @@ A simple bar chart that visualizes series data.
     </px-simple-horizontal-bar-chart>
 
 @element px-simple-horizontal-bar-chart
-@blurb Predix Experience Simple Horizontal Bar Chart
+@blurb Predix UI Simple Horizontal Bar Chart
 @homepage index.html
 @demo demo.html
 -->
@@ -68,9 +73,9 @@ A simple bar chart that visualizes series data.
             },
 
             /**
-            * legendLabels
+            * legendLabUse the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
+            * @prop legendLabels
             *
-            * Format: Array
             */
             legendLabels: {
                 type: Array,
@@ -81,9 +86,9 @@ A simple bar chart that visualizes series data.
             },
 
             /**
-            * colors
+            * Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
             *
-            * Format: Array
+            * @prop colors
             */
             colors: {
                 type: Array,

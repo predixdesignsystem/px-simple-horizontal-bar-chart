@@ -1,3 +1,7 @@
+v0.4.1
+==================
+* updated Docs to point github pages API
+
 v0.4.0
 ==================
 * Upgrade to Polymer 1.4.0
