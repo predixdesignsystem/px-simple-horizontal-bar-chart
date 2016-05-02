@@ -435,10 +435,10 @@
                 var that = this;
                 setTimeout(function() {
                     var i;
-                    for(i=0;i<100;i++) {
-                        examples.push(generateChartConfig(i));
-                    };
                     that.examples = examples;
+                    for(i=0;i<100;i++) {
+                        that.examples.push(generateChartConfig(i));
+                    };
                 }, 500);
             });
 
