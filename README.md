@@ -63,7 +63,7 @@ If you set both this and height to "auto", the chart will expand to fill its con
     width="370">
 </px-simple-horizontal-bar-chart>
 ```
-#### width
+#### height
 
 Define the target pixel height of the chart component. The default settings is 150.
 

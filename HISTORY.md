@@ -1,3 +1,7 @@
+v0.4.2
+==================
+* fixed typo in readme.
+
 v0.4.1
 ==================
 * updated Docs to point github pages API
