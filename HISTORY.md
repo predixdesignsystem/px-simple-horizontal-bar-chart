@@ -1,6 +1,14 @@
-v0.4.1
+v0.4.3
 ==================
 * Add es6-promise for IE support
+
+v0.4.2
+==================
+* fixed typo in readme.
+
+v0.4.1
+==================
+* updated Docs to point github pages API
 
 v0.4.0
 ==================
