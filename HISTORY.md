@@ -1,5 +1,9 @@
 v0.4.3
 ==================
+* added auto github pages functionality
+
+v0.4.3
+==================
 * Add es6-promise for IE support
 
 v0.4.2
