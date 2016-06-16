@@ -14,6 +14,9 @@
     "test",
     "OSS_Notice.pdf"
   ],
+  "keywords": [
+    "web-components"
+  ],
   "dependencies": {
     "polymer": "~1.4.0",
     "px-theme": "https://github.com/PredixDev/px-theme.git#~0.7.0",
