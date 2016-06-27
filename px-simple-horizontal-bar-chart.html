@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
+<link rel="import" href="px-simple-horizontal-bar-chart-styles.html">
 <!--
 
 Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
@@ -20,9 +21,9 @@ The bar colors and legend labels are configurable. The width and height of the c
 -->
 <dom-module id="px-simple-horizontal-bar-chart">
     <script type="text/javascript" src="../es6-promise/es6-promise.min.js"></script>
-    <script type="text/javascript" src="../d3/d3.js"></script>
-    <link rel="import" type="css" href="css/px-simple-horizontal-bar-chart.css"/>
+    <script type="text/javascript" src="../d3/d3.min.js"></script>
     <template>
+        <style include="px-simple-horizontal-bar-chart-css"></style>
         <svg class="px-simple-horizontal-bar-chart-svg"></svg>
     </template>
 </dom-module>
