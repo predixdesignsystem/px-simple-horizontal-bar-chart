@@ -18,7 +18,11 @@
   <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
   <link rel="import" href="../polymer-font-awesome/polymer-font-awesome.html">
   <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+<style>
+  .chart__demo{
 
+  }
+</style>
 </head>
 
 <body>
@@ -80,16 +84,14 @@
                 <!-- demo -->
                 <div class="flex flex--col">
                   <div class="flex__item demo u-ph+ u-pb+ u-mt++">
-                    <br />
-
-                    <px-simple-horizontal-bar-chart
-                      id="demo{{indexPlusOne(index)}}"
-                      chart-data="{{item.chartData}}"
-                      width="{{item.width}}"
-                      height="{{item.height}}"
-                      legend-labels="{{item.legendLabels}}"
-                      colors="{{item.colors}}"></px-simple-horizontal-bar-chart>
-
+                    <div class="u-mt-">
+                      <px-simple-horizontal-bar-chart
+                        width="{{item.width}}"
+                        height="{{item.height}}"
+                        legend-labels="{{item.legendLabels}}"
+                        colors="{{item.colors}}">
+                        </px-simple-horizontal-bar-chart>
+                    </div>
                   </div>
                   <div class="flex__item">
                     <px-demo-snippet element-properties={{item}} element-name="px-simple-horizontal-bar-chart">
@@ -126,7 +128,7 @@
           <li>
             <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
           </li>
-          <li>Copyright © 2016 General Electric Company. All rights reserved.</li>
+          <li>Copyright &copy; {{year}} General Electric Company. All rights reserved.</li>
         </ul>
       </div>
     </div>
@@ -136,146 +138,18 @@
     window.addEventListener('WebComponentsReady', function() {
 
       var template = document.querySelector('template[is=dom-bind]'),
+          year = new Date(),
+          width="500",
+          height="200",
+          legendLabels = [ "a", "b", "c", "d", "e" ],
+          colors = ["#A8E6CE", "#FFAAA6", "#FFD3B5", "#FF8C94","#DCEDC2"];
+
           optionsArray = [
             {
-            "width": "350",
-            "height": 250,
-            "chartData": [
-              [
-                102,
-                80,
-                63,
-                127,
-                102,
-                77,
-                57,
-                71,
-                106,
-                78,
-                129
-              ],
-              [
-                103,
-                55,
-                54,
-                103,
-                89,
-                56,
-                74,
-                52,
-                67,
-                110,
-                93
-              ],
-              [
-                128,
-                119,
-                71,
-                74,
-                98,
-                87,
-                114,
-                67,
-                67,
-                62,
-                104
-              ],
-              [
-                92,
-                64,
-                88,
-                121,
-                61,
-                55,
-                115,
-                110,
-                78,
-                129,
-                119
-              ],
-              [
-                102,
-                83,
-                106,
-                58,
-                102,
-                62,
-                58,
-                67,
-                75,
-                113,
-                120
-              ],
-              [
-                68,
-                129,
-                94,
-                58,
-                53,
-                117,
-                96,
-                87,
-                97,
-                70,
-                108
-              ],
-              [
-                109,
-                109,
-                104,
-                104,
-                121,
-                86,
-                97,
-                51,
-                73,
-                100,
-                74
-              ],
-              [
-                112,
-                57,
-                53,
-                122,
-                128,
-                120,
-                56,
-                94,
-                72,
-                110,
-                102
-              ]
-            ],
-            "legendLabels": [
-              "Lorem",
-              "ipsum",
-              "dolor",
-              "sit",
-              "amet",
-              "consectetur",
-              "adipiscing",
-              "elit",
-              "praesent",
-              "sed",
-              "purus",
-              "non",
-              "est",
-              "posuere",
-              "dapibus",
-              "ut",
-              "at",
-              "purus",
-              "suspendisse"
-            ],
-            "colors": [
-              "#3E7B7C",
-              "#7EA593",
-              "#7EA593",
-              "#DBB793",
-              "#EE8568",
-              "#957673",
-              "#CC5E4F"
-            ]
+              "width":width,
+              "height":height,
+              "legendLabels" :legendLabels,
+              "colors" :colors
           }],
           indexPlusOne = function(num) {
             return num + 1;
@@ -284,10 +158,12 @@
             return (optionsArray.length === 1);
           };
 
-      template.selected = "0";
-      template.optionsArray = optionsArray;
-      template.indexPlusOne = indexPlusOne;
-      template.onlyOneConfigItem = onlyOneConfigItem;
+          year = year.getFullYear();
+
+          template.selected = "0";
+          template.optionsArray = optionsArray;
+          template.indexPlusOne = indexPlusOne;
+          template.year = year;
     });
   </script>
 
