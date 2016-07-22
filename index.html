@@ -1,13 +1,296 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>px-simple-horizontal-bar-chart API</title>
-        <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
-        <link rel="import" href="../iron-component-page/iron-component-page.html"/>
-    </head>
-    <body>
-        <iron-component-page src="px-simple-horizontal-bar-chart.html" active="px-simple-hosrizontal-bar-chart"></iron-component-page>
-    </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-simple-horizontal-horizontal-bar-chart Demo</title>
+  <link rel="stylesheet" type="text/css" href="css/px-simple-horizontal-bar-chart-demo.css" />
+  <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../px-theme/px-theme.html" />
+  <link rel="import" href="../iron-ajax/iron-ajax.html" />
+  <link rel="import" href="../px-api-viewer/px-api-viewer.html" />
+  <link rel="import" href="../px-tabs/px-tab-set.html" />
+  <link rel="import" href="px-simple-horizontal-bar-chart.html" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
+  <link rel="import" href="../polymer-font-awesome/polymer-font-awesome.html">
+  <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+
+</head>
+
+<body>
+
+  <!-- Wrap elements with auto-binding template to -->
+  <!-- allow use of Polymer bindings in main document -->
+  <template id="just-for-demo" is="dom-bind">
+
+    <!-- discription -->
+    <div class="hero u-p++ text--shadow">
+      <h1 class="delta">px-simple-horizontal-bar-chart</h1>
+      <p class="description-text">
+        Use this component to visualize a series or multiple series of numeric values as a horizontal-bar chart or stacked horizontal-bar chart.
+         Each series is represented by a sequence of horizontally aligned rectangle horizontal-bars, the height of each proportionally representing a value.
+         If multiple series are passed to the component then a stacked sequence of rectangle horizontal-bars will be drawn using a different color to represent each series and a legend to identify them will be drawn above the horizontal-bars.
+         The horizontal-bar colors and legend labels are configurable.
+         The width and height of the component are also configurable.
+         We recommend using the default settings as they are designed for proper performance.
+
+      </p>
+      <div class="flex">
+        <img class="u-mr-- " src="https://img.shields.io/travis/PredixDev/px-simple-horizontal-bar-chart.svg?style=flat-square" alt="Travis"  onerror="this.style.display='none'"/>
+        <img class="u-mr--" src="https://img.shields.io/bower/v/px-simple-horizontal-bar-chart.svg?style=flat-square" alt="Bower" onerror="this.style.display='none'" />
+        <img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-simple-horizontal-bar-chart.svg?style=flat-square" alt="Issues" onerror="this.style.display='none'" />
+        <img class="u-mr--" src="https://img.shields.io/github/watchers/PredixDev/px-simple-horizontal-bar-chart.svg?style=social&label=Watch" onerror="this.style.display='none'" />
+      </div>
+    </div>
+    <br />
+
+    <!-- mega demo -->
+    <div style="position: relative;" class="u-pb++ flex flex--col" id="defaultTab">
+      <div class="tabContainer u-pt++ u-pl++">
+        <template is="dom-if" if="{{onlyOneConfigItem()}}">
+          <px-tab-set selected="{{selected}}" horizontal-bare no-bottom-border>
+            <template is="dom-repeat" items="{{optionsArray}}">
+              <px-tab>Configuration {{indexPlusOne(index)}}</px-tab>
+            </template>
+          </px-tab-set>
+        </template>
+      </div>
+      <template is="dom-if" if="{{onlyOneConfigItem()}}">
+        <px-tab-pages selected="{{selected}}">
+      </template>
+        <template is="dom-repeat" items="{{optionsArray}}">
+          <section class="tab-page flex flex--right flex--wrap">
+            <div class="mega-demo flex u-pb++">
+              <!-- Properties -->
+              <div class="properties u-ph+ u-pb+ u-mt++ u-mh++">
+                <p class="epsilon">Properties</p>
+                <div class="u-mb-">width:
+                  <input id="width{{indexPlusOne(index)}}" class="text-input" type="text" placeholder="{{item.width}}" value="{{item.width::input}}" />
+                </div>
+                <div class="u-mb-">height:
+                  <input id="height{{indexPlusOne(index)}}" class="text-input" type="text" placeholder="{{item.height}}" value="{{item.height::input}}" />
+                </div>
+              </div>
+
+              <div class="demoContainer u-mr++">
+                <!-- demo -->
+                <div class="flex flex--col">
+                  <div class="flex__item demo u-ph+ u-pb+ u-mt++">
+                    <br />
+
+                    <px-simple-horizontal-bar-chart
+                      id="demo{{indexPlusOne(index)}}"
+                      chart-data="{{item.chartData}}"
+                      width="{{item.width}}"
+                      height="{{item.height}}"
+                      legend-labels="{{item.legendLabels}}"
+                      colors="{{item.colors}}"></px-simple-horizontal-bar-chart>
+
+                  </div>
+                  <div class="flex__item">
+                    <px-demo-snippet element-properties={{item}} element-name="px-simple-horizontal-bar-chart">
+                    </px-demo-snippet>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="apiContainer">
+              <div class="flex flex--col api u-mt++">
+                <div>
+                  <px-api-viewer source="px-simple-horizontal-bar-chart"></px-api-viewer>
+                </div>
+              </div>
+            </div>
+          </section>
+        </template>
+        <template is="dom-if" if="{{onlyOneConfigItem()}}">
+      </px-tab-pages>
+    </template>
+    </div>
+    <footer class="footer flex flex--center">
+    <div class="footer__container u-pv++">
+      <div>
+        <a href="https://ge.com/digital" >
+          <img src="monogram-wdmk.png" alt="GE Monogram" class="footer__img">
+        </a>
+      </div>
+      <div class="footer__list">
+        <ul class="list-inline list-inline--delimited">
+          <li>
+            <a href="http://predix.io/legal" class="footer__list--lnk">Legal</a>
+          </li>
+          <li>
+            <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
+          </li>
+          <li>Copyright © 2016 General Electric Company. All rights reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  </template>
+  <script>
+    window.addEventListener('WebComponentsReady', function() {
+
+      var template = document.querySelector('template[is=dom-bind]'),
+          optionsArray = [
+            {
+            "width": "350",
+            "height": 250,
+            "chartData": [
+              [
+                102,
+                80,
+                63,
+                127,
+                102,
+                77,
+                57,
+                71,
+                106,
+                78,
+                129
+              ],
+              [
+                103,
+                55,
+                54,
+                103,
+                89,
+                56,
+                74,
+                52,
+                67,
+                110,
+                93
+              ],
+              [
+                128,
+                119,
+                71,
+                74,
+                98,
+                87,
+                114,
+                67,
+                67,
+                62,
+                104
+              ],
+              [
+                92,
+                64,
+                88,
+                121,
+                61,
+                55,
+                115,
+                110,
+                78,
+                129,
+                119
+              ],
+              [
+                102,
+                83,
+                106,
+                58,
+                102,
+                62,
+                58,
+                67,
+                75,
+                113,
+                120
+              ],
+              [
+                68,
+                129,
+                94,
+                58,
+                53,
+                117,
+                96,
+                87,
+                97,
+                70,
+                108
+              ],
+              [
+                109,
+                109,
+                104,
+                104,
+                121,
+                86,
+                97,
+                51,
+                73,
+                100,
+                74
+              ],
+              [
+                112,
+                57,
+                53,
+                122,
+                128,
+                120,
+                56,
+                94,
+                72,
+                110,
+                102
+              ]
+            ],
+            "legendLabels": [
+              "Lorem",
+              "ipsum",
+              "dolor",
+              "sit",
+              "amet",
+              "consectetur",
+              "adipiscing",
+              "elit",
+              "praesent",
+              "sed",
+              "purus",
+              "non",
+              "est",
+              "posuere",
+              "dapibus",
+              "ut",
+              "at",
+              "purus",
+              "suspendisse"
+            ],
+            "colors": [
+              "#3E7B7C",
+              "#7EA593",
+              "#7EA593",
+              "#DBB793",
+              "#EE8568",
+              "#957673",
+              "#CC5E4F"
+            ]
+          }],
+          indexPlusOne = function(num) {
+            return num + 1;
+          },
+          onlyOneConfigItem = function() {
+            return (optionsArray.length === 1);
+          };
+
+      template.selected = "0";
+      template.optionsArray = optionsArray;
+      template.indexPlusOne = indexPlusOne;
+      template.onlyOneConfigItem = onlyOneConfigItem;
+    });
+  </script>
+
+</body>
+
 </html>
