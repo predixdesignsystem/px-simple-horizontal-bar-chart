@@ -1,3 +1,7 @@
+v0.5.1
+==================
+* Upgraded to new demo
+
 v0.5.0
 ==================
 * Upgrade to Polymer 1.5.0
