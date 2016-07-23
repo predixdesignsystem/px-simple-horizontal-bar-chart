@@ -1,3 +1,7 @@
+v0.5.2
+==================
+* Updated demo description
+
 v0.5.1
 ==================
 * Upgraded to new demo
