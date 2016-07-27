@@ -1046,8 +1046,8 @@ textarea {
   background: #f7f7fc;
   width: 100%; }
 
-.hero {
-  max-width: 48.3333333333rem; }
+.description-text {
+  max-width: 46.6666666667rem; }
 
 .properties {
   flex-basis: 16.6666666667rem;

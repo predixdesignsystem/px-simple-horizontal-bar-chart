@@ -1,3 +1,7 @@
+v0.5.3
+==================
+* added github link and updated readme
+
 v0.5.2
 ==================
 * Updated demo description
