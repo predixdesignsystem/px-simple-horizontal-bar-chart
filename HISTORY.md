@@ -1,3 +1,7 @@
+v0.5.5
+==================
+* updated demo png
+
 v0.5.4
 ==================
 * fixed broken link in demo
