@@ -1050,7 +1050,7 @@ textarea {
   max-width: 46.6666666667rem; }
 
 .properties {
-  flex-basis: 16.6666666667rem;
+  flex: 0 0 16.6666666667rem;
   background: white;
   border: 1px solid #d1d0d8;
   overflow-x: hidden;

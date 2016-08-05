@@ -1,3 +1,7 @@
+v0.5.6
+==================
+* updated demo discription and mega demo styling
+
 v0.5.5
 ==================
 * updated demo png

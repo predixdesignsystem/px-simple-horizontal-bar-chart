@@ -62,12 +62,12 @@ $inuit-enable-list-inline--delimited : true;
 }
 
 .properties{
-  flex-basis: calculateRem(250px);
+  flex: 0 0 calculateRem(250px);
   background: $white;
   border: 1px solid $gray4;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-right: calculateRem(20px); 
+  margin-right: calculateRem(20px);
 }
 
 .demoContainer {

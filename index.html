@@ -38,20 +38,18 @@
         <iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github
       </a>
       <h1 class="delta">px-simple-horizontal-bar-chart</h1>
-      <p class="description-text">
-        The Simple Horizontal Bar Chart provides a quick way to visualize data in bars. It uses the data
-        visualization color palette by default, but this can be overridden with configuration. The height and
-        width are configurable, as are the legend labels – if none are provided, the legend will not be shown.
-        <br>
-        Each series is represented by a sequence of verically aligned bars, the length of
-        each proportionally representing a value.
-        <br>
-        The bar colors and legend labels are configurable.
-        <br>
-        The width and height of the component are also configurable.
-        We recommend using the default settings as they are designed for proper performance.
-
-      </p>
+      <div class="description-text">
+        <p>
+          The Simple Horizontal Bar Chart provides a quick way to visualize data in bars.
+          Each series is represented by a sequence of verically aligned bars, the length of
+          each proportionally representing a value.
+        </p>
+        <p>
+          It uses the data visualization color palette by default, but this can be overridden with configuration. The height and
+          width are configurable, as are the legend labels – if none are provided, the legend will not be shown.
+          We recommend using the default settings as they are designed for proper performance.
+        </p>
+      </div>
       <div class="flex">
         <img class="u-mr-- " src="https://img.shields.io/travis/PredixDev/px-simple-horizontal-bar-chart.svg?style=flat-square" alt="Travis"  onerror="this.style.display='none'"/>
         <img class="u-mr--" src="https://img.shields.io/bower/v/px-simple-horizontal-bar-chart.svg?style=flat-square" alt="Bower" onerror="this.style.display='none'" />
@@ -71,10 +69,10 @@
       </div>
       <px-tab-pages selected="{{selected}}">
         <template is="dom-repeat" items="{{optionsArray}}">
-          <section class="tab-page flex flex--right flex--wrap">
-            <div class="mega-demo flex flex--wrap u-p++">
+          <section class="tab-page">
+            <div class="mega-demo flex flex--wrap u-ph++ u-pb++">
               <!-- Properties -->
-              <div class="properties u-ph+ u-pb+ u-mb+">
+              <div class="properties u-ph+ u-pb+ u-mt+">
                 <p class="epsilon">Properties</p>
                 <div class="u-mb-">width:
                   <input id="width{{indexPlusOne(index)}}" class="text-input" type="text" placeholder="{{item.width}}" value="{{item.width::input}}" />
@@ -84,7 +82,7 @@
                 </div>
               </div>
 
-              <div class="demoContainer ">
+              <div class="demoContainer u-mt+">
                 <!-- demo -->
                 <div class="flex flex--col">
                   <div class="flex__item demo u-ph+ u-pb+">
@@ -99,45 +97,45 @@
                     </div>
                   </div>
                   <div class="flex__item">
-                  <px-demo-snippet
-                    element-properties={{item}}
-                    element-name="px-simple-horizontal-bar-chart">
-                  </px-demo-snippet>
+                    <px-demo-snippet
+                      element-properties={{item}}
+                      element-name="px-simple-horizontal-bar-chart">
+                    </px-demo-snippet>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="apiContainer">
-            <div class="flex flex--col api u-mt++" >
-              <div>
-                <px-api-viewer source="px-simple-horizontal-bar-chart"></px-api-viewer>
+            <div class="apiContainer">
+              <div class="flex flex--col api u-mt++" >
+                <div>
+                  <px-api-viewer source="px-simple-horizontal-bar-chart"></px-api-viewer>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </template>
-    </px-tab-pages>
+          </section>
+        </template>
+      </px-tab-pages>
     </div>
     <footer class="footer flex flex--center">
-    <div class="footer__container u-pv++">
-      <div>
-        <a href="https://ge.com/digital" >
-          <img src="monogram-wdmk.png" alt="GE Monogram" class="footer__img">
-        </a>
+      <div class="footer__container u-pv++">
+        <div>
+          <a href="https://ge.com/digital" >
+            <img src="monogram-wdmk.png" alt="GE Monogram" class="footer__img">
+          </a>
+        </div>
+        <div class="footer__list">
+          <ul class="list-inline list-inline--delimited">
+            <li>
+              <a href="http://predix.io/legal" class="footer__list--lnk">Legal</a>
+            </li>
+            <li>
+              <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
+            </li>
+            <li>Copyright &copy; {{year}} General Electric Company. All rights reserved.</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer__list">
-        <ul class="list-inline list-inline--delimited">
-          <li>
-            <a href="http://predix.io/legal" class="footer__list--lnk">Legal</a>
-          </li>
-          <li>
-            <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
-          </li>
-          <li>Copyright &copy; {{year}} General Electric Company. All rights reserved.</li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+    </footer>
   </template>
   <script>
     window.addEventListener('WebComponentsReady', function() {
