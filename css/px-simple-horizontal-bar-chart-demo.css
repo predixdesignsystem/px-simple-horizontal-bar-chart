@@ -1090,11 +1090,12 @@ textarea {
   background: white;
   border: 1px solid #d1d0d8;
   overflow-x: hidden;
-  overflow-y: auto; }
+  overflow-y: auto;
+  margin-right: 1.3333333333rem; }
 
 .demoContainer {
-  -ms-flex: 1 1;
-      flex: 1 1; }
+  -ms-flex: 1 1 auto;
+      flex: 1 1 auto; }
 
 .demoSnippet {
   -ms-flex-preferred-size: 10rem;
@@ -1132,10 +1133,7 @@ textarea {
   background-color: white; }
 
 .tabContainer {
-  -ms-flex: 0 0 100%;
-      flex: 0 0 100%;
-  height: 4rem;
-  margin-top: 2.3333333333rem;
+  height: auto;
   background: #f7f7fc; }
 
 .footer {
@@ -1170,8 +1168,8 @@ textarea {
   .mega-demo {
     -ms-flex-direction: column;
         flex-direction: column; }
-  .demoContainer {
-    margin-left: 2rem; }
+  .properties {
+    margin-right: 0px; }
   .footer__container {
     -ms-flex-direction: column;
         flex-direction: column; }

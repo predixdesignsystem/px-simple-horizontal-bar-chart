@@ -58,7 +58,7 @@ $inuit-enable-list-inline--delimited : true;
 }
 
 .description-text{
-  max-width: calculateRem(700px); 
+  max-width: calculateRem(700px);
 }
 
 .properties{
@@ -67,10 +67,11 @@ $inuit-enable-list-inline--delimited : true;
   border: 1px solid $gray4;
   overflow-x: hidden;
   overflow-y: auto;
+  margin-right: calculateRem(20px); 
 }
 
 .demoContainer {
-  flex: 1 1;
+  flex: 1 1 auto;
 }
 
 .demoSnippet {
@@ -111,9 +112,7 @@ $inuit-enable-list-inline--delimited : true;
   background-color: $white;
 }
 .tabContainer {
-  flex:0 0 100%;
-  height:calculateRem(60px);
-  margin-top:calculateRem(35px);
+  height:auto;
   background: $gray1;
 }
 
@@ -154,7 +153,10 @@ $inuit-enable-list-inline--delimited : true;
     flex-direction: column;
   }
   .demoContainer {
-    margin-left: calculateRem(30px);
+    // margin-left: calculateRem(30px);
+  }
+  .properties{
+    margin-right: 0px;
   }
   .footer__container{
     flex-direction: column;
