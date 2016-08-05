@@ -1,3 +1,7 @@
+v0.5.7
+==================
+* changed 'configuration' to 'option' in mega demo
+
 v0.5.6
 ==================
 * updated demo discription and mega demo styling
