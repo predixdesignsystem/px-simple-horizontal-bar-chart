@@ -123,7 +123,6 @@ $inuit-enable-list-inline--delimited : true;
   flex-basis: 90%;
   color: $gray4;
   font-size: 12px;
-  //flex
   align-items: center;
   display: inline-flex;
   justify-content: space-between;
@@ -151,9 +150,6 @@ $inuit-enable-list-inline--delimited : true;
 @media screen  and (max-width: calculateRem(672px)){
   .mega-demo {
     flex-direction: column;
-  }
-  .demoContainer {
-    // margin-left: calculateRem(30px);
   }
   .properties{
     margin-right: 0px;
