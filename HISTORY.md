@@ -1,3 +1,7 @@
+v0.5.8
+==================
+* Added missing 'bar-labels' functionality and updated demo
+
 v0.5.7
 ==================
 * changed 'configuration' to 'option' in mega demo
