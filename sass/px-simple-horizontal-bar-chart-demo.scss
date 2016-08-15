@@ -9,14 +9,14 @@
  */
 
 //
-// Sass for the "sketch" notion of the px-datetime-range-field component
+// Sass for the "sketch" notion of the px- component
 //
 // @author
 //
 
 /*
 THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
-Predix branding rules go in px-rangepicker-predix.scss, not in this file.
+Predix branding rules go in px-.scss, not in this file.
 */
 
 //Settings
@@ -90,6 +90,7 @@ $inuit-enable-list-inline--delimited : true;
   flex-basis: calculateRem(400px);
   background: $white;
   border: 1px solid $gray4;
+  overflow: auto;
 }
 .componentList {
   a {

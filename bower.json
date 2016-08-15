@@ -39,13 +39,13 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
     "px-tabs": "~0.4.0",
     "px-api-viewer": "^0.0.1",
-    "px-demo-snippet": "^0.0.8",
+    "px-demo-snippet": "^0.1.0",
     "px-list-inline-design": "^0.2.11",
     "px-toggle-design": "^0.2.12",
     "px-headings-design": "^0.2.14",
     "px-actionable-text-icons-design": "^0.0.3",
     "px-code-design": "~0.2.11",
     "px-dropdown": "^0.10.2",
-    "px-polymer-font-awesome":"^0.1.8"
+    "px-polymer-font-awesome": "^0.1.8"
   }
 }

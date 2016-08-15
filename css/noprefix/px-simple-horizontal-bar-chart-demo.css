@@ -10,7 +10,7 @@
  */
 /*
 THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
-Predix branding rules go in px-rangepicker-predix.scss, not in this file.
+Predix branding rules go in px-.scss, not in this file.
 */
 /*------------------------------------*    #PX-COLORS-DESIGN
 \*------------------------------------*/
@@ -1073,7 +1073,8 @@ textarea {
 .demo {
   flex-basis: 26.6666666667rem;
   background: white;
-  border: 1px solid #d1d0d8; }
+  border: 1px solid #d1d0d8;
+  overflow: auto; }
 
 .componentList a {
   color: #2886af; }

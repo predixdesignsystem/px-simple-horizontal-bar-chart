@@ -26,7 +26,6 @@ module.exports = function (grunt) {
                     'css/noprefix/px-simple-horizontal-bar-chart-sketch.css': 'sass/px-simple-horizontal-bar-chart-sketch.scss',
                     'css/noprefix/px-simple-horizontal-bar-chart.css': 'sass/px-simple-horizontal-bar-chart-predix.scss',
                     'css/noprefix/px-simple-horizontal-bar-chart-demo.css': 'sass/px-simple-horizontal-bar-chart-demo.scss'
-
                 }
             }
         },
