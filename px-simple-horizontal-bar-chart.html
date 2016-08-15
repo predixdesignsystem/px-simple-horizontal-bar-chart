@@ -434,7 +434,10 @@ The bar colors and legend labels are configurable. The width and height of the c
                      this._getPercentAccurate : this._getPercent;
             for(i;i<length;i++) {
                 value = this.chartData[i];
-                if( value == 0) {
+                if( this.barLabels == 'values') {
+                  textLabel = value;
+                }
+                else if( value == 0) {
                     textLabel = value + "%";
                 } else {
                     textLabel = percentFunction(value, sum) + "%";
