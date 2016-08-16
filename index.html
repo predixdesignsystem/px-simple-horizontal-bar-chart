@@ -87,7 +87,6 @@
                   <div class="demo u-p+">
 
                       <px-simple-horizontal-bar-chart
-                        class=""
                         chart-data="{{item.chartData}}"
                         width="{{item.width}}"
                         height="{{item.height}}"
@@ -132,7 +131,7 @@
             <li>
               <a href="mailto:info@predix.io" class="footer__list--lnk">Contact Us</a>
             </li>
-            <li>Copyright &copy; 2016 General Electric Company. All rights reserved.</li>
+            <li>Copyright &copy; {{year}} General Electric Company. All rights reserved.</li>
           </ul>
         </div>
       </div>
@@ -197,10 +196,12 @@
             return (optionsArray.length === 1);
           };
 
-
+          year = year.getFullYear();
+          
           template.selected = "0";
           template.optionsArray = optionsArray;
           template.indexPlusOne = indexPlusOne;
+          template.year = year;
           template.barLabels = barLabels;
     });
   </script>
