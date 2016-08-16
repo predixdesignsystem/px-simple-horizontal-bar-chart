@@ -1059,7 +1059,7 @@ textarea {
 
 .demoContainer {
   flex: 1 1 auto;
-  overflow-x: auto; }
+  overflow: auto; }
 
 .demoSnippet {
   flex-basis: 10rem; }
