@@ -1058,7 +1058,8 @@ textarea {
   margin-right: 1.3333333333rem; }
 
 .demoContainer {
-  flex: 1 1 auto; }
+  flex: 1 1 auto;
+  overflow-x: auto; }
 
 .demoSnippet {
   flex-basis: 10rem; }

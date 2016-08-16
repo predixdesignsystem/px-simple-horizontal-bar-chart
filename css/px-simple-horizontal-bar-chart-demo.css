@@ -1095,7 +1095,8 @@ textarea {
 
 .demoContainer {
   -ms-flex: 1 1 auto;
-      flex: 1 1 auto; }
+      flex: 1 1 auto;
+  overflow-x: auto; }
 
 .demoSnippet {
   -ms-flex-preferred-size: 10rem;

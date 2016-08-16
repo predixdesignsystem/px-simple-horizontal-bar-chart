@@ -81,12 +81,13 @@
                 </px-dropdown>
               </div>
 
-              <div class="demoContainer u-mt+">
+              <div class="demoContainer clearfix u-mt+">
                 <!-- demo -->
                 <div class="flex flex--col">
-                  <div class="flex__item demo u-p+">
+                  <div class="demo u-p+">
 
                       <px-simple-horizontal-bar-chart
+                        class=""
                         chart-data="{{item.chartData}}"
                         width="{{item.width}}"
                         height="{{item.height}}"
@@ -96,7 +97,7 @@
                       </px-simple-horizontal-bar-chart>
 
                   </div>
-                  <div class="flex__item">
+                  <div>
                     <px-demo-snippet
                       element-properties={{item}}
                       element-name="px-simple-horizontal-bar-chart">

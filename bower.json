@@ -1,6 +1,6 @@
 {
   "name": "px-simple-horizontal-bar-chart",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "main": [
     "px-simple-horizontal-bar-chart.html"
   ],
@@ -46,6 +46,7 @@
     "px-actionable-text-icons-design": "^0.0.3",
     "px-code-design": "~0.2.11",
     "px-dropdown": "^0.10.2",
-    "px-polymer-font-awesome": "^0.1.8"
+    "px-polymer-font-awesome": "^0.1.8",
+    "px-clearfix-design": "^0.1.6"
   }
 }

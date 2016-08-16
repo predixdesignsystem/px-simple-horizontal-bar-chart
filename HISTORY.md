@@ -1,3 +1,7 @@
+v0.5.9
+==================
+* updated mega demo styles and bower px-demo-snippet to ^
+
 v0.5.8
 ==================
 * Added missing 'bar-labels' functionality and updated demo
