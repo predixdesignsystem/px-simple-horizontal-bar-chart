@@ -1,5 +1,5 @@
-<link rel="import" href="../polymer/polymer.html" />
-<link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html" />
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html"/>
 <!--
 
 Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
@@ -18,465 +18,466 @@ The bar colors and legend labels are configurable. The width and height of the c
 @homepage index.html
 @demo demo.html
 -->
+
+<link rel="import" href="css/px-simple-horizontal-bar-chart-styles.html">
+
 <dom-module id="px-simple-horizontal-bar-chart">
-    <script type="text/javascript" src="../es6-promise/es6-promise.min.js"></script>
-    <script type="text/javascript" src="../d3/d3.js"></script>
-    <link rel="import" type="css" href="css/px-simple-horizontal-bar-chart.css"/>
-    <template>
-        <svg class="px-simple-horizontal-bar-chart-svg"></svg>
-    </template>
+  <script type="text/javascript" src="../es6-promise/es6-promise.min.js"></script>
+  <script type="text/javascript" src="../d3/d3.js"></script>
+  <template>
+    <style include="px-simple-horizontal-bar-chart-styles"></style>
+    <style include="px-theme-styles"></style>
+    <svg class="px-simple-horizontal-bar-chart-svg"></svg>
+  </template>
 </dom-module>
 <script>
 
-    Polymer({
+  Polymer({
 
-        is: 'px-simple-horizontal-bar-chart',
+    is: 'px-simple-horizontal-bar-chart',
 
-        behaviors: [pxSimpleChartCommonBehavior],
+    behaviors: [pxSimpleChartCommonBehavior],
 
-        _defaultColors: ['#5da5da', '#faa43a', '#60bd68', '#f17cb0', '#b2912f',
-            '#b276b2', '#decf3f', '#f15854', '#4d4d4d'],
-        _defaultChartData: [ 29, 20, 15, 18, 8, 10 ],
-        _defaultChartLabels: ['Bar One', 'Bar Two', 'Bar Three', 'Bar Four',
-            'Bar Five', 'Bar Six', 'Bar Seven', 'Bar Eight', 'Bar Nine', 'Bar Ten',
-            'Bar Eleven', 'Bar Twelve', 'Bar Thirteen', 'Bar Fourteen', 'Bar Fifteen'],
+    _defaultColors: [
+      '#5da5da',
+      '#faa43a',
+      '#60bd68',
+      '#f17cb0',
+      '#b2912f',
+      '#b276b2',
+      '#decf3f',
+      '#f15854',
+      '#4d4d4d'
+    ],
+    _defaultChartData: [
+      29,
+      20,
+      15,
+      18,
+      8,
+      10
+    ],
+    _defaultChartLabels: [
+      'Bar One',
+      'Bar Two',
+      'Bar Three',
+      'Bar Four',
+      'Bar Five',
+      'Bar Six',
+      'Bar Seven',
+      'Bar Eight',
+      'Bar Nine',
+      'Bar Ten',
+      'Bar Eleven',
+      'Bar Twelve',
+      'Bar Thirteen',
+      'Bar Fourteen',
+      'Bar Fifteen'
+    ],
 
-        _defaultMeasurements: {
-            _legendBoxSize: 12,
-            _legendMargin: 5,
-            _legendTextWidth: 115,
-            _legendPadding: 19,
-            _legendMarginTop: 8,
-            _barPadding: 2,
-            _minimumBarHeight: 10
-        },
+    _defaultMeasurements: {
+      _legendBoxSize: 12,
+      _legendMargin: 5,
+      _legendTextWidth: 115,
+      _legendPadding: 19,
+      _legendMarginTop: 8,
+      _barPadding: 2,
+      _minimumBarHeight: 10
+    },
 
-
-        /**
+    /**
          * Properties block, expose attribute values to the DOM via 'reflect'
          *
          * @property properties
          * @type Object
          */
-        properties: {
+    properties: {
 
-            /**
+      /**
             * chartData
             *
             * Format: [ 29, 20, 15, 18, 8, 10 ]
             */
-            chartData: {
-                type: Array,
-                observer: '_drawChart',
-                value: function() {
-                    return this._defaultChartData;
-                }
-            },
+      chartData: {
+        type: Array,
+        observer: '_drawChart',
+        value: function() {
+          return this._defaultChartData;
+        }
+      },
 
-            /**
+      /**
             * legendLabUse the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
             * @prop legendLabels
             *
             */
-            legendLabels: {
-                type: Array,
-                observer: '_drawChart',
-                value: function() {
-                    return this._defaultChartLabels;
-                }
-            },
+      legendLabels: {
+        type: Array,
+        observer: '_drawChart',
+        value: function() {
+          return this._defaultChartLabels;
+        }
+      },
 
-            /**
+      /**
             * Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
             *
             * @prop colors
             */
-            colors: {
-                type: Array,
-                observer: '_drawChart',
-                value: function() {
-                    return this._defaultColors;
-                }
-            },
+      colors: {
+        type: Array,
+        observer: '_drawChart',
+        value: function() {
+          return this._defaultColors;
+        }
+      },
 
-            /**
+      /**
             * barLabels
             *
             * Format: String
             * Default: "percentage"
             * Two options: "percentage" or "values"
             */
-            barLabels: {
-                type: String,
-                observer: '_drawChart',
-                value: 'percentage'
-            },
+      barLabels: {
+        type: String,
+        observer: '_drawChart',
+        value: 'percentage'
+      },
 
-            /**
+      /**
              * domainMin
              *
              * Format: String
              * Default: "0"
              */
-            domainMin: {
-                type: Number,
-                observer: '_drawChart',
-                value: 0
-            },
+      domainMin: {
+        type: Number,
+        observer: '_drawChart',
+        value: 0
+      },
 
-            /**
+      /**
              * domainMax
              *
              * Format: String
              */
-            domainMax: {
-                type: Number,
-                observer: '_drawChart'
-            }
+      domainMax: {
+        type: Number,
+        observer: '_drawChart'
+      }
 
-        },
+    },
 
-        _setDefaultMeasurements: function() {
-            for(var prop in this._defaultMeasurements) {
-                this[prop] = this._defaultMeasurements[prop];
-            };
-            this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
-            this._legendItemHeight = this._legendMargin + this._legendBoxSize;
-        },
+    _setDefaultMeasurements: function() {
+      for (var prop in this._defaultMeasurements) {
+        this[prop] = this._defaultMeasurements[prop];
+      };
+      this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
+      this._legendItemHeight = this._legendMargin + this._legendBoxSize;
+    },
 
-        _drawChartDebounced: function() {
-            if(this.chartData && this.chartData.length > 0 && this.svg) {
-                this._setDefaultMeasurements();
-                // clear the svg element
-                this._clearSVG(this.svg);
-                // _setDimensions sets this.widthValue and this.heightValue
-                this._setDimensions();
-                var drawLegend = this._isThereEnoughSpaceForLegend();
-                this._setSizes(drawLegend);
-                this._drawSVG();
-                this._setScales();
-                this._drawBars();
-                this._drawLeftLine();
-                if(drawLegend){
-                    this._drawLegend();
-                }
-                // add css class to svg elements using method from pxD3Util
-                this._addStyleScope(this.svg);
-            } else {
-                var that = this;
-                var timeout = setTimeout(function(){
-                    that._drawChartDebounced();
-                }, 100);
-            }
-        },
+    _drawChartDebounced: function() {
+      if (this.chartData && this.chartData.length > 0 && this.svg) {
+        this._setDefaultMeasurements();
+        // clear the svg element
+        this._clearSVG(this.svg);
+        // _setDimensions sets this.widthValue and this.heightValue
+        this._setDimensions();
+        var drawLegend = this._isThereEnoughSpaceForLegend();
+        this._setSizes(drawLegend);
+        this._drawSVG();
+        this._setScales();
+        this._drawBars();
+        this._drawLeftLine();
+        if (drawLegend) {
+          this._drawLegend();
+        }
+        // add css class to svg elements using method from pxD3Util
+        this._addStyleScope(this.svg);
+      } else {
+        var that = this;
+        var timeout = setTimeout(function() {
+          that._drawChartDebounced();
+        }, 100);
+      }
+    },
 
-        _setSizes: function(drawLegend) {
-            this.chartWidth = this.widthValue - this._getBarLabelWidth();
-            var availableHeight = drawLegend ?
-                this.heightValue - this._getLegendHeight() :
-                this.heightValue;
-            this.barHeight = Math.round(availableHeight / this.chartData.length) - this._barPadding;
-            if(this.barHeight < this._minimumBarHeight) {
-                console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.');
-            }else if(this.barHeight < 1){
-                console.error('The height of your chart is too low to render the component.');
-            };
-            this.chartHeight = (this.barHeight + this._barPadding) * (this.chartData.length) - this._barPadding;
-        },
+    _setSizes: function(drawLegend) {
+      this.chartWidth = this.widthValue - this._getBarLabelWidth();
+      var availableHeight = drawLegend
+        ? this.heightValue - this._getLegendHeight()
+        : this.heightValue;
+      this.barHeight = Math.round(availableHeight / this.chartData.length) - this._barPadding;
+      if (this.barHeight < this._minimumBarHeight) {
+        console.error('The bar height is too low. In order to improve rendering of the chart, increase the height of the chart or remove data points being charted.');
+      } else if (this.barHeight < 1) {
+        console.error('The height of your chart is too low to render the component.');
+      };
+      this.chartHeight = (this.barHeight + this._barPadding) * (this.chartData.length) - this._barPadding;
+    },
 
-        // TODO: write this function to calculate based on label text strings
-        _getBarLabelWidth: function() {
-            return 60;
-        },
+    // TODO: write this function to calculate based on label text strings
+    _getBarLabelWidth: function() {
+      return 60;
+    },
 
-        _drawSVG: function() {
-            this.svg
-                .attr('width', this.widthValue)
-                .attr('height', this.heightValue);
-        },
+    _drawSVG: function() {
+      this.svg.attr('width', this.widthValue).attr('height', this.heightValue);
+    },
 
-        _setScales: function() {
-            // no yscale necessary
-            if(this.domainMax) {
-                if(this.domainMax < d3.max(this.chartData)){
-                    console.error("domainMax input is less than the Max Chart Data");
-                    this.xScale = d3.scale
-                            .linear()
-                            .domain([0, d3.max(this.chartData)])
-                            .range([0, this.chartWidth]);
-                } else {
-                    this.xScale = d3.scale
-                            .linear()
-                            .domain([this.domainMin, this.domainMax])
-                            .range([0, this.chartWidth]);
-                };
-            } else {
-                this.xScale = d3.scale
-                        .linear()
-                        .domain([0, d3.max(this.chartData)])
-                        .range([0, this.chartWidth]);
-            };
+    _setScales: function() {
+      // no yscale necessary
+      if (this.domainMax) {
+        if (this.domainMax < d3.max(this.chartData)) {
+          console.error("domainMax input is less than the Max Chart Data");
+          this.xScale = d3.scale.linear().domain([
+            0,
+            d3.max(this.chartData)
+          ]).range([0, this.chartWidth]);
+        } else {
+          this.xScale = d3.scale.linear().domain([this.domainMin, this.domainMax]).range([0, this.chartWidth]);
+        };
+      } else {
+        this.xScale = d3.scale.linear().domain([
+          0,
+          d3.max(this.chartData)
+        ]).range([0, this.chartWidth]);
+      };
 
-        },
+    },
 
-        _getColor: function(index) {
-            if(index >= 0 && index < this.colors.length) {
-                return this.colors[index];
-            } else {
-                // recurse and loop through color list
-                return this._getColor(Math.abs(this.colors.length - index));
-            };
-        },
+    _getColor: function(index) {
+      if (index >= 0 && index < this.colors.length) {
+        return this.colors[index];
+      } else {
+        // recurse and loop through color list
+        return this._getColor(Math.abs(this.colors.length - index));
+      };
+    },
 
-        _getMaxNumberOfColumns: function() {
-            return Math.floor(this.widthValue / this._legendColumnWidth);
-        },
+    _getMaxNumberOfColumns: function() {
+      return Math.floor(this.widthValue / this._legendColumnWidth);
+    },
 
-        /**
+    /**
          * _getMaxLegendColumns() calculates the number of columns necessary
          * depends on variables legendPadding, legendColumnWidth,
          * this.heightValue, this.widthValue
          *
          * @return {Number} numColumns
         */
-        _getMaxLegendColumns: function() {
-            var maxColumns = this._getMaxNumberOfColumns();
-            if((this.chartData.length / maxColumns) >= 1) {
-                // all columns will be used
-                return Math.floor(maxColumns);
-            } else {
-                // only some of the columns will be used
-                var columnsUsed = Math.floor(this.chartData.length % maxColumns);
-                if(columnsUsed === 0) {
-                    return maxColumns;
-                } else {
-                    return columnsUsed;
-                }
-            };
-        },
+    _getMaxLegendColumns: function() {
+      var maxColumns = this._getMaxNumberOfColumns();
+      if ((this.chartData.length / maxColumns) >= 1) {
+        // all columns will be used
+        return Math.floor(maxColumns);
+      } else {
+        // only some of the columns will be used
+        var columnsUsed = Math.floor(this.chartData.length % maxColumns);
+        if (columnsUsed === 0) {
+          return maxColumns;
+        } else {
+          return columnsUsed;
+        }
+      };
+    },
 
-        _getMaxItemsInColumn: function() {
-            return Math.ceil(this.chartData.length / this._getMaxLegendColumns());
-        },
+    _getMaxItemsInColumn: function() {
+      return Math.ceil(this.chartData.length / this._getMaxLegendColumns());
+    },
 
-        /**
+    /**
          * _getLegendHeight() calculates the necessary height of legend
          *
          * @param {Object} chartData
          * @return {Number} numColumns
         */
-        _getLegendHeight: function() {
-            return (this._getMaxItemsInColumn() * this._legendItemHeight) + this._legendMarginTop;
-        },
+    _getLegendHeight: function() {
+      return (this._getMaxItemsInColumn() * this._legendItemHeight) + this._legendMarginTop;
+    },
 
-        _drawLegendBox: function(x, y, color) {
-            var boxNode = this.svg
-                .append("rect")
-                .attr("class", "legend-box")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("width", this._legendBoxSize)
-                .attr("height", this._legendBoxSize)
-                .attr("fill", color);
-            this._addStyleScopeToElement(boxNode);
-            return boxNode;
-        },
+    _drawLegendBox: function(x, y, color) {
+      var boxNode = this.svg.append("rect").attr("class", "legend-box").attr("x", x).attr("y", y).attr("width", this._legendBoxSize).attr("height", this._legendBoxSize).attr("fill", color);
+      this._addStyleScopeToElement(boxNode);
+      return boxNode;
+    },
 
-        _drawLegendLabel: function(x, y, labelText) {
-            var textNode = this.svg
-                .append("text")
-                .attr("class", "legend-text")
-                .attr("x", x + 10)
-                .attr("y", y + 10)
-                .text(labelText);
-            this._addStyleScopeToElement(textNode);
-            return textNode;
-        },
+    _drawLegendLabel: function(x, y, labelText) {
+      var textNode = this.svg.append("text").attr("class", "legend-text").attr("x", x + 10).attr("y", y + 10).text(labelText);
+      this._addStyleScopeToElement(textNode);
+      return textNode;
+    },
 
-        _drawLegendItem: function(i) {
-            var labelText = this.legendLabels[i];
-            var color = this._getColor(i);
-            var maxItemsInColumn = this._getMaxItemsInColumn();
-            var targetWidth = this._legendTextWidth;
-            var columnNumber = Math.floor(i/maxItemsInColumn);
-            var x = columnNumber * this._legendColumnWidth;
-            var columnTop = this._legendItemHeight * maxItemsInColumn * columnNumber;
-            var y = (i * this._legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
-            if(typeof y !== Number) {
-                // console.log(y, targetWidth, columnNumber, columnTop, maxItemsInColumn, this._legendItemHeight, this.chartHeight, this._legendMarginTop);
-            }
-            var that = this;
-            var labelTextPromise = this._shortenText(labelText, targetWidth);
-            labelTextPromise.then(function(labelText) {
-                that._drawLegendBox(x, y, color);
-                that._drawLegendLabel(x + that._legendMargin, y, labelText);
+    _drawLegendItem: function(i) {
+      var labelText = this.legendLabels[i];
+      var color = this._getColor(i);
+      var maxItemsInColumn = this._getMaxItemsInColumn();
+      var targetWidth = this._legendTextWidth;
+      var columnNumber = Math.floor(i / maxItemsInColumn);
+      var x = columnNumber * this._legendColumnWidth;
+      var columnTop = this._legendItemHeight * maxItemsInColumn * columnNumber;
+      var y = (i * this._legendItemHeight) + this.chartHeight - columnTop + this._legendMarginTop;
+      if (typeof y !== Number) {
+        // console.log(y, targetWidth, columnNumber, columnTop, maxItemsInColumn, this._legendItemHeight, this.chartHeight, this._legendMarginTop);
+      }
+      var that = this;
+      var labelTextPromise = this._shortenText(labelText, targetWidth);
+      labelTextPromise.then(function(labelText) {
+        that._drawLegendBox(x, y, color);
+        that._drawLegendLabel(x + that._legendMargin, y, labelText);
+      }).catch(function(reason) {
+        console.log('labelTextPromise rejected:', reason)
+      });
+    },
+
+    _shortenText: function(text, targetWidth) {
+      var that = this;
+      return new Promise(function(resolve, reject) {
+        var widthPromise = that._calculateTextWidth(text, "legend-text");
+        widthPromise.then(function(width) {
+          if (width <= targetWidth) {
+            resolve(text);
+          } else {
+            var newText = text.substring(0, text.length - 4) + '...';
+            var shortenPromise = that._shortenText(newText, targetWidth);
+            shortenPromise.then(function(promiseText) {
+              resolve(promiseText);
             }).catch(function(reason) {
-                console.log('labelTextPromise rejected:', reason)
+              console.log('shortenPromise failed. Reason: ', reason);
             });
-        },
+          }
+        }).catch(function(reason) {
+          console.log('widthPromise failed. Reason: ', reason)
+        });
+      });
+    },
 
-        _shortenText: function(text, targetWidth) {
-            var that = this;
-                        return new Promise(function(resolve, reject) {
-                            var widthPromise = that._calculateTextWidth(text, "legend-text");
-                            widthPromise.then(function(width) {
-                                if(width <= targetWidth) {
-                                    resolve(text);
-                                } else {
-                                    var newText = text.substring(0, text.length - 4) + '...';
-                                    var shortenPromise = that._shortenText(newText, targetWidth);
-                                    shortenPromise.then(function(promiseText) {
-                                        resolve(promiseText);
-                                    }).catch(function(reason) {
-                                        console.log('shortenPromise failed. Reason: ', reason);
-                                    });
-                                }
-                            }).catch(function(reason) {
-                                console.log('widthPromise failed. Reason: ', reason )
-                            });
-            });
-        },
+    _getNumberOfColumnsUsed: function() {
+      return Math.ceil(this.chartData.length / this._getMaxItemsInColumn());
+    },
 
-        _getNumberOfColumnsUsed: function() {
-            return Math.ceil(this.chartData.length / this._getMaxItemsInColumn());
-        },
+    _getWidthUsedByLegend: function() {
+      return this._legendColumnWidth * this._getNumberOfColumnsUsed();
+    },
 
-        _getWidthUsedByLegend: function() {
-            return this._legendColumnWidth * this._getNumberOfColumnsUsed();
-        },
+    _drawLegend: function() {
+      var dataLength = this.chartData.length;
+      var i;
+      if (this.legendLabels.length < this.chartData.length) {
+        console.error('There are not enough legend-labels defined for the chart data.')
+      };
+      var diff = this.widthValue - this._getWidthUsedByLegend();
+      this._legendTextWidth += Math.floor(diff / this._getNumberOfColumnsUsed()) - this._legendMargin;
+      this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
+      for (i = 0; i < dataLength; i++) {
+        this._drawLegendItem(i);
+      };
+    },
 
-        _drawLegend: function() {
-            var dataLength = this.chartData.length;
-            var i;
-            if(this.legendLabels.length < this.chartData.length) {
-                console.error('There are not enough legend-labels defined for the chart data.')
-            };
-            var diff = this.widthValue - this._getWidthUsedByLegend();
-            this._legendTextWidth += Math.floor(diff / this._getNumberOfColumnsUsed()) - this._legendMargin;
-            this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
-            for(i=0;i<dataLength;i++) {
-                this._drawLegendItem(i);
-            };
-        },
+    _drawBar: function(x, y, width, height, i, color) {
+      this.svg.append("rect").attr("class", "bar").attr("x", x).attr("y", y).attr("width", width).attr("height", height).attr("fill", i);
+    },
 
-        _drawBar: function(x, y, width, height, i, color) {
-            this.svg
-                .append("rect")
-                .attr("class", "bar")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("width", width)
-                .attr("height", height)
-                .attr("fill", i);
-        },
+    _calculateLabelCenterOffset: function(rectObject) {
+      var height = rectObject.height;
+      var diff = Math.abs(this.barHeight - height);
+      var offset = (diff / 2) - this._barPadding + height;
+      return Math.round(offset - offset * 0.10);
+    },
 
-        _calculateLabelCenterOffset: function(rectObject) {
-            var height = rectObject.height;
-            var diff = Math.abs(this.barHeight - height);
-            var offset = (diff / 2) - this._barPadding + height;
-            return Math.round(offset - offset * 0.10);
-        },
+    _drawBarLabel: function(x, y, labelText) {
+      // use common function _calculateTextWidth to calc label width
+      var textSizePromise = this._calculateTextSize(labelText);
+      var widthValue = this.widthValue;
+      var that = this;
+      textSizePromise.then(function(rectObject) {
+        var textWidth = rectObject.width;
+        var labelOffset = that._calculateLabelCenterOffset(rectObject);
+        var textNode = that.svg.append("text").attr("class", "bar-label").attr("x", widthValue - textWidth - 10).attr("y", y + labelOffset).attr("width", textWidth).text(labelText);
+        that._addStyleScopeToElement(textNode);
+      }).catch(function(reason) {
+        console.log('textSizePromise rejected: ', reason);
+      });
+    },
 
-        _drawBarLabel: function(x, y, labelText) {
-            // use common function _calculateTextWidth to calc label width
-            var textSizePromise = this._calculateTextSize(labelText);
-            var widthValue = this.widthValue;
-            var that = this;
-            textSizePromise.then(function(rectObject) {
-                var textWidth = rectObject.width;
-                var labelOffset = that._calculateLabelCenterOffset(rectObject);
-                var textNode = that.svg
-                    .append("text")
-                    .attr("class", "bar-label")
-                    .attr("x", widthValue - textWidth - 10)
-                    .attr("y", y + labelOffset)
-                    .attr("width", textWidth)
-                    .text(labelText);
-                that._addStyleScopeToElement(textNode);
-            }).catch(function(reason) {
-                console.log('textSizePromise rejected: ', reason);
-            });
-        },
+    _sum: function(arr) {
+      return arr.reduce(function(previousValue, currentValue) {
+        return previousValue + currentValue;
+      });
+    },
 
-        _sum: function(arr) {
-            return arr.reduce(function(previousValue, currentValue) {
-                return previousValue + currentValue;
-            });
-        },
+    _getPercent: function(value, sum) {
+      return Math.round(value / sum * 100);
+    },
 
-        _getPercent: function(value, sum) {
-            return Math.round(value / sum * 100);
-        },
+    _getPercentAccurate: function(value, sum) {
+      return Math.round((value / sum * 100) * 10) / 10;
+    },
 
-        _getPercentAccurate: function(value, sum) {
-            return Math.round((value/sum * 100)*10)/10;
-        },
+    // returns boolean defining need for floating point in percentage label
+    _percentagesNeedFloatingPoint: function(arr) {
+      var sum = this._sum(arr);
+      var i = 0,
+        len = arr.length,
+        percentageSum = 0;
+      for (i = 0; i < len; i++) {
+        percentageSum += this._getPercent(arr[i], sum);
+      };
+      return (percentageSum !== 100);
+    },
 
-        // returns boolean defining need for floating point in percentage label
-        _percentagesNeedFloatingPoint: function(arr) {
-            var sum = this._sum(arr);
-            var i = 0, len = arr.length, percentageSum = 0;
-            for(i=0;i<len;i++) {
-                percentageSum += this._getPercent(arr[i], sum);
-            };
-            return (percentageSum !== 100);
-        },
-
-        _drawBars: function() {
-            // loop through the chartData and draw a bar for each value
-            var length = this.chartData.length, i = 0, value, labelText, barWidth, y, x, color;
-            var sum = this._sum(this.chartData);
-            var drawBars = this._isThereEnoughSpaceForBarLabels();
-            // choose the correct percentage calculation function to be used
-            // on each label
-            var percentFunction =
-                this._percentagesNeedFloatingPoint(this.chartData) ?
-                     this._getPercentAccurate : this._getPercent;
-            for(i;i<length;i++) {
-                value = this.chartData[i];
-                if( this.barLabels == 'values') {
-                  textLabel = value;
-                }
-                else if( value == 0) {
-                    textLabel = value + "%";
-                } else {
-                    textLabel = percentFunction(value, sum) + "%";
-                };
-                barWidth = Math.floor(this.xScale(value));
-                x = 0;
-                y = i * (this.barHeight + this._barPadding);
-                color = this._getColor(i);
-                this._drawBar(x, y, barWidth, this.barHeight, color);
-                if(drawBars) {
-                    this._drawBarLabel(x, y, textLabel);
-                }
-            };
-        },
-
-        _drawLeftLine: function() {
-            this.svg
-                .append("line")
-                .attr("class","bar-chart-left-line")
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", 0)
-                .attr("y2", this.chartHeight);
-        },
-
-        _minChartHeight: function(minBarHeight) {
-            return (minBarHeight * this.chartData.length)
-                + this._legendMarginTop
-                + (this._legendItemHeight * this._getMaxItemsInColumn());
-        },
-
-        _isThereEnoughSpaceForBarLabels: function(){
-            return this._minChartHeight(14) <= this.heightValue;
-        },
-
-        _isThereEnoughSpaceForLegend: function(){
-            return this._minChartHeight(3) <= this.heightValue;
+    _drawBars: function() {
+      // loop through the chartData and draw a bar for each value
+      var length = this.chartData.length,
+        i = 0,
+        value,
+        labelText,
+        barWidth,
+        y,
+        x,
+        color;
+      var sum = this._sum(this.chartData);
+      var drawBars = this._isThereEnoughSpaceForBarLabels();
+      // choose the correct percentage calculation function to be used on each label
+      var percentFunction = this._percentagesNeedFloatingPoint(this.chartData)
+        ? this._getPercentAccurate
+        : this._getPercent;
+      for (i; i < length; i++) {
+        value = this.chartData[i];
+        if (this.barLabels == 'values') {
+          textLabel = value;
+        } else if (value == 0) {
+          textLabel = value + "%";
+        } else {
+          textLabel = percentFunction(value, sum) + "%";
+        };
+        barWidth = Math.floor(this.xScale(value));
+        x = 0;
+        y = i * (this.barHeight + this._barPadding);
+        color = this._getColor(i);
+        this._drawBar(x, y, barWidth, this.barHeight, color);
+        if (drawBars) {
+          this._drawBarLabel(x, y, textLabel);
         }
+      };
+    },
 
+    _drawLeftLine: function() {
+      this.svg.append("line").attr("class", "bar-chart-left-line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", this.chartHeight);
+    },
 
-    });
+    _minChartHeight: function(minBarHeight) {
+      return (minBarHeight * this.chartData.length) + this._legendMarginTop + (this._legendItemHeight * this._getMaxItemsInColumn());
+    },
+
+    _isThereEnoughSpaceForBarLabels: function() {
+      return this._minChartHeight(14) <= this.heightValue;
+    },
+
+    _isThereEnoughSpaceForLegend: function() {
+      return this._minChartHeight(3) <= this.heightValue;
+    }
+
+  });
 </script>
