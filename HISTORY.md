@@ -1,3 +1,7 @@
+v0.6.0
+==================
+* Grunt to gulp migration & style modules.
+
 v0.5.11
 ==================
 * updated footer
