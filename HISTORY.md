@@ -1,3 +1,7 @@
+v0.6.3
+==================
+* Update dependencies
+
 v0.6.0
 ==================
 * Grunt to gulp migration & style modules.
