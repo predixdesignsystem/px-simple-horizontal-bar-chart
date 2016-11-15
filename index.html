@@ -102,7 +102,9 @@
                   <div>
                     <px-demo-snippet
                       element-properties={{item}}
-                      element-name="px-simple-horizontal-bar-chart">
+                      element-name="px-simple-horizontal-bar-chart"
+                      scripts-includes="[[scriptsIncludes]]"
+                      >
                     </px-demo-snippet>
                   </div>
                 </div>
@@ -206,6 +208,9 @@
           template.indexPlusOne = indexPlusOne;
           template.year = year;
           template.barLabels = barLabels;
+
+          template.scriptsIncludes = ['https://d3js.org/d3.v3.min.js'];
+
     });
   </script>
 
