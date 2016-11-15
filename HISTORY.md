@@ -1,3 +1,8 @@
+
+v0.6.4
+==================
+* bower updating px-demo-snippet
+
 v0.6.3
 ==================
 * Update dependencies
