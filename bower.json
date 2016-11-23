@@ -1,6 +1,6 @@
 {
     "name": "px-simple-horizontal-bar-chart",
-    "version": "0.6.10",
+    "version": "0.6.11",
     "main": [
         "px-simple-horizontal-bar-chart.html"
     ],
@@ -29,23 +29,23 @@
         "es6-promise": "^3.3.1"
     },
     "devDependencies": {
-        "px-starter-kit-design": "~0.6.0",
-        "px-slider": "~0.7.5",
-        "px-spacing-design": "~0.3.8",
-        "px-buttons-design": "~0.4.26",
-        "px-forms-design": "#~0.3.15",
-        "px-button-group-design": "~0.3.12",
-        "px-typography-design": "~1.1.1",
+        "px-starter-kit-design": "^0.6.0",
+        "px-slider": "^0.7.5",
+        "px-spacing-design": "^0.3.8",
+        "px-buttons-design": "^0.4.26",
+        "px-forms-design": "^0.3.15",
+        "px-button-group-design": "^0.3.12",
+        "px-typography-design": "^1.1.1",
         "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
-        "px-tabs": "~0.5.2",
+        "px-tabs": "^0.5.2",
         "px-api-viewer": "^0.1.0",
         "px-demo-snippet": "^0.6.9",
         "px-list-inline-design": "^0.2.11",
         "px-toggle-design": "^0.2.12",
         "px-headings-design": "^0.2.14",
         "px-actionable-text-icons-design": "^0.1.0",
-        "px-code-design": "~0.2.11",
-        "px-dropdown": "~2.0.0",
+        "px-code-design": "^0.2.11",
+        "px-dropdown": "^2.0.0",
         "px-polymer-font-awesome": "^0.1.9"
     }
 }
