@@ -1,6 +1,6 @@
 {
     "name": "px-simple-horizontal-bar-chart",
-    "version": "0.6.11",
+    "version": "0.6.12",
     "main": [
         "px-simple-horizontal-bar-chart.html"
     ],
@@ -30,7 +30,7 @@
     },
     "devDependencies": {
         "px-starter-kit-design": "^0.6.0",
-        "px-slider": "^0.7.5",
+        "px-slider": "^0.7.6",
         "px-spacing-design": "^0.3.8",
         "px-buttons-design": "^0.4.26",
         "px-forms-design": "^0.3.15",
