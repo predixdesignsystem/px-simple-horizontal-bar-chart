@@ -1,3 +1,7 @@
+v0.6.13
+==================
+* added style variables for theming
+
 v0.6.12
 ==================
 * updating slider dependency

@@ -20,17 +20,17 @@
   shape-rendering: crispEdges;
 }
 .px-simple-horizontal-bar-chart-svg {
-    background: white;
+    background: var(--px-simple-horizontal-bar-chart-background-color, $white);
     margin: 0;
 }
 .legend-text {
     font-family: "GE Inspira Sans", sans-serif;
-    color: $gray6;
+    color: var(--px-simple-horizontal-bar-chart-legend-text-color, $gray6);
     font-size: 12px;
 }
 .bar-label {
     font-family: "GE Inspira Sans", sans-serif;
     font-weight: bold;
-    color: $black;
+    color: var(--px-simple-horizontal-bar-chart-label-text-color, $black);
     font-size: 15px;
 }
