@@ -25,12 +25,12 @@
 }
 .legend-text {
     font-family: "GE Inspira Sans", sans-serif;
-    color: var(--px-simple-horizontal-bar-chart-legend-text-color, $gray6);
+    fill: var(--px-simple-horizontal-bar-chart-legend-text-color, $gray6);
     font-size: 12px;
 }
 .bar-label {
     font-family: "GE Inspira Sans", sans-serif;
     font-weight: bold;
-    color: var(--px-simple-horizontal-bar-chart-label-text-color, $black);
+    fill: var(--px-simple-horizontal-bar-chart-label-text-color, $black);
     font-size: 15px;
 }
