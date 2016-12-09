@@ -1,3 +1,7 @@
+v0.6.15
+==================
+* changing browser in wct testing from safari 8 to safari 10 on elcapitan
+
 v0.6.14
 ==================
 * added style variables for theming
