@@ -1,51 +1,51 @@
 {
-  "name": "px-simple-horizontal-bar-chart",
-  "version": "0.7.0",
-  "main": [
-    "px-simple-horizontal-bar-chart.html"
-  ],
-  "ignore": [
-    ".*",
-    "npm-debug.log",
-    "gulpfile.js",
-    "sass",
-    "bower_components",
-    "node_modules",
-    "test",
-    "OSS_Notice.pdf",
-    "scripts",
-    ".github",
-    "px-simple-horizontal-bar-chart.png"
-  ],
-  "keywords": [
-    "web-components"
-  ],
-  "dependencies": {
-    "polymer": "^1.6.1",
-    "px-theme": "^2.0.1",
-    "d3": "~3.5.6",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.4.3",
-    "px-simple-chart-common-behavior": "~1.5.1",
-    "es6-promise": "^3.3.1"
-  },
-  "devDependencies": {
-    "px-starter-kit-design": "^0.7.0",
-    "px-slider": "^0.8.0",
-    "px-spacing-design": "^0.4.0",
-    "px-buttons-design": "^1.1.0",
-    "px-forms-design": "^1.1.0",
-    "px-button-group-design": "^0.3.12",
-    "px-typography-design": "^1.2.0",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
-    "px-tabs": "^0.6.0",
-    "px-api-viewer": "^0.1.0",
-    "px-demo-snippet": "^0.6.9",
-    "px-list-inline-design": "^0.3.0",
-    "px-toggle-design": "^1.1.0",
-    "px-headings-design": "^0.3.0",
-    "px-actionable-text-icons-design": "^1.1.0",
-    "px-code-design": "^1.1.0",
-    "px-dropdown": "^2.1.0",
-    "px-polymer-font-awesome": "^1.1.0"
-  }
+    "name": "px-simple-horizontal-bar-chart",
+    "version": "0.7.1",
+    "main": [
+        "px-simple-horizontal-bar-chart.html"
+    ],
+    "ignore": [
+        ".*",
+        "npm-debug.log",
+        "gulpfile.js",
+        "sass",
+        "bower_components",
+        "node_modules",
+        "test",
+        "OSS_Notice.pdf",
+        "scripts",
+        ".github",
+        "px-simple-horizontal-bar-chart.png"
+    ],
+    "keywords": [
+        "web-components"
+    ],
+    "dependencies": {
+        "polymer": "^1.6.1",
+        "px-theme": "^2.0.1",
+        "d3": "~3.5.6",
+        "iron-ajax": "PolymerElements/iron-ajax#~1.4.3",
+        "px-simple-chart-common-behavior": "~1.5.1",
+        "es6-promise": "^3.3.1"
+    },
+    "devDependencies": {
+        "px-starter-kit-design": "^0.7.0",
+        "px-slider": "^0.8.0",
+        "px-spacing-design": "^0.4.0",
+        "px-buttons-design": "^1.1.0",
+        "px-forms-design": "^1.1.0",
+        "px-button-group-design": "^1.0.3",
+        "px-typography-design": "^1.2.0",
+        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
+        "px-tabs": "^0.6.0",
+        "px-api-viewer": "^0.1.0",
+        "px-demo-snippet": "^0.6.9",
+        "px-list-inline-design": "^0.3.0",
+        "px-toggle-design": "^1.1.0",
+        "px-headings-design": "^0.3.0",
+        "px-actionable-text-icons-design": "^1.1.0",
+        "px-code-design": "^1.1.0",
+        "px-dropdown": "^2.1.0",
+        "px-polymer-font-awesome": "^1.1.0"
+    }
 }
