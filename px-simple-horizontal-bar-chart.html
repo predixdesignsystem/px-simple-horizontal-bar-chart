@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior.html"/>
+<link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior-colors.html" />
 <!--
 
 Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
@@ -15,6 +16,57 @@ Simple-charts rely on D3 version 3.
     <px-simple-horizontal-bar-chart chart-data="[1,2,3]">
     </px-simple-horizontal-bar-chart>
 
+### Styling
+
+The following custom properties are available for styling.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--px-simple-horizontal-bar-chart-background-color` | The backgorund color of the chart | `$white`
+`---px-simple-horizontal-bar-chart-legend-text-color` | The legend text color | `$black`
+`--px-simple-horizontal-bar-chart-label-text-color` | The label text color | `$black`
+`--px-simple-horizontal-bar-chart-axis-color` | The color of the horizontal axis | `$gray8`
+`--px-vis-series-color-[n]` | A series of color values to loop through when coloring the chart (see below) | n/a
+
+### Styling series colors
+
+If you want to set custom chart colors, it's recommended to use CSS custom properties. You can set as many colors as you want using the `--px-vis-series-color-[n]` variable pattern, where `n` starts at 0 and increases by 1 with each new color. For example:
+
+    <style>
+      :root {
+        --px-vis-series-color-0: #aaa;
+        --px-vis-series-color-1: #bbb;
+        --px-vis-series-color-2: #ccc;
+        --px-vis-series-color-3: #ddd;
+        ...
+      };
+    </style>
+    <px-simple-horizontal-bar-chart chart-data="[1,2,3]" ...>
+    </px-simple-horizontal-bar-chart>
+
+A few things to note:
+
+<ul>
+  <li>If you provide more data series than available series colors, the element will loop through available colors starting at the beginning.</li>
+  <li>If you do not specify any style variables, a default series of data visualization colors will be applied.</li>
+  <li>If you set the `colors` attribute, your style variables will be overriden and ignored.</li>
+  <li>There cannot be gaps in the sequential numbers you provide. Evaluation of the colors will end at the last sequential number. (See example below.)</li>
+</ul>
+
+The following theme would be incorrect because it has a gap. All series in your chart would be colored red:
+
+    <style>
+      :root {
+        --px-vis-series-color-0: red;
+        /* skips --px-vis-series-color-1 */
+        --px-vis-series-color-2: blue;
+        --px-vis-series-color-3: orange;
+        ...
+      };
+    </style>
+    <px-simple-horizontal-bar-chart chart-data="[1,2,3]" ...>
+    </px-simple-horizontal-bar-chart>
+
 @element px-simple-horizontal-bar-chart
 @blurb Predix UI Simple Horizontal Bar Chart
 @homepage index.html
@@ -28,7 +80,7 @@ Simple-charts rely on D3 version 3.
   <script type="text/javascript" src="../d3/d3.js"></script>
   <template>
     <style include="px-simple-horizontal-bar-chart-styles"></style>
-    
+
     <svg class="px-simple-horizontal-bar-chart-svg"></svg>
   </template>
 </dom-module>
@@ -38,7 +90,10 @@ Simple-charts rely on D3 version 3.
 
     is: 'px-simple-horizontal-bar-chart',
 
-    behaviors: [pxSimpleChartCommonBehavior],
+    behaviors: [
+      PxSimpleChartCommonBehavior.common,
+      PxSimpleChartCommonBehavior.colors
+    ],
 
     _defaultColors: [
       '#5da5da',
@@ -79,6 +134,8 @@ Simple-charts rely on D3 version 3.
 
     _defaultMeasurements: {
       _legendBoxSize: 12,
+      _legendBoxHeight: 12,
+      _legendBoxWidth: 3,
       _legendMargin: 5,
       _legendTextWidth: 115,
       _legendPadding: 19,
@@ -88,18 +145,27 @@ Simple-charts rely on D3 version 3.
     },
 
     /**
-         * Properties block, expose attribute values to the DOM via 'reflect'
-         *
-         * @property properties
-         * @type Object
-         */
+     * Properties block, expose attribute values to the DOM via 'reflect'
+     *
+     * @property properties
+     * @type Object
+     */
     properties: {
-
       /**
-            * chartData
-            *
-            * Format: [ 29, 20, 15, 18, 8, 10 ]
-            */
+       * This attribute defines the series data to be charted. It needs to
+       * be passed in as a multi-dimensional array containing one or more
+       * arrays of numeric values.
+       *
+       * ```
+       *   <px-simple-horizontal-bar-chart
+       *       chart-data="[ 29, 20, 15, 18, 8, 10 ]">
+       *   </px-simple-horizontal-bar-chart>
+       * ```
+       *
+       * @property chartData
+       * @type {Array}
+       * @default `_defaultChartData`
+       */
       chartData: {
         type: Array,
         observer: '_drawChart',
@@ -109,10 +175,20 @@ Simple-charts rely on D3 version 3.
       },
 
       /**
-            * legendLabUse the `legend-labels` attribute to define custom text labels for your bar chart legend. Pass in the values as an array of strings.
-            * @prop legendLabels
-            *
-            */
+       * This attribute defines the custom text labels for your bar chart
+       * legend. Pass in the values as an array of strings.
+       *
+       * ```
+       *   <px-simple-horizontal-bar-chart
+       *      ...
+       *      legend-labels="['Alpha', 'Bravo', 'Charlie']">
+       *   </px-simple-horizontal-bar-chart>
+       * ```
+       *
+       * @prop legendLabels
+       * @type {Array}
+       * * @default `_defaultChartLabels`
+       */
       legendLabels: {
         type: Array,
         observer: '_drawChart',
@@ -122,25 +198,57 @@ Simple-charts rely on D3 version 3.
       },
 
       /**
-            * Configure custom bar colors with the `colors` attribute. Pass in the desired values as an array of hexadecimal value color strings.
-            *
-            * @prop colors
-            */
+       * This attribute configures custom bar colors. Pass in the desired
+       * values as an array of hexadecimal value color strings. Prefer
+       * settings the colors as CSS style variables to fit in with
+       * other theming capabilities. Setting the colors attribute directly
+       * will override all default colors and any CSS style variable themes.
+       *
+       * @example
+       *
+       * Example setting colors as an attribute:
+       *
+       * ```
+       *   <px-simple-horizontal-bar-chart
+       *       ...
+       *       colors=['#5da5da', '#faa43a', '#60bd68']>
+       *   </px-simple-horizontal-bar-chart>
+       * ```
+       *
+       * Example setting colors with CSS style variables:
+       *
+       * ```
+       *   <style>
+       *     :root {
+       *       --px-vis-series-color-0: #5da5da;
+       *       --px-vis-series-color-1: #faa43a;
+       *       --px-vis-series-color-2: #60bd68;
+       *     }
+       *   </style>
+       *   <px-simple-horizontal-bar-chart ...>
+       *   </px-simple-horizontal-bar-chart>
+       * ```
+       *
+       * @prop colors
+       * @type {Array}
+       * @default null
+       */
       colors: {
         type: Array,
         observer: '_drawChart',
         value: function() {
-          return this._defaultColors;
+          return [];
         }
       },
 
       /**
-            * barLabels
-            *
-            * Format: String
-            * Default: "percentage"
-            * Two options: "percentage" or "values"
-            */
+       * Sets the format to apply to the labels beside each bar. Choose from
+       * 'percentage' or 'values'.
+       *
+       * @property barLabels
+       * @type {String}
+       * @default 'percentage'
+       */
       barLabels: {
         type: String,
         observer: '_drawChart',
@@ -148,11 +256,14 @@ Simple-charts rely on D3 version 3.
       },
 
       /**
-             * domainMin
-             *
-             * Format: String
-             * Default: "0"
-             */
+       * The data's minimum extent on the X-axis. Used to set the D3 domain on the X scale.
+       * You should only reset if you have a negative value. If you have a
+       * positive value, leave it at default 0.
+       *
+       * @property domainMin
+       * @type {Number}
+       * @default 0
+       */
       domainMin: {
         type: Number,
         observer: '_drawChart',
@@ -160,16 +271,20 @@ Simple-charts rely on D3 version 3.
       },
 
       /**
-             * domainMax
-             *
-             * Format: String
-             */
+       * The data's maximum extent on the X-axis. Used to set the D3 domain on the X scale.
+       *
+       * @property domainMax
+       * @type {Number}
+       */
       domainMax: {
         type: Number,
         observer: '_drawChart'
       }
-
     },
+
+    // Watch changes to dataVisColors or seriesConfig to redraw chart with
+    // appropriate theme colors.
+    observers: ['_drawChart(dataVisColors.*,seriesConfig.*)'],
 
     _setDefaultMeasurements: function() {
       for (var prop in this._defaultMeasurements) {
@@ -177,6 +292,101 @@ Simple-charts rely on D3 version 3.
       };
       this._legendColumnWidth = this._legendBoxSize + this._legendMargin + this._legendTextWidth;
       this._legendItemHeight = this._legendMargin + this._legendBoxSize;
+    },
+
+    /**
+     * Retrieves the colors for the chart at index `i`. Handles a few cases
+     * where colors can be configured for the chart:
+     *
+     *
+     * # Case 1: Developer sets the `colors` attribute
+     *
+     * The element could be used with a `colors` attribute:
+     *
+     * ```
+     *   <px-simple-horizontal-bar-chart colors=['#aaa','#bbb','#ccc'] ...>
+     *   </px-simple-horizontal-bar-chart>
+     * ```
+     *
+     * If it is used with a `colors` attribute and a theme, the theme is
+     * overriden and ignored:
+     *
+     * ```
+     *   <style>
+     *     :root {
+     *       --px-vis-series-color-0: #aaa;
+     *       --px-vis-series-color-1: #bbb;
+     *       --px-vis-series-color-2: #ccc;
+     *       ...
+     *     };
+     *   </style>
+     *   <px-simple-horizontal-bar-chart ...>
+     *   </px-simple-horizontal-bar-chart>
+     * ```
+     *
+     * In this case, method loops through the `colors` attribute to retrieve
+     * colors using `_getLocalColor`.
+     *
+     *
+     * # Case 2: Developer does not set `colors` attribute
+     *
+     * The element could be used without a `colors` attribute or theme:
+     *
+     * ```
+     *   <px-simple-horizontal-bar-chart colors=['#aaa','#bbb','#ccc'] ...>
+     *   </px-simple-horizontal-bar-chart>
+     * ```
+     *
+     * Or it could be used without a `colors` attribute and with a theme:
+     *
+     * ```
+     *   <style>
+     *     :root {
+     *       --px-vis-series-color-0: #aaa;
+     *       --px-vis-series-color-1: #bbb;
+     *       --px-vis-series-color-2: #ccc;
+     *       ...
+     *     };
+     *   </style>
+     *   <px-simple-horizontal-bar-chart ...>
+     *   </px-simple-horizontal-bar-chart>
+     * ```
+     *
+     * In this case, method returns the default or theme colors by calling
+     * `_getDataVisColor` (from `pxSimpleChartCommonBehavior`) to get the
+     * data vis colors supplied by `PxSimpleChartCommonBehavior.colors`.
+     *
+     * @private
+     * @method _getColor
+     * @param {Number} index - The index to retrieve the color from
+     * @return {String} - The color to apply
+     */
+    _getColor: function(index) {
+      if (this.colors.length) {
+        // Get from colors attribute
+        return this._getLocalColor(index);
+      } else {
+        // Get the default or themed data vis color
+        return this._getDataVisColor(index);
+      }
+    },
+
+    /**
+     * Loops through the supplied colors in `colors` attribute and returns
+     * the color at `index`.
+     *
+     * @private
+     * @method _getLocalColor
+     * @param {Number} index - The index to retrieve the color from
+     * @return {String} - The color to apply
+     */
+    _getLocalColor: function(index) {
+      if(index >= 0 && index < this.colors.length) {
+        return this.colors[index];
+      } else {
+        // recurse and loop through color list
+        return this._getColor(Math.abs(this.colors.length - index));
+      }
     },
 
     _drawChartDebounced: function() {
@@ -249,15 +459,6 @@ Simple-charts rely on D3 version 3.
 
     },
 
-    _getColor: function(index) {
-      if (index >= 0 && index < this.colors.length) {
-        return this.colors[index];
-      } else {
-        // recurse and loop through color list
-        return this._getColor(Math.abs(this.colors.length - index));
-      };
-    },
-
     _getMaxNumberOfColumns: function() {
       return Math.floor(this.widthValue / this._legendColumnWidth);
     },
@@ -300,13 +501,13 @@ Simple-charts rely on D3 version 3.
     },
 
     _drawLegendBox: function(x, y, color) {
-      var boxNode = this.svg.append("rect").attr("class", "legend-box").attr("x", x).attr("y", y).attr("width", this._legendBoxSize).attr("height", this._legendBoxSize).attr("fill", color);
+      var boxNode = this.svg.append("rect").attr("class", "legend-box").attr("x", x).attr("y", y).attr("width", this._legendBoxWidth).attr("height", this._legendBoxSize).attr("fill", color);
       this._addStyleScopeToElement(boxNode);
       return boxNode;
     },
 
     _drawLegendLabel: function(x, y, labelText) {
-      var textNode = this.svg.append("text").attr("class", "legend-text").attr("x", x + 10).attr("y", y + 10).text(labelText);
+      var textNode = this.svg.append("text").attr("class", "legend-text").attr("x", x + 3).attr("y", y + 10).text(labelText);
       this._addStyleScopeToElement(textNode);
       return textNode;
     },

@@ -1,3 +1,7 @@
+v0.8.0
+==================
+Add theming capability, update documentation to match and import new required behaviors
+
 v0.7.1
 ==================
 * Update missed design depndencies

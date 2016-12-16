@@ -24,13 +24,15 @@
     margin: 0;
 }
 .legend-text {
-    font-family: "GE Inspira Sans", sans-serif;
-    fill: var(--px-simple-horizontal-bar-chart-legend-text-color, $gray6);
+    font-family: sans-serif;
     font-size: 12px;
+    color: var(--px-simple-horizontal-bar-chart-legend-text-color, $black);
+    fill: var(--px-simple-horizontal-bar-chart-legend-text-color, $black);
 }
 .bar-label {
-    font-family: "GE Inspira Sans", sans-serif;
+    font-family: sans-serif;
     font-weight: bold;
+    color: var(--px-simple-horizontal-bar-chart-label-text-color, $black);
     fill: var(--px-simple-horizontal-bar-chart-label-text-color, $black);
     font-size: 15px;
 }

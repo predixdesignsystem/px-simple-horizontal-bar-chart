@@ -94,7 +94,6 @@
                         width="{{item.width}}"
                         height="{{item.height}}"
                         legend-labels="{{item.legendLabels}}"
-                        colors="{{item.colors}}"
                         bar-labels="{{item.barLabels}}">
                       </px-simple-horizontal-bar-chart>
 
@@ -161,11 +160,6 @@
             ["Florida", "Kentucky","Maryland","Michigan","Nevada", "Vermont"]
           ],
           barLabels = ["values","percentage"],
-          colors = [
-            ["#5da5da", "#faa43a", "#60bd68", "#f17cb0", "#b2912f", "#b276b2", "#decf3f", "#f15854", "#4d4d4d"],
-            ["#A8E6CE", "#FFAAA6", "#FFD3B5", "#FF8C94","#DCEDC2"],
-            ["#EA3556", "#64938D", "#EDE5E2", "#ED146F", "#EDDE45", "#9BF0E9"]
-          ],
 
           optionsArray = [
             {
@@ -173,7 +167,6 @@
               "width":width[0],
               "height":height[0],
               "legendLabels" :legendLabels[0],
-              "colors" :colors[0],
               "barLabels": barLabels[0]
             },
             {
@@ -181,7 +174,6 @@
               "width":width[1],
               "height":height[1],
               "legendLabels" :legendLabels[1],
-              "colors" :colors[1],
               "barLabels": barLabels[1]
             }
             ,
@@ -190,7 +182,6 @@
               "width":width[2],
               "height":height[2],
               "legendLabels" :legendLabels[2],
-              "colors" :colors[2],
               "barLabels": barLabels[0]
             }
           ];

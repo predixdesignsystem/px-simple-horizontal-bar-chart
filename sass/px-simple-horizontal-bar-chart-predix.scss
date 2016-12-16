@@ -27,3 +27,7 @@ common/abstract rules go in px-simple-horizontal-bar-chart-sketch.scss, not in t
 .bar-chart-left-line {
     stroke: var(--px-simple-horizontal-bar-chart-axis-color, $gray8);
 }
+
+.legend-text, .bar-label {
+  font-family: "GE Inspira Sans", sans-serif;
+}
