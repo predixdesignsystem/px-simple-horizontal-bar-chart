@@ -37,6 +37,6 @@
     }
   },
   "suites": [
-    "test/px-simple-horizontal-bar-chart-tests.html"
+    "test/px-simple-horizontal-bar-chart-test-fixture.html"
   ]
 }
