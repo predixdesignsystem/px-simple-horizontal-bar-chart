@@ -1,3 +1,7 @@
+v0.8.2
+==================
+* changing ghp.sh to account for Alpha releases
+
 v0.8.1
 =================
 * Update common behavior dependency
