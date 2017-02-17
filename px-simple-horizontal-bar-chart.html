@@ -23,7 +23,7 @@ The following custom properties are available for styling.
 Custom property | Description | Default
 ----------------|-------------|----------
 `--px-simple-horizontal-bar-chart-background-color` | The backgorund color of the chart | `$white`
-`---px-simple-horizontal-bar-chart-legend-text-color` | The legend text color | `$black`
+`--px-simple-horizontal-bar-chart-legend-text-color` | The legend text color | `$black`
 `--px-simple-horizontal-bar-chart-label-text-color` | The label text color | `$black`
 `--px-simple-horizontal-bar-chart-axis-color` | The color of the horizontal axis | `$gray8`
 `--px-vis-series-color-[n]` | A series of color values to loop through when coloring the chart (see below) | n/a
@@ -106,32 +106,6 @@ The following theme would be incorrect because it has a gap. All series in your 
       '#f15854',
       '#4d4d4d'
     ],
-    _defaultChartData: [
-      29,
-      20,
-      15,
-      18,
-      8,
-      10
-    ],
-    _defaultChartLabels: [
-      'Bar One',
-      'Bar Two',
-      'Bar Three',
-      'Bar Four',
-      'Bar Five',
-      'Bar Six',
-      'Bar Seven',
-      'Bar Eight',
-      'Bar Nine',
-      'Bar Ten',
-      'Bar Eleven',
-      'Bar Twelve',
-      'Bar Thirteen',
-      'Bar Fourteen',
-      'Bar Fifteen'
-    ],
-
     _defaultMeasurements: {
       _legendBoxSize: 12,
       _legendBoxHeight: 12,
@@ -164,13 +138,13 @@ The following theme would be incorrect because it has a gap. All series in your 
        *
        * @property chartData
        * @type {Array}
-       * @default `_defaultChartData`
+       * @default `[29,20,15,18,8,10]`
        */
       chartData: {
         type: Array,
         observer: '_drawChart',
         value: function() {
-          return this._defaultChartData;
+          return [29,20,15,18,8,10];
         }
       },
 
@@ -187,13 +161,13 @@ The following theme would be incorrect because it has a gap. All series in your 
        *
        * @prop legendLabels
        * @type {Array}
-       * * @default `_defaultChartLabels`
+       * * @default `['Bar One','Bar Two','Bar Three','Bar Four','Bar Five','Bar Six','Bar Seven','Bar Eight','Bar Nine','Bar Ten','Bar Eleven','Bar Twelve','Bar Thirteen','Bar Fourteen','Bar Fifteen']`
        */
       legendLabels: {
         type: Array,
         observer: '_drawChart',
         value: function() {
-          return this._defaultChartLabels;
+          return ['Bar One','Bar Two','Bar Three','Bar Four','Bar Five','Bar Six','Bar Seven','Bar Eight','Bar Nine','Bar Ten','Bar Eleven','Bar Twelve','Bar Thirteen','Bar Fourteen','Bar Fifteen'];
         }
       },
 

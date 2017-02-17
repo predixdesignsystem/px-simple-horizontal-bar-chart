@@ -1,51 +1,36 @@
 {
-    "name": "px-simple-horizontal-bar-chart",
-    "version": "0.8.4",
-    "main": [
-        "px-simple-horizontal-bar-chart.html"
-    ],
-    "ignore": [
-        ".*",
-        "npm-debug.log",
-        "gulpfile.js",
-        "sass",
-        "bower_components",
-        "node_modules",
-        "test",
-        "OSS_Notice.pdf",
-        "scripts",
-        ".github",
-        "px-simple-horizontal-bar-chart.png"
-    ],
-    "keywords": [
-        "web-components"
-    ],
-    "dependencies": {
-        "polymer": "^1.7.1",
-        "px-theme": "^2.0.2",
-        "d3": "^3.0.0",
-        "iron-ajax": "PolymerElements/iron-ajax#~1.4.3",
-        "px-simple-chart-common-behavior": "^1.5.0",
-        "es6-promise": "^3.3.1"
-    },
-    "devDependencies": {
-        "px-starter-kit-design": "^0.7.0",
-        "px-slider": "^0.8.0",
-        "px-spacing-design": "^0.4.1",
-        "px-buttons-design": "^1.1.2",
-        "px-forms-design": "^1.1.1",
-        "px-button-group-design": "^1.0.3",
-        "px-typography-design": "^1.2.1",
-        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
-        "px-tabs": "^0.6.0",
-        "px-api-viewer": "^0.1.13",
-        "px-demo-snippet": "^0.6.14",
-        "px-list-inline-design": "^0.3.1",
-        "px-toggle-design": "^1.1.1",
-        "px-headings-design": "^0.3.2",
-        "px-actionable-text-icons-design": "^1.1.1",
-        "px-code-design": "^1.1.1",
-        "px-dropdown": "^2.1.0",
-        "px-polymer-font-awesome": "^1.1.0"
-    }
+  "name": "px-simple-horizontal-bar-chart",
+  "version": "0.8.5",
+  "main": [
+    "px-simple-horizontal-bar-chart.html"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "sass",
+    "*.md",
+    "scripts",
+    ".github",
+    "gulpfile.js",
+    "wct.conf.json",
+    "test",
+    "OSS_Notice.pdf",
+    "*.png",
+    "npm-debug.log"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.1",
+    "px-theme": "^2.0.2",
+    "d3": "^3.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.4.3",
+    "px-simple-chart-common-behavior": "^1.5.0",
+    "es6-promise": "^3.3.1"
+  },
+  "devDependencies": {
+    "px-starter-kit-design": "^0.7.0",
+    "px-toggle-design": "^1.1.1",
+    "px-code-design": "^1.1.1",
+    "px-demo": "^1.4.8"
+  }
 }
