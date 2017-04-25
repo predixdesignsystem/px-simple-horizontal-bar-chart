@@ -5,6 +5,7 @@
     "px-simple-horizontal-bar-chart.html"
   ],
   "ignore": [
+    "*.enc",
     "**/.*",
     "bower_components",
     "node_modules",
