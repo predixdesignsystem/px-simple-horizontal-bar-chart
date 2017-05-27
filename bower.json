@@ -1,6 +1,6 @@
 {
   "name": "px-simple-horizontal-bar-chart",
-  "version": "0.8.5",
+  "version": "1.0.0",
   "main": [
     "px-simple-horizontal-bar-chart.html"
   ],
@@ -22,16 +22,16 @@
   ],
   "dependencies": {
     "polymer": "^1.7.1",
-    "px-theme": "^2.0.2",
+    "px-theme": "^3.0.0",
     "d3": "^3.0.0",
     "iron-ajax": "PolymerElements/iron-ajax#~1.4.3",
-    "px-simple-chart-common-behavior": "^1.5.0",
+    "px-simple-chart-common-behavior": "^2.0.0",
     "es6-promise": "^3.3.1"
   },
   "devDependencies": {
-    "px-starter-kit-design": "^0.7.0",
-    "px-toggle-design": "^1.1.1",
-    "px-code-design": "^1.1.1",
-    "px-demo": "^1.4.8"
+    "px-starter-kit-design": "^1.0.0",
+    "px-toggle-design": "^2.0.0",
+    "px-code-design": "^2.0.0",
+    "px-demo": "^2.0.0"
   }
 }
