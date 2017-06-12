@@ -20,14 +20,30 @@ common/abstract rules go in px-simple-horizontal-bar-chart-sketch.scss, not in t
 */
 
 // Settings
-@import "px-colors-design/_settings.colors.scss";
+@import "px-typography-design/_base.typography.scss";
 
-@import 'px-simple-horizontal-bar-chart-sketch.scss';
-
-.bar-chart-left-line {
-    stroke: var(--px-simple-horizontal-bar-chart-axis-color, $gray8);
+.bar {
+  shape-rendering: crispEdges;
 }
-
+.px-simple-horizontal-bar-chart-svg {
+    background: var(--px-simple-horizontal-bar-chart-background-color, white);
+    margin: 0;
+}
+.legend-text {
+    font-family: sans-serif;
+    font-size: 12px;
+    color: var(--px-simple-horizontal-bar-chart-legend-text-color, black);
+    fill: var(--px-simple-horizontal-bar-chart-legend-text-color, black);
+}
+.bar-label {
+    font-family: sans-serif;
+    color: var(--px-simple-horizontal-bar-chart-label-text-color, black);
+    fill: var(--px-simple-horizontal-bar-chart-label-text-color, black);
+    font-size: 15px;
+}
+.bar-chart-left-line {
+    stroke: var(--px-simple-horizontal-bar-chart-axis-color, black);
+}
 .legend-text, .bar-label {
   font-family: "GE Inspira Sans", sans-serif;
 }

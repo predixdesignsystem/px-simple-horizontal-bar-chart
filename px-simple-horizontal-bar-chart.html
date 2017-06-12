@@ -3,30 +3,21 @@
 <link rel="import" href="../px-simple-chart-common-behavior/px-simple-chart-common-behavior-colors.html" />
 <!--
 
-Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
+### Usage
 
-Use this component to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
-
-The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to become aware of the configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
-
-Simple-charts rely on D3 version 3.
-
-##### Usage
-
-    <px-simple-horizontal-bar-chart chart-data="[1,2,3]">
-    </px-simple-horizontal-bar-chart>
+    <px-simple-horizontal-bar-chart chart-data="[1,2,3]"></px-simple-horizontal-bar-chart>
 
 ### Styling
 
 The following custom properties are available for styling.
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--px-simple-horizontal-bar-chart-background-color` | The backgorund color of the chart | `$white`
-`--px-simple-horizontal-bar-chart-legend-text-color` | The legend text color | `$black`
-`--px-simple-horizontal-bar-chart-label-text-color` | The label text color | `$black`
-`--px-simple-horizontal-bar-chart-axis-color` | The color of the horizontal axis | `$gray8`
-`--px-vis-series-color-[n]` | A series of color values to loop through when coloring the chart (see below) | n/a
+Custom property | Description
+----------------|-------------
+`--px-simple-horizontal-bar-chart-background-color` | The backgorund color of the chart
+`--px-simple-horizontal-bar-chart-legend-text-color` | The legend text color
+`--px-simple-horizontal-bar-chart-label-text-color` | The label text color
+`--px-simple-horizontal-bar-chart-axis-color` | The color of the horizontal axis
+`--px-vis-series-color-[n]` | A series of color values to loop through when coloring the chart (see below)
 
 ### Styling series colors
 
@@ -95,17 +86,6 @@ The following theme would be incorrect because it has a gap. All series in your 
       PxSimpleChartCommonBehavior.colors
     ],
 
-    _defaultColors: [
-      '#5da5da',
-      '#faa43a',
-      '#60bd68',
-      '#f17cb0',
-      '#b2912f',
-      '#b276b2',
-      '#decf3f',
-      '#f15854',
-      '#4d4d4d'
-    ],
     _defaultMeasurements: {
       _legendBoxSize: 12,
       _legendBoxHeight: 12,
@@ -118,27 +98,11 @@ The following theme would be incorrect because it has a gap. All series in your 
       _minimumBarHeight: 10
     },
 
-    /**
-     * Properties block, expose attribute values to the DOM via 'reflect'
-     *
-     * @property properties
-     * @type Object
-     */
     properties: {
       /**
        * This attribute defines the series data to be charted. It needs to
        * be passed in as a multi-dimensional array containing one or more
        * arrays of numeric values.
-       *
-       * ```
-       *   <px-simple-horizontal-bar-chart
-       *       chart-data="[ 29, 20, 15, 18, 8, 10 ]">
-       *   </px-simple-horizontal-bar-chart>
-       * ```
-       *
-       * @property chartData
-       * @type {Array}
-       * @default `[29,20,15,18,8,10]`
        */
       chartData: {
         type: Array,
@@ -151,17 +115,6 @@ The following theme would be incorrect because it has a gap. All series in your 
       /**
        * This attribute defines the custom text labels for your bar chart
        * legend. Pass in the values as an array of strings.
-       *
-       * ```
-       *   <px-simple-horizontal-bar-chart
-       *      ...
-       *      legend-labels="['Alpha', 'Bravo', 'Charlie']">
-       *   </px-simple-horizontal-bar-chart>
-       * ```
-       *
-       * @prop legendLabels
-       * @type {Array}
-       * * @default `['Bar One','Bar Two','Bar Three','Bar Four','Bar Five','Bar Six','Bar Seven','Bar Eight','Bar Nine','Bar Ten','Bar Eleven','Bar Twelve','Bar Thirteen','Bar Fourteen','Bar Fifteen']`
        */
       legendLabels: {
         type: Array,
@@ -178,7 +131,6 @@ The following theme would be incorrect because it has a gap. All series in your 
        * other theming capabilities. Setting the colors attribute directly
        * will override all default colors and any CSS style variable themes.
        *
-       * @example
        *
        * Example setting colors as an attribute:
        *
@@ -202,10 +154,6 @@ The following theme would be incorrect because it has a gap. All series in your 
        *   <px-simple-horizontal-bar-chart ...>
        *   </px-simple-horizontal-bar-chart>
        * ```
-       *
-       * @prop colors
-       * @type {Array}
-       * @default null
        */
       colors: {
         type: Array,
@@ -218,10 +166,6 @@ The following theme would be incorrect because it has a gap. All series in your 
       /**
        * Sets the format to apply to the labels beside each bar. Choose from
        * 'percentage' or 'values'.
-       *
-       * @property barLabels
-       * @type {String}
-       * @default 'percentage'
        */
       barLabels: {
         type: String,
@@ -233,10 +177,6 @@ The following theme would be incorrect because it has a gap. All series in your 
        * The data's minimum extent on the X-axis. Used to set the D3 domain on the X scale.
        * You should only reset if you have a negative value. If you have a
        * positive value, leave it at default 0.
-       *
-       * @property domainMin
-       * @type {Number}
-       * @default 0
        */
       domainMin: {
         type: Number,
@@ -246,9 +186,6 @@ The following theme would be incorrect because it has a gap. All series in your 
 
       /**
        * The data's maximum extent on the X-axis. Used to set the D3 domain on the X scale.
-       *
-       * @property domainMax
-       * @type {Number}
        */
       domainMax: {
         type: Number,
@@ -329,11 +266,6 @@ The following theme would be incorrect because it has a gap. All series in your 
      * In this case, method returns the default or theme colors by calling
      * `_getDataVisColor` (from `pxSimpleChartCommonBehavior`) to get the
      * data vis colors supplied by `PxSimpleChartCommonBehavior.colors`.
-     *
-     * @private
-     * @method _getColor
-     * @param {Number} index - The index to retrieve the color from
-     * @return {String} - The color to apply
      */
     _getColor: function(index) {
       if (this.colors.length) {
@@ -348,11 +280,6 @@ The following theme would be incorrect because it has a gap. All series in your 
     /**
      * Loops through the supplied colors in `colors` attribute and returns
      * the color at `index`.
-     *
-     * @private
-     * @method _getLocalColor
-     * @param {Number} index - The index to retrieve the color from
-     * @return {String} - The color to apply
      */
     _getLocalColor: function(index) {
       if(index >= 0 && index < this.colors.length) {
