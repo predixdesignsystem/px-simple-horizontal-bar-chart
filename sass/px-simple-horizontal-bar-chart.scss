@@ -8,19 +8,21 @@
  * under which the software has been supplied.
  */
 
-//
-// Sass for the Predix notion of the px-simple-horizontal-bar-chart component
-//
-// @author
-//
-
-/*
-THIS FILE SHOULD CONTAIN ONLY RULES SPECIFIC TO PREDIX BRANDING
-common/abstract rules go in px-simple-horizontal-bar-chart-sketch.scss, not in this file.
-*/
-
 // Settings
-@import "px-typography-design/_base.typography.scss";
+
+// Tools
+
+// Generic
+@import "px-normalize-design/_generic.normalize.scss";
+@import "px-box-sizing-design/_generic.box-sizing.scss";
+
+// Base
+
+// Meta
+
+// Objects
+
+// Component
 
 .bar {
   shape-rendering: crispEdges;
@@ -47,3 +49,5 @@ common/abstract rules go in px-simple-horizontal-bar-chart-sketch.scss, not in t
 .legend-text, .bar-label {
   font-family: "GE Inspira Sans", sans-serif;
 }
+
+// Trumps
