@@ -195,7 +195,7 @@ The following theme would be incorrect because it has a gap. All series in your 
 
     // Watch changes to dataVisColors or seriesConfig to redraw chart with
     // appropriate theme colors.
-    observers: ['_drawChart(dataVisColors.*,seriesConfig.*)'],
+    observers: ['_drawChart(seriesColorList.*,seriesConfig.*)'],
 
     _setDefaultMeasurements: function() {
       for (var prop in this._defaultMeasurements) {
@@ -268,26 +268,8 @@ The following theme would be incorrect because it has a gap. All series in your 
      * data vis colors supplied by `PxSimpleChartCommonBehavior.colors`.
      */
     _getColor: function(index) {
-      if (this.colors.length) {
-        // Get from colors attribute
-        return this._getLocalColor(index);
-      } else {
         // Get the default or themed data vis color
         return this._getDataVisColor(index);
-      }
-    },
-
-    /**
-     * Loops through the supplied colors in `colors` attribute and returns
-     * the color at `index`.
-     */
-    _getLocalColor: function(index) {
-      if(index >= 0 && index < this.colors.length) {
-        return this.colors[index];
-      } else {
-        // recurse and loop through color list
-        return this._getColor(Math.abs(this.colors.length - index));
-      }
     },
 
     _drawChartDebounced: function() {
