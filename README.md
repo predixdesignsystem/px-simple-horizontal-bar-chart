@@ -1,6 +1,5 @@
 #Px-Simple-Horizontal-Bar-Chart [![Build Status](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart)
 
-[![px-simple-horizontal-bar-chart demo](px-simple-horizontal-bar-chart.png)](https://github.com/PredixDev/px-simple-horizontal-bar-chart)
 
 ## Overview
 
