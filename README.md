@@ -5,7 +5,7 @@
 
 Px-simple-horizontal-bar-chart is a Predix UI component used to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
 
-The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to see all the various configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
+The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the demo page to see all the various configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
 
 ## Usage
 
