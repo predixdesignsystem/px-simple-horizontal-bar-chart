@@ -1,13 +1,11 @@
-#Px-Simple-Horizontal-Bar-Chart [![Build Status](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart)
+# px-simple-horizontal-bar-chart [![Build Status](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-simple-horizontal-bar-chart)
 
 
 ## Overview
 
-Px-Simple-Horizontal-Bar-Chart is a Predix UI component.
+Px-simple-horizontal-bar-chart is a Predix UI component used to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
 
-Use this component to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
-
-The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to become aware of the configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
+The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the `demo.html` page to see all the various configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
 
 ## Usage
 
@@ -46,7 +44,7 @@ Finally, use the component in your application:
 <br />
 <hr />
 
-## documentation
+## Documentation
 
 Due to a bug in auto-documenting Attributes specified in Behaviors, we are listing the following attributes here, and will move them into the auto documentation API when the bug is fixed:
 
