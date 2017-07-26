@@ -3,7 +3,7 @@
 
 ## Overview
 
-Px-simple-horizontal-bar-chart is a Predix UI component used to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
+`Px-simple-horizontal-bar-chart` is a Predix UI component used to visualize a series of numeric values as a horizontally-oriented bar chart. The series is represented by horizontally left-aligned rectangle bars, the width of each proportionally representing a value.
 
 The bar colors and legend labels are configurable. The width and height of the component are also configurable. We recommend viewing the demo page to see all the various configuration possibilities. We also recommend using the default settings as they are designed for proper performance.
 
@@ -15,17 +15,17 @@ The bar colors and legend labels are configurable. The width and height of the c
 3. bower
 4. [webcomponents-lite.js polyfill](https://github.com/webcomponents/webcomponentsjs)
 
-Node, npm and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
+Node, npm, and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
 
 ### Getting Started
 
-First, install the component via bower on the command line.
+First, install the component via bower on the command line:
 
 ```
 bower install px-simple-horizontal-bar-chart --save
 ```
 
-Second, import the component to your application with the following tag in your head.
+Second, import the component in your application with the following tag in your head:
 
 ```
 <link rel="import" href="/bower_components/px-simple-horizontal-bar-chart/px-simple-horizontal-bar-chart.html"/>
