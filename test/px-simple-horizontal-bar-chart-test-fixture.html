@@ -6,19 +6,19 @@
     <title>Web Component Test : Fixture for px-simple-horizontal-bar-chart</title>
 
     <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <!-- web-component-tester automatically provides local copy of brower.js below
          for any URL ending with "/web-component-tester/browser.js"
          when wct is run from the command line -->
-    <script src="../web-component-tester/browser.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
     <link rel="import" href="../px-simple-horizontal-bar-chart.html" />
     <!-- Retain this link for px-theme.html -->
     <!-- px-theme is needed for WCT to run without errors -->
     <link rel="import" href="../../px-theme/px-theme-styles.html">
-    <style include="px-theme-styles" is="custom-style"></style>
-    <!-- This script link will contain the generated script for basic wct test cases -->
-    <script src="px-simple-horizontal-bar-chart-base-tests.js"></script>
-    <!-- This script link will contain the generated script stub for custom, developer-added test cases -->
+    <custom-styles>
+      <style include="px-theme-styles" is="custom-style"></style>
+    </custom-styles>
+
     <script src="px-simple-horizontal-bar-chart-custom-tests.js"></script>
   </head>
 
@@ -31,13 +31,13 @@
     </px-simple-horizontal-bar-chart>
 
     <div id="fixture_dimensions" style="width:300px; height:200px;">
-      <px-simple-horizontal-bar-chart height="auto" width="auto" id="fixture3" chart-data="[1,2,3]">&hearts;</px-simple-horizontal-bar-chart>
+      <px-simple-horizontal-bar-chart height="auto" width="auto" id="fixture3" chart-data="[1,2,3]"></px-simple-horizontal-bar-chart>
     </div>
 
-4444444444
-    <px-simple-horizontal-bar-chart id="fixture4" chart-data="[1,2,3,4,5]">&hearts;</px-simple-horizontal-bar-chart>
 
-555555555
+    <px-simple-horizontal-bar-chart id="fixture4" chart-data="[1,2,3,4,5]"></px-simple-horizontal-bar-chart>
+
+
     <style is="custom-style">
       :root #fixture5 {
         --px-vis-series-color-0: rgb(1,2,3);
@@ -47,9 +47,9 @@
         --px-vis-series-color-4: rgb(255,255,0);
       }
     </style>
-    <px-simple-horizontal-bar-chart id="fixture5" chart-data="[1,2,3,4,5]">&hearts;</px-simple-horizontal-bar-chart>
+    <px-simple-horizontal-bar-chart id="fixture5" chart-data="[1,2,3,4,5]"></px-simple-horizontal-bar-chart>
 
-666666666
+
     <style is="custom-style">
       :root #fixture6 {
         --px-vis-series-color-0: rgb(1,2,3);
@@ -59,6 +59,6 @@
         --px-vis-series-color-4: rgb(255,255,0);
       }
     </style>
-    <px-simple-horizontal-bar-chart id="fixture6" colors='["#aaa","#bbb","#ccc","#ddd","#eee"]' chart-data="[1,2,3,4,5]">&hearts;</px-simple-horizontal-bar-chart>
+    <px-simple-horizontal-bar-chart id="fixture6" colors='["#aaa","#bbb","#ccc","#ddd","#eee"]' chart-data="[1,2,3,4,5]"></px-simple-horizontal-bar-chart>
   </body>
 </html>

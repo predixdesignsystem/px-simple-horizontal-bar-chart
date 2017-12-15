@@ -1,9 +1,26 @@
-// This is the wrapper for custom tests, called upon web components ready state
+document.addEventListener("WebComponentsReady", function() {
+  runCustomTests();
+});
+
+function getElem(comp, tag) {
+  return comp.shadowRoot ? comp.shadowRoot.querySelector(tag) : comp.querySelector(tag);
+}
+
+function getAllElem(comp, tag) {
+  return comp.shadowRoot ? comp.shadowRoot.querySelectorAll(tag) : comp.querySelectorAll(tag);
+}
+
 function runCustomTests() {
 
   // This is the placeholder suite to place custom tests in
   // Use testCase(options) for a more convenient setup of the test cases
   suite('Custom Automation Tests for px-simple-horizontal-bar-chart', function() {
+    var fixture1;
+    var fixture2;
+    var fixture3;
+    var fixture4;
+    var fixture5;
+    var fixture6;
 
     ////////////////////////////////////////////////////////////////////////////
     /// SUITE SETUP
@@ -42,12 +59,12 @@ function runCustomTests() {
 
     suiteSetup(function(done){
       // Get fixures in DOM for use in tests
-      var fixture1 = document.getElementById("fixture1");
-      var fixture2 = document.getElementById("fixture2");
-      var fixture3 = document.getElementById("fixture3");
-      var fixture4 = document.getElementById("fixture4");
-      var fixture5 = document.getElementById("fixture5");
-      var fixture6 = document.getElementById("fixture6");
+      fixture1 = document.getElementById("fixture1");
+      fixture2 = document.getElementById("fixture2");
+      fixture3 = document.getElementById("fixture3");
+      fixture4 = document.getElementById("fixture4");
+      fixture5 = document.getElementById("fixture5");
+      fixture6 = document.getElementById("fixture6");
 
       // We wait 2000ms before running any tests to make sure that all fixtures
       // have attached themselves AND finished drawing their charts (which
@@ -59,50 +76,43 @@ function runCustomTests() {
     /// FIXTURE 1
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture1] Chart has been drawn and is visible', function(done) {
-      assert.equal(getComputedStyle(fixture1.querySelector('rect')).visibility,"visible");
-      done();
+    test('[fixture1] Chart has been drawn and is visible', function() {
+      assert.equal(getComputedStyle(getElem(fixture1,'rect')).visibility,"visible");
     });
 
-    test('[fixture1] Chart has the correct height (150px)', function(done) {
-      assert.equal(getComputedStyle(fixture1.querySelector('svg')).height,"150px");
-      done();
+    test('[fixture1] Chart has the correct height (150px)', function() {
+      assert.equal(getComputedStyle(getElem(fixture1,'svg')).height,"150px");
     });
 
-    test('[fixture1] SVG element has the default width (285px)', function(done) {
-      assert.equal(getComputedStyle(fixture1.querySelector('svg')).width,"283px");
-      done();
+    test('[fixture1] SVG element has the default width (285px)', function() {
+      assert.equal(getComputedStyle(getElem(fixture1,'svg')).width,"283px");
     });
 
-    test('[fixture1] SVG element has default height (150px)', function(done) {
-      assert.equal(getComputedStyle(fixture1.querySelector('svg')).height,"150px");
-      done();
+    test('[fixture1] SVG element has default height (150px)', function() {
+      assert.equal(getComputedStyle(getElem(fixture1,'svg')).height,"150px");
     });
 
     ////////////////////////////////////////////////////////////////////////////
     /// FIXTURE 2
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture2] Chart has the correct height (200px)', function(done) {
-      assert.equal(getComputedStyle(fixture2.querySelector('svg')).height,"200px");
-      done();
+    test('[fixture2] Chart has the correct height (200px)', function() {
+      assert.equal(getComputedStyle(getElem(fixture2,'svg')).height,"200px");
     });
 
     ////////////////////////////////////////////////////////////////////////////
     /// FIXTURE 3
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture3] SVG element has assigned width', function(done) {
-      assert.equal(getComputedStyle(fixture3.querySelector('svg')).width,"300px");
-      done();
+    test('[fixture3] SVG element has assigned width', function() {
+      assert.equal(getComputedStyle(getElem(fixture3,'svg')).width,"300px");
     });
 
-    test('[fixture3] SVG element has assigned height', function(done) {
-      assert.equal(getComputedStyle(fixture3.querySelector('svg')).height,"200px");
-      done();
+    test('[fixture3] SVG element has assigned height', function() {
+      assert.equal(getComputedStyle(getElem(fixture3,'svg')).height,"200px");
     });
 
-    test('[fixture3] Chart resizes to correct height in fixed-size container', function(done) {
+    test('[fixture3] Chart resizes to correct height in fixed-size container', function() {
       document.getElementById('fixture_dimensions').style.height = '270px';
       window.dispatchEvent(new Event('resize'));
 
@@ -110,12 +120,11 @@ function runCustomTests() {
       // chart time to redraw. The chart *should* fire a redrawn event that we
       // listen to and test the result of... but it doesn't for now.
       setTimeout(function(){
-        assert.equal(getComputedStyle(fixture3.querySelector('svg')).height,"270px");
-        done();
+        assert.equal(getComputedStyle(getElem(fixture3,'svg')).height,"270px");
       }, 1000);
     });
 
-    test('[fixture3] Chart resizes to correct width in fixed-size container', function(done) {
+    test('[fixture3] Chart resizes to correct width in fixed-size container', function() {
       document.getElementById('fixture_dimensions').style.width = '400px';
       window.dispatchEvent(new Event('resize'));
 
@@ -123,8 +132,7 @@ function runCustomTests() {
       // chart time to redraw. The chart *should* fire a redrawn event that we
       // listen to and test the result of... but it doesn't for now.
       setTimeout(function(){
-        assert.equal(getComputedStyle(fixture3.querySelector('svg')).width,"400px");
-        done();
+        assert.equal(getComputedStyle(getElem(fixture3,'svg')).width,"400px");
       }, 1000);
     });
 
@@ -132,21 +140,19 @@ function runCustomTests() {
     /// FIXTURE 4
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture4] Number of rectangles drawn the chart is equal to the number of data items passed in', function(done) {
-      var svg = fixture4.querySelector('svg');
+    test('[fixture4] Number of rectangles drawn the chart is equal to the number of data items passed in', function() {
+      var svg = getElem(fixture4,'svg');
 
-      assert.equal(svg.querySelectorAll('rect').length,"10");
-      done();
+      assert.equal(getAllElem(svg, 'rect').length,"10");
     });
 
-    test('[fixture4] Legend was drawn', function(done) {
-      assert.equal(fixture4.querySelectorAll('rect.legend-box').length, '5');
-      done();
+    test('[fixture4] Legend was drawn', function() {
+      assert.equal(getAllElem(fixture4, 'rect.legend-box').length, '5');
     });
 
-    test('[fixture4] Chart colors match default data vis colors', function(done) {
-      var svg = fixture4.querySelector('svg');
-      var rect = svg.querySelectorAll('rect');
+    test('[fixture4] Chart colors match default data vis colors', function() {
+      var svg = getElem(fixture4,'svg');
+      var rect = getAllElem(svg,'rect');
       var getFillBound = getFill.bind(fixture5);
 
       // Determine which colors should be set on the chart by calling `_getColor` to retrieve theme, normalize each
@@ -158,22 +164,20 @@ function runCustomTests() {
         normalizeRgb(fixture4._getColor(4))
       ];
 
-      assert.equal(getFillBound(rect, 0),  colors[0]);
+      assert.equal(getFillBound(rect, 0), colors[0]);
       assert.equal(getFillBound(rect, 1), colors[1]);
       assert.equal(getFillBound(rect, 2), colors[2]);
       assert.equal(getFillBound(rect, 3), colors[3]);
       assert.equal(getFillBound(rect, 4), colors[4]);
-      done();
     });
 
     ////////////////////////////////////////////////////////////////////////////
     /// FIXTURE 5
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture5] Chart colors match applied CSS custom properties', function(done) {
-      debugger;
-      var svg = fixture5.querySelector('svg');
-      var rect = svg.querySelectorAll('rect');
+    test('[fixture5] Chart colors match applied CSS custom properties', function() {
+      var svg = getElem(fixture5,'svg');
+      var rect = getAllElem(svg,'rect');
       var getFillBound = getFill.bind(fixture5);
 
       // Just copy and pasting the RGB values from above into strings to test that
@@ -187,21 +191,20 @@ function runCustomTests() {
         normalizeRgb('rgb(255,255,0)')
       ];
 
-      assert.equal(getFillBound(rect, 0),  colors[0]);
+      assert.equal(getFillBound(rect, 0), colors[0]);
       assert.equal(getFillBound(rect, 1), colors[1]);
       assert.equal(getFillBound(rect, 2), colors[2]);
       assert.equal(getFillBound(rect, 3), colors[3]);
       assert.equal(getFillBound(rect, 4), colors[4]);
-      done();
     });
 
     ////////////////////////////////////////////////////////////////////////////
     /// FIXTURE 6
     ////////////////////////////////////////////////////////////////////////////
 
-    test('[fixture6] Chart colors assigned by attribute override applied CSS custom properties', function(done) {
-      var svg = fixture6.querySelector('svg');
-      var rect = svg.querySelectorAll('rect');
+    test('[fixture6] Chart colors assigned by attribute override applied CSS custom properties', function() {
+      var svg = getElem(fixture6,'svg');
+      var rect = getAllElem(svg,'rect');
       var getFillBound = getFill.bind(fixture6);
 
       // Just copy and pasting the RGB values from above into strings to test that
@@ -215,12 +218,11 @@ function runCustomTests() {
         normalizeRgb(fixture6._colorHexToRgb('#eee'))
       ];
 
-      assert.equal(getFillBound(rect, 0),  colors[0]);
+      assert.equal(getFillBound(rect, 0), colors[0]);
       assert.equal(getFillBound(rect, 1), colors[1]);
       assert.equal(getFillBound(rect, 2), colors[2]);
       assert.equal(getFillBound(rect, 3), colors[3]);
       assert.equal(getFillBound(rect, 4), colors[4]);
-      done();
     });
 
   });
