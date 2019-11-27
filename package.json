@@ -1,15 +1,14 @@
 {
-  "name": "px-simple-horizontal-bar-chart",
-  "author": "General Electric",
   "description": "A Px component",
-  "version": "1.1.1",
-  "private": false,
-  "extName": null,
   "repository": {
     "type": "git",
     "url": "https://github.com/PredixDev/px-simple-horizontal-bar-chart.git"
   },
   "homepage": "https://www.predix-ui.com/",
+  "name": "px-simple-horizontal-bar-chart",
+  "author": "General Electric",
+  "version": "1.1.1",
+  "extName": null,
   "devDependencies": {
     "browser-sync": "^2.13.0",
     "ensure-px-license": "^1.0.0",
@@ -29,7 +28,19 @@
     "node-sass-import-once": "^1.2.0",
     "polymer-cli": "^1.5.7",
     "stream-combiner2": "^1.1.1",
-    "yargs": "^6.0.0"
+    "yargs": "^6.0.0",
+    "wct-browser-legacy": "^1.0.1"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "resolutions": {
+    "inherits": "2.0.3",
+    "samsam": "1.1.3",
+    "supports-color": "3.1.2",
+    "type-detect": "1.0.0"
+  },
+  "main": "px-simple-horizontal-bar-chart.js",
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0",
+    "es6-promise": "^4.0.0"
+  }
 }
